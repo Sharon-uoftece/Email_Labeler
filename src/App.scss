@@ -774,10 +774,14 @@ input:focus {
 }
 
 .popover-content-button {
-  transform: translateX(0px) translateY(5px);
+  transform: translateX(5px) translateY(5px);
   height: 23px;
   width: 99px;
   background-color: white;
+}
+
+.popover-content-detail {
+  transform: translateX(-60px) translateY(3px);
 }
 
 .popover-separator {
