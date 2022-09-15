@@ -4,13 +4,7 @@ import {Popover2} from "@blueprintjs/popover2";
 import {Page, Tab} from "../common";
 import emailData from "../label_page/emailData";
 
-
-function EmailBox({ index, email, sensitivityMap, setSensitivityMap}: 
-  {index: number, email: any, sensitivityMap: Record<string, boolean>, setSensitivityMap: (val: any) => void}) {
-  const [confidence, setConfidence] = useState(1);
-  const [pop, setPop] = useState(false);
-  const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
-  
+function getMax() {
   const elementsOfInterest: any[] = [
     "day_since_hire",
     "size",
@@ -18,24 +12,33 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
     "file_count"
   ];
 
-  const visualDic : any = {
-    day_since_hire: [],
-    size: [],
-    files_sensitive_count: [],
-    file_count: []
-  };
+  const visualDic : any = {};
+
+  for (const element of elementsOfInterest) {
+    visualDic[element] = -1;
+  }
 
   for (let i = 0; i < emailData.length; i++) {
     for (const element of elementsOfInterest) {
       const number = emailData[i][element];
-      visualDic[element].push(parseInt(number));
+      if (Number.isNaN(parseInt(number))) {
+        console.error("Value in find max is not a number");
+        continue;
+      }
+      visualDic[element] = Math.max(visualDic[element], parseInt(number));
     }
   }
-
   console.log(visualDic);
-  // function findMax() {
+  return visualDic;
+}
 
-  // }
+function EmailBox({ index, email, sensitivityMap, setSensitivityMap}: 
+  {index: number, email: any, sensitivityMap: Record<string, boolean>, setSensitivityMap: (val: any) => void}) {
+  const [confidence, setConfidence] = useState(1);
+  const [pop, setPop] = useState(false);
+  const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
+  const visualItemMax = getMax();
+
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
   }
@@ -135,6 +138,11 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
         <p>Sender: {JSON.stringify(email.sender, null, 2).slice(1,-1)}</p> 
         <p>Recipient: {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}</p> 
         <p>Recipient Count: {JSON.stringify(email.rcpt_count, null, 2).slice(1,-1)}</p> 
+        <p>Day since hire: {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p> 
+        <ProgressBar 
+          // intent={intent} 
+          value={email.day_since_hire/visualItemMax.day_since_hire} 
+        />
         <p>Files: {JSON.stringify(email.files, null, 2).slice(1,-1)}</p> 
         <p>Files Count: {JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p> 
         <p>Files Size: {JSON.stringify(email.size, null, 2).slice(1,-1)}</p> 
