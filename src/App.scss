@@ -577,7 +577,7 @@ input:focus {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 100%;
-  min-height: 870px;
+  min-height: 830px;
   // //grid-template-columns: repeat(3, 1fr);
   // //grid-template-rows: repeat(3, 1fr);
 
@@ -606,9 +606,25 @@ input:focus {
   }
 }
 
+// .tooltip {
+//   width: 10px;
+//   height: 2px;
+//   font-size: 16px;
+//   font-family: Verdana;
+// }
+
+.email-bar {
+  width: 270px;
+  transform: translateY(8px) translateX(20px);
+}
+
+.email-bar-individual {
+  display: flex;
+}
+
 .email-content {
   font-size: 17px;
-  transform: translateX(25px);
+  transform: translateX(17px);
 }
 
 .email-header {
@@ -622,6 +638,7 @@ input:focus {
 
 .email-box-labels {
   display: flex;
+  // transform: translateX(525px);
 }
 
 .submit-button {
@@ -678,7 +695,7 @@ input:focus {
   border: 1px solid grey;
   border-radius: 3px;
   
-  transform: translateY(20px) translateX(67vw); 
+  transform: translateY(10px) translateX(200px); 
   height: 25px;
   width: 280px;
   background-color: white;
@@ -695,7 +712,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(25px) translateY(460px); 
+  transform: translateX(25px) translateY(400px); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -712,7 +729,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(55px) translateY(460px); 
+  transform: translateX(55px) translateY(400px); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -722,14 +739,14 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 17px;
-  transform: translateX(450px) translateY(423px);
+  transform: translateX(450px) translateY(363px);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(650px) translateY(395px); 
+  transform: translateX(650px) translateY(335px); 
 }
 
 .alert-box {
@@ -769,17 +786,15 @@ input:focus {
 .popover {
   color: black;
   overflow-y: scroll;
-  width: 390px;
-  height: 230px;
+  width: 690px;
+  height: 630px;
   font-family: Verdana;
   font-size: 13px;
-  transform: translateX(510px) translateY(10px);
+  transform: translateX(0px) translateY(20px);
   display: grid;
-  // justify-items: center;
   grid-template-columns: repeat(2, 1fr);
   background:linear-gradient(#000,#000) center/1px 90% no-repeat;
   background-position: 30% 0, 67% 0;
-  // grid-gap: 10px;
 }
 
 .popover-button {
@@ -788,14 +803,14 @@ input:focus {
 }
 
 .popover-content-button {
-  transform: translateX(5px) translateY(5px);
+  transform: translateX(45px) translateY(5px);
   height: 23px;
-  width: 99px;
+  width: 119px;
   background-color: white;
 }
 
 .popover-content-detail {
-  transform: translateX(-30px);
+  transform: translateX(-90px);
 }
 
 .popover-separator {

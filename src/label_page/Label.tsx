@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import {Button, FormGroup, Alert, Slider, ProgressBar} from "@blueprintjs/core";
-import {Popover2} from "@blueprintjs/popover2";
+import {Tooltip2, Popover2} from "@blueprintjs/popover2";
 import {Page, Tab} from "../common";
 import emailData from "../label_page/emailData";
 
@@ -9,7 +9,8 @@ function getMax() {
     "day_since_hire",
     "size",
     "files_sensitive_count",
-    "file_count"
+    "file_count",
+    "rcpt_count"
   ];
 
   const visualDic : any = {};
@@ -51,6 +52,16 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
     setPopoverContent(Tab.SenderInfo);
   }
 
+  function handleBarColor(value:any) {
+    if (value < 0.3) {
+      return "success";
+    } else if (value > 0.3 && value < 0.7) {
+      return "primary";
+    } else {
+      return "danger";
+    }
+  }
+
   return (
     <div className="email-element">
       <div className="email-box-header">
@@ -58,7 +69,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
         <p className="email-header">{"Email " + (index + 1)}</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
-        <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -20 }}>
+        <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -10, left:700 }}>
           <Popover2
             interactionKind="click"
             isOpen={pop}
@@ -71,7 +82,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
                     <button 
                       className="popover-content-button"
                       onClick={handelSenderInfo}
-                    > SenderInfo
+                    > Sender Info
                     </button>
                     <hr className="popover-separator"/>
                   </div>
@@ -80,7 +91,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
                     <button 
                       className="popover-content-button"
                       onClick={handelScatterPlot}
-                    > ScatterPlot
+                    > Scatter Plot
                     </button>
                     <hr className="popover-separator"/>
                   </div>
@@ -89,15 +100,15 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
                     <button 
                       className="popover-content-button"
                       onClick={handelEmailHistory}
-                    > EmailHistory
+                    > Email History
                     </button>
                   </div>
 
                 </div>
                 <div className="popover-content-detail">
                   {popoverContent == Tab.SenderInfo && <div>
-                    <p>Day Since Hire: {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p> 
                     <p>Division: {JSON.stringify(email.division, null, 2).slice(1,-1)}</p> 
+                    <p>EmailId: {JSON.stringify(email.mid, null, 2).slice(1,-1)}</p> 
                   </div>}
 
                   {popoverContent == Tab.ScatterPlot && <div>
@@ -133,19 +144,58 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
 
       <hr className="separator" />
       <div className="email-content">
-        <p>EmailId: {JSON.stringify(email.mid, null, 2).slice(1,-1)}</p> 
-        <p>DateSent: {JSON.stringify(email.year, null, 2).slice(1,-1)}/{JSON.stringify(email.month, null, 2).slice(1,-1)}/{JSON.stringify(email.day, null, 2).slice(1,-1)}</p> 
-        <p>Sender: {JSON.stringify(email.sender, null, 2).slice(1,-1)}</p> 
-        <p>Recipient: {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}</p> 
-        <p>Recipient Count: {JSON.stringify(email.rcpt_count, null, 2).slice(1,-1)}</p> 
-        <p>Day since hire: {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p> 
-        <ProgressBar 
-          // intent={intent} 
-          value={email.day_since_hire/visualItemMax.day_since_hire} 
-        />
-        <p>Files: {JSON.stringify(email.files, null, 2).slice(1,-1)}</p> 
-        <p>Files Count: {JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p> 
-        <p>Files Size: {JSON.stringify(email.size, null, 2).slice(1,-1)}</p> 
+        <p> <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1,-1)}/{JSON.stringify(email.month, null, 2).slice(1,-1)}/{JSON.stringify(email.day, null, 2).slice(1,-1)}</p> 
+        <p> <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1,-1)}</p> 
+        <p> <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}</p> 
+        <p> <b>Email Subject:</b> {JSON.stringify(email.files, null, 2).slice(1,-1)}</p> 
+        
+        <div className="email-bar-individual">
+            <p> <b>Recipient Count: </b> </p> 
+            <Tooltip2 
+              // className="tooltip"
+              content={<p>Recipient Count:{JSON.stringify(email.rcpt_count, null, 2).slice(1,-1)}</p>}
+            >
+              <ProgressBar className="email-bar"
+                animate={false}
+                stripes={false}
+                value={email.rcpt_count/visualItemMax.rcpt_count} 
+                intent={handleBarColor(email.rcpt_count/visualItemMax.rcpt_count)}
+              />
+            </Tooltip2>
+        </div>
+        <div className="email-bar-individual">
+          <p> <b>Files Sensitive Count: </b> 
+            {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
+          </p> 
+          <ProgressBar className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.files_sensitive_count/visualItemMax.file_count} 
+            intent={handleBarColor(email.files_sensitive_count/visualItemMax.file_count)}
+          />
+        </div>
+        <div className="email-bar-individual">
+          <p> <b>Files Size: </b> 
+            {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
+          </p> 
+          <ProgressBar className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.size/visualItemMax.size} 
+            intent={handleBarColor(email.size/visualItemMax.size)}
+          />
+        </div>
+        <div className="email-bar-individual">
+          <p> <b>Day since hire:</b> 
+            {/* {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)} */}
+          </p> 
+          <ProgressBar className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.day_since_hire/visualItemMax.day_since_hire} 
+            intent={handleBarColor(email.day_since_hire/visualItemMax.day_since_hire)}
+          />
+        </div>
       </div>
       <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -0.5 }}>
 
