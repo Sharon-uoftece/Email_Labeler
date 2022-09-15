@@ -1,41 +1,18 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import {Button, FormGroup, Alert, Slider, ProgressBar} from "@blueprintjs/core";
+import {Button, FormGroup, Alert, Slider as BSlider} from "@blueprintjs/core";
 import {Popover2} from "@blueprintjs/popover2";
 import {Page, Tab} from "../common";
-import emailData from "../label_page/emailData";
-
-
+import EmailData from "../label_page/emailData";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+ 
 function EmailBox({ index, email, sensitivityMap, setSensitivityMap}: 
   {index: number, email: any, sensitivityMap: Record<string, boolean>, setSensitivityMap: (val: any) => void}) {
   const [confidence, setConfidence] = useState(1);
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
-  
-  const elementsOfInterest: any[] = [
-    "day_since_hire",
-    "size",
-    "files_sensitive_count",
-    "file_count"
-  ];
 
-  const visualDic : any = {
-    day_since_hire: [],
-    size: [],
-    files_sensitive_count: [],
-    file_count: []
-  };
-
-  for (let i = 0; i < emailData.length; i++) {
-    for (const element of elementsOfInterest) {
-      const number = emailData[i][element];
-      visualDic[element].push(parseInt(number));
-    }
-  }
-
-  console.log(visualDic);
-  // function findMax() {
-
-  // }
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
   }
@@ -48,14 +25,23 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
     setPopoverContent(Tab.SenderInfo);
   }
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
   return (
     <div className="email-element">
-      <div className="email-box-header">
+      <Slider {...settings}>
+        <div className="email-box-header">
+          <p className="email-header">{"Email " + (index + 1)}</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
-        <p className="email-header">{"Email " + (index + 1)}</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-        <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -20 }}>
+        <FormGroup 
+        // className="email-box-labels" 
+        inline={true} style={{ position: "relative", top: -20 }}>
           <Popover2
             interactionKind="click"
             isOpen={pop}
@@ -107,7 +93,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
                   </div>
                   }
                 </div>
- 
+
               </div>
             }
           >
@@ -125,7 +111,6 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
           </Popover2>
         
         </FormGroup>
-      
       </div>
 
       <hr className="separator" />
@@ -139,6 +124,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
         <p>Files Count: {JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p> 
         <p>Files Size: {JSON.stringify(email.size, null, 2).slice(1,-1)}</p> 
       </div>
+
       <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -0.5 }}>
 
           <button 
@@ -154,7 +140,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
               document.getElementById("label-button-non-" + (index + 1))!.style.color="rgb(0, 0, 0)";
             }}
           >
-            Sensitive
+            Anomalous
           </button>
 
           <button 
@@ -170,11 +156,10 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
               document.getElementById("label-button-" + (index + 1))!.style.color="rgb(0, 0, 0)";
             }}
           >
-            Non-Sensitive
+            Non-Anomalous
           </button>
 
-          <h1 className="slider-notes">Confidence Slider: </h1>
-          <Slider
+          <BSlider
             className="confidence-slider"
             min={1}
             max={10}
@@ -186,6 +171,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
           />
 
         </FormGroup>
+      </Slider>
     </div>
   );
 }
@@ -212,7 +198,7 @@ function Label({ numEmails, page, setPage }:
     //   });
     const emailsToShow = [];
     for (let i = 0; i < numEmails; i++) {
-      emailsToShow.push(emailData[i]);
+      emailsToShow.push(EmailData[i]);
     }
     setEmails(emailsToShow);
   }, [numEmails]);
@@ -266,11 +252,11 @@ function Label({ numEmails, page, setPage }:
         <p className="alert-sub">Your data will be lost.</p>
       </Alert>
 
-      <pre>
-        <div className="email-grid">
-          {emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap))}
-        </div>
-      </pre>
+      <div>
+          {/* <div className="email-grid"> */}
+            {emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap))}
+          {/* </div> */}
+      </div>
       
       {/* <button 
           className="submit-button-2"

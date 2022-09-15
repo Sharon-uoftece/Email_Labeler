@@ -21,7 +21,7 @@ function Welcome({ page, setPage }:
       <p className="welcome-text">WELCOME!</p>
       <p className="welcome-sub-block"> <mark className="mark">
         &nbsp;This is the space where you could help &nbsp; &nbsp;improve accuracy
-        of our Machine&nbsp; &nbsp;Learning Model to identify Data Breach.&nbsp; </mark>
+        of our Machine&nbsp; &nbsp;Learning Model to identify Data Breaches.&nbsp; </mark>
       </p>
       <button className="welcome-button" onClick={handlePage2}>GET STARTED</button>
     </div>

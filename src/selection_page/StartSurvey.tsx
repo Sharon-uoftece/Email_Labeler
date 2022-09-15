@@ -40,17 +40,16 @@ function StartSurvey(
                         <NumericInput
                             leftIcon="envelope"
                             size={2}
-                            defaultValue={7}
                             value={numEmails}
                             onValueChange={(val: number) => {
                                 Number.isFinite(val) &&
                                     val >= 0 &&
-                                    val <= 9 &&
+                                    val <= 11 &&
                                     setNumEmails(val);
                             }}
                             large={true}
                             intent="warning"
-                            max={10}
+                            max={11}
                             min={1}
                         />
                         <p>&nbsp;emails today.&nbsp;</p>

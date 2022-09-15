@@ -11,7 +11,7 @@ import PreviousLabels from "./welcome_page/PreviousLabels"
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
-  const [numEmails, setNumEmails] = useState(1);
+  const [numEmails, setNumEmails] = useState(10);
   const [submit, setSubmit] = useState(false);
 
   function handleSubmit() {
