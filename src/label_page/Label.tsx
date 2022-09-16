@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import {Button, FormGroup, Alert, Slider, ProgressBar} from "@blueprintjs/core";
+import {Button, FormGroup, Alert, Slider, ProgressBar, Position} from "@blueprintjs/core";
 import {Tooltip2, Popover2} from "@blueprintjs/popover2";
 import {Page, Tab} from "../common";
 import emailData from "../label_page/emailData";
@@ -152,8 +152,11 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
         <div className="email-bar-individual">
             <p> <b>Recipient Count: </b> </p> 
             <Tooltip2 
-              // className="tooltip"
-              content={<p>Recipient Count:{JSON.stringify(email.rcpt_count, null, 2).slice(1,-1)}</p>}
+              position={Position.TOP}
+              hoverCloseDelay={400}
+              hoverOpenDelay={400}
+              
+              content={<p>{JSON.stringify(email.rcpt_count, null, 2).slice(1,-1)}, max:{visualItemMax.rcpt_count} </p>}
             >
               <ProgressBar className="email-bar"
                 animate={false}
@@ -167,34 +170,58 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
           <p> <b>Files Sensitive Count: </b> 
             {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
           </p> 
-          <ProgressBar className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.files_sensitive_count/visualItemMax.file_count} 
-            intent={handleBarColor(email.files_sensitive_count/visualItemMax.file_count)}
-          />
+          <Tooltip2 
+              position={Position.TOP}
+              hoverCloseDelay={400}
+              hoverOpenDelay={400}
+              
+              content={<p>{JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}, max:{visualItemMax.file_count} </p>}
+          >
+            <ProgressBar className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.files_sensitive_count/visualItemMax.file_count} 
+              intent={handleBarColor(email.files_sensitive_count/visualItemMax.file_count)}
+            />
+          </Tooltip2>
         </div>
         <div className="email-bar-individual">
           <p> <b>Files Size: </b> 
             {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
           </p> 
-          <ProgressBar className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.size/visualItemMax.size} 
-            intent={handleBarColor(email.size/visualItemMax.size)}
-          />
+          <Tooltip2 
+              position={Position.TOP}
+              hoverCloseDelay={400}
+              hoverOpenDelay={400}
+              
+              content={<p>{JSON.stringify(email.size, null, 2).slice(1,-1)}, max:{visualItemMax.size} </p>}
+          >
+            <ProgressBar className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.size/visualItemMax.size} 
+              intent={handleBarColor(email.size/visualItemMax.size)}
+            />
+          </Tooltip2>
         </div>
         <div className="email-bar-individual">
           <p> <b>Day since hire:</b> 
             {/* {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)} */}
           </p> 
-          <ProgressBar className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.day_since_hire/visualItemMax.day_since_hire} 
-            intent={handleBarColor(email.day_since_hire/visualItemMax.day_since_hire)}
-          />
+          <Tooltip2 
+              position={Position.TOP}
+              hoverCloseDelay={400}
+              hoverOpenDelay={400}
+              
+              content={<p>{JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}, max:{visualItemMax.day_since_hire} </p>}
+          >
+            <ProgressBar className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.day_since_hire/visualItemMax.day_since_hire} 
+              intent={handleBarColor(email.day_since_hire/visualItemMax.day_since_hire)}
+            />
+          </Tooltip2>
         </div>
       </div>
       <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -0.5 }}>
@@ -231,7 +258,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             Non-Sensitive
           </button>
 
-          <h1 className="slider-notes">Confidence Slider: </h1>
+          <h1 className="slider-notes">Confidence Slider: 1 being extremely inconfident, 10 being extremely confident</h1>
           <Slider
             className="confidence-slider"
             min={1}
