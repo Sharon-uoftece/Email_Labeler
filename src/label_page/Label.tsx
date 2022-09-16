@@ -3,6 +3,7 @@ import {Button, FormGroup, Alert, Slider, ProgressBar, Position} from "@blueprin
 import {Tooltip2, Popover2} from "@blueprintjs/popover2";
 import {Page, Tab} from "../common";
 import emailData from "../label_page/emailData";
+import Carousel from 'react-elastic-carousel';
 
 function getMax() {
   const elementsOfInterest: any[] = [
@@ -65,7 +66,6 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
   return (
     <div className="email-element">
       <div className="email-box-header">
-
         <p className="email-header">{"Email " + (index + 1)}</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
@@ -326,6 +326,7 @@ function Label({ numEmails, page, setPage }:
     window.scrollTo(0, 0);
   }, []);
 
+  console.log(emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap)))
   return (
     <div className="email-grid-big-block">
       <Button
@@ -353,7 +354,10 @@ function Label({ numEmails, page, setPage }:
 
       <pre>
         <div className="email-grid">
-          {emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap))}
+          {// @ts-ignore
+          <Carousel>
+            {emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap))}
+          </Carousel>}
         </div>
       </pre>
       
