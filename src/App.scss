@@ -614,7 +614,7 @@ input:focus {
     transform: translateY(5px);
   }
   .separator {
-    transform: translateY(-5px) translateX(4px);
+    transform: translateY(8px) translateX(4px);
     width: 1420px;
     z-index: -1;
   }
@@ -637,6 +637,22 @@ input:focus {
 .email-content {
   font-size: 17px;
   transform: translateX(17px);
+}
+
+.email-info-1 {
+  transform: translateY(30px);
+}
+
+.email-info-2 {
+  transform: translateY(60px);
+}
+
+.email-info-3 {
+  transform: translateY(90px);
+}
+
+.email-info-4 {
+  transform: translateY(120px);
 }
 
 .email-header {
@@ -707,7 +723,7 @@ input:focus {
   border: 1px solid grey;
   border-radius: 3px;
   
-  transform: translateY(10px) translateX(200px); 
+  transform: translateY(10px) translateX(100px); 
   height: 25px;
   width: 340px;
   background-color: white;
@@ -724,7 +740,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(25px) translateY(400px); 
+  transform: translateX(25px) translateY(160px); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -741,7 +757,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(55px) translateY(400px); 
+  transform: translateX(55px) translateY(160px); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -751,14 +767,14 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 10px;
-  transform: translateX(500px) translateY(417px);
+  transform: translateX(500px) translateY(177px);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(500px) translateY(350px); 
+  transform: translateX(500px) translateY(110px); 
 }
 
 .alert-box {

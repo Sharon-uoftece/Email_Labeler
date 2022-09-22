@@ -24,12 +24,11 @@ function StartSurvey(
     return (
         <>
             <div className="survey">
-                {/* <Header /> */}
                 <Button
                     className="something"
                     icon="arrow-left"
                     intent="warning"
-                    text={"Back"}
+                    text={"Back to Home Page"}
                     onClick={() => {
                     handleBackToWelcome();
                     }}

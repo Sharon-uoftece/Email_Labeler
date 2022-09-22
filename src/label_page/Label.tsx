@@ -139,16 +139,18 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
           </Popover2>
         
         </FormGroup>
-      
       </div>
-
       <hr className="separator" />
+      <p> </p>
       <div className="email-content">
         <p> <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1,-1)}/{JSON.stringify(email.month, null, 2).slice(1,-1)}/{JSON.stringify(email.day, null, 2).slice(1,-1)}</p> 
+        <p> </p>
         <p> <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1,-1)}</p> 
+        <p> </p>
         <p> <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}</p> 
+        <p> </p>
         <p> <b>Email Subject:</b> {JSON.stringify(email.files, null, 2).slice(1,-1)}</p> 
-        
+        <p> </p>
         <div className="email-bar-individual">
             <p> <b>Recipient Count: </b> </p> 
             <Tooltip2 
@@ -165,7 +167,9 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
                 intent={handleBarColor(email.rcpt_count/visualItemMax.rcpt_count)}
               />
             </Tooltip2>
+             
         </div>
+        <p> </p>
         <div className="email-bar-individual">
           <p> <b>Files Sensitive Count: </b> 
             {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
@@ -185,6 +189,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             />
           </Tooltip2>
         </div>
+        <p> </p>
         <div className="email-bar-individual">
           <p> <b>Files Size: </b> 
             {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
@@ -204,6 +209,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             />
           </Tooltip2>
         </div>
+        <p> </p>
         <div className="email-bar-individual">
           <p> <b>Day since hire:</b> 
             {/* {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)} */}
@@ -332,7 +338,7 @@ function Label({ numEmails, page, setPage }:
       <Button
         icon="arrow-left"
         intent="warning"
-        text={"Back"}
+        text={"Back to Selection Page"}
         onClick={() => {
           setAlertExitPage(!alertExitPage);
         }}
