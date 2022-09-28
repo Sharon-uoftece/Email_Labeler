@@ -763,6 +763,23 @@ input:focus {
   background-color: white;
 }
 
+.save-button {
+  outline: none;
+  margin: auto;
+  cursor: grab;
+  color: black;
+  font-family: Verdana;
+  font-weight: bold;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  
+  transform: translateX(68vw) translateY(20px); 
+  height: 40px;
+  width: 180px;
+  background-color: white;
+}
+
 .slider-notes {
   font-family:Verdana;
   font-weight: bold;

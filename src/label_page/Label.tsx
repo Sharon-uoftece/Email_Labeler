@@ -38,6 +38,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
   {index: number, email: any, sensitivityMap: Record<string, boolean>, setSensitivityMap: (val: any) => void}) {
   const [confidence, setConfidence] = useState(1);
   const [pop, setPop] = useState(false);
+  const [clickedSave, setClickedSave] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
 
@@ -231,7 +232,6 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
         </div>
       </div>
       <FormGroup className="email-box-labels" inline={true} style={{ position: "relative", top: -0.5 }}>
-
           <button 
             className={"label-button"} 
             id={"label-button-" + (index + 1)}
@@ -277,6 +277,15 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
           />
 
         </FormGroup>
+        <button 
+            className={"save-button"} 
+            id={"save-button" + (index + 1)}
+            onClick={() => {
+              console.log({index}+"clicked")
+            }}
+          >
+            Save
+        </button>
     </div>
   );
 }
