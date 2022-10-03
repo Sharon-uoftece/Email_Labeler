@@ -203,9 +203,20 @@ function Label({ numEmails, page, setPage }:
     setEmails(emailsToShow);
   }, [numEmails]);
 
-  const initialMap: Record<string, boolean> = {};
+  // {
+  //   "email1": {
+  //     sensitive: false,
+  //     confidence: 0.7,
+  //     marked: true
+  //   }
+  // }
+  const initialMap: Record<string, Record<string, any>> = {};
   for (let i = 0; i < numEmails; i++) {
-    initialMap[i + 1] = false;
+    initialMap[i + 1] = {
+      sensitive: false,
+      confidence: 0,
+      marked: false
+    };
   }
   const [sensitivityMap, setSensitivityMap] = useState(initialMap);
 

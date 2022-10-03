@@ -35,10 +35,10 @@ function getMax() {
 }
 
 function EmailBox({ index, email, sensitivityMap, setSensitivityMap}: 
-  {index: number, email: any, sensitivityMap: Record<string, boolean>, setSensitivityMap: (val: any) => void}) {
+  {index: number, email: any, sensitivityMap: Record<string, Record<string, any>>, setSensitivityMap: (val: any) => void}) {
   const [confidence, setConfidence] = useState(1);
   const [pop, setPop] = useState(false);
-  const [clickedSave, setClickedSave] = useState(false);
+  // const [clickedSave, setClickedSave] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
 
@@ -63,7 +63,8 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
       return "danger";
     }
   }
-
+  
+  useEffect(() => console.log("Sensitivity map: ", sensitivityMap), [sensitivityMap]);
   return (
     <div className="email-element">
       <div className="email-box-header">
@@ -237,7 +238,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             id={"label-button-" + (index + 1)}
             onClick={() => {
               const newMap = { ...sensitivityMap };
-              newMap[index + 1] = true;
+              newMap[index + 1]["sensitive"] = true;
               setSensitivityMap(newMap);
               document.getElementById("label-button-" + (index + 1))!.style.backgroundColor="rgb(182, 59, 59)";
               document.getElementById("label-button-" + (index + 1))!.style.color="rgb(255,255,255)";
@@ -253,7 +254,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             id={"label-button-non-" + (index + 1)} 
             onClick={() => {
               const newMap = { ...sensitivityMap };
-              newMap[index + 1] = false;
+              newMap[index + 1]["sensitive"] = false;
               setSensitivityMap(newMap);
               document.getElementById("label-button-non-" + (index + 1))!.style.backgroundColor="rgb(45, 125, 45)";
               document.getElementById("label-button-non-" + (index + 1))!.style.color="rgb(255,255,255)";
@@ -271,13 +272,21 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             max={10}
             stepSize={0.1}
             labelPrecision={0.1}
-            onChange={(val) => setConfidence(val)}
+            onChange={
+              (val) => {
+                setConfidence(val);
+                const newMap = { ...sensitivityMap };
+                newMap[index + 1]["confidence"] = val;
+                setSensitivityMap(newMap);
+                // console.log("NEW map after conf change: ", newMap);
+              }
+            }
             value={confidence}
             intent="none"
           />
 
         </FormGroup>
-        <button 
+        {/* <button 
             className={"save-button"} 
             id={"save-button" + (index + 1)}
             onClick={() => {
@@ -285,7 +294,7 @@ function EmailBox({ index, email, sensitivityMap, setSensitivityMap}:
             }}
           >
             Save
-        </button>
+        </button> */}
     </div>
   );
 }
@@ -317,10 +326,15 @@ function Label({ numEmails, page, setPage }:
     setEmails(emailsToShow);
   }, [numEmails]);
 
-  const initialMap: Record<string, boolean> = {};
+  const initialMap: Record<string, Record<string, any>> = {};
   for (let i = 0; i < numEmails; i++) {
-    initialMap[i + 1] = false;
+    initialMap[i + 1] = {
+      sensitive: false, 
+      confidence: 0,
+      marked: false
+    };
   }
+
   const [sensitivityMap, setSensitivityMap] = useState(initialMap);
 
   const mappingFunc = (email: any, index: number, map: any, setMap: any) => {
@@ -376,14 +390,14 @@ function Label({ numEmails, page, setPage }:
         </div>
       </pre>
       
-      {/* <button 
+      <button 
           className="submit-button-2"
           onClick={() => {
             console.log("Setting submit true");
             setSubmit(true);
           }}>
           SUBMIT
-      </button> */}
+      </button>
 
       <Alert
         className="submit-box"
