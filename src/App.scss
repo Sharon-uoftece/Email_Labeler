@@ -669,30 +669,30 @@ input:focus {
   // transform: translateX(525px);
 }
 
-.submit-button {
-  outline: none;
-  color: rgb(65, 64, 64);
-  box-shadow: none;
-  font-family:Verdana;
-  font-weight: bold;
-  font-size: 20px;
-  cursor: grab;
+// .submit-button {
+//   outline: none;
+//   color: rgb(65, 64, 64);
+//   box-shadow: none;
+//   font-family:Verdana;
+//   font-weight: bold;
+//   font-size: 20px;
+//   cursor: grab;
 
-  height: 50px;
-  width: 300px;
-  padding: 0.5em 1.5em;
-  border: 0.1px solid rgb(65, 64, 64);
-  border-radius: 10px;
+//   height: 50px;
+//   width: 300px;
+//   padding: 0.5em 1.5em;
+//   border: 0.1px solid rgb(65, 64, 64);
+//   border-radius: 10px;
   
-  position: sticky;
-  text-align: center;
-  bottom: 0;
-  transform: translateX(43vw) translateY(-150px); 
-  background-color: $sunlife-header-yellow;
-  z-index: -1;
-}
+//   position: sticky;
+//   text-align: center;
+//   bottom: 0;
+//   transform: translateX(43vw) translateY(-150px); 
+//   background-color: $sunlife-header-yellow;
+//   z-index: -1;
+// }
 
-.submit-button-2 {
+.submit-button {
   outline: none;
   color: black;
   font-family:Verdana;
@@ -708,7 +708,7 @@ input:focus {
   cursor: pointer;
   // position: sticky;
   text-align: center;
-  transform: translateX(43vw); 
+  transform: translateX(41vw) translateY(-45px); 
   background-color: $sunlife-header-yellow;
 }
 
@@ -879,5 +879,60 @@ input:focus {
   text-align: center;
 }
 
+.score-page {
+  background-image: url(https://wallpaperaccess.com/full/2454669.jpg);
+}
 
+.show-score {
+  font-family: Verdana;
+  text-align: center;
+  font-size: 38px;
+  color: black;
+  font-weight: bold;
+  transform: translateY(43vh);
+}
+
+.show-score-2 {
+  font-family: Verdana;
+  text-align: center;
+  font-size: 38px;
+  color: orange;
+  font-weight: bold;
+  transform: translateY(45vh);
+}
+
+.show-score-3 {
+  font-family: Verdana;
+  text-align: center;
+  font-size: 38px;
+  color: $sunlife-header-yellow;
+  font-weight: bold;
+  transform: translateY(45vh);
+}
+
+.redeem-button {
+  outline: none;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  transform: translateY(500px);
+  cursor: grab;
+  color: black;
+  font-family:Verdana;
+  font-weight: bold;
+  font-size: 20px;
+
+  padding: 0.5em 1.5em;
+  border: 0;
+  border-radius: 10px;
+  
+  
+  align-items: center;
+  height: 50px;
+  width: 350px;
+  background-image: var(--gradient);
+  background-size: 400%;
+  background-position: left;
+  animation: button-animation 3s infinite alternate;
+}
 

@@ -6,6 +6,7 @@ export enum Page {
   Welcome,
   Survey,
   LabelGeneral,
+  Submitted
 }
 
 export enum Tab {
