@@ -71,6 +71,7 @@ function MainFlow() {
       </div>
     )
   } else {
+    //page === Page.submitted
     return (
       <div>
         <Submission

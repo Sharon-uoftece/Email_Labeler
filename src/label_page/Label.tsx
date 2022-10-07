@@ -203,11 +203,8 @@ function EmailBox({
         </p>
         <p> </p>
         <div className="email-bar-individual">
-          <p>
-            {" "}
-            <b>Recipient Count: </b>{" "}
-          </p>
-          <Tooltip2
+          <p> <b>Recipient Count:</b> {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}</p>
+          {/* <Tooltip2
             position={Position.TOP}
             hoverCloseDelay={400}
             hoverOpenDelay={400}
@@ -217,26 +214,23 @@ function EmailBox({
                 {visualItemMax.rcpt_count}{" "}
               </p>
             }
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.rcpt_count / visualItemMax.rcpt_count}
-              intent={handleBarColor(
-                email.rcpt_count / visualItemMax.rcpt_count
-              )}
-            />
-          </Tooltip2>
+          > */}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.rcpt_count / visualItemMax.rcpt_count}
+            intent={handleBarColor(
+              email.rcpt_count / visualItemMax.rcpt_count
+            )}
+          />
+          <p className="max">(max:{visualItemMax.rcpt_count})</p>
+          {/* </Tooltip2> */}
         </div>
         <p> </p>
         <div className="email-bar-individual">
-          <p>
-            {" "}
-            <b>Files Sensitive Count: </b>
-            {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
-          </p>
-          <Tooltip2
+          <p> <b>Files Sensitive Count:</b>{JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p>
+          {/* <Tooltip2
             position={Position.TOP}
             hoverCloseDelay={400}
             hoverOpenDelay={400}
@@ -249,26 +243,23 @@ function EmailBox({
                 , max:{visualItemMax.file_count}{" "}
               </p>
             }
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.files_sensitive_count / visualItemMax.file_count}
-              intent={handleBarColor(
-                email.files_sensitive_count / visualItemMax.file_count
-              )}
-            />
-          </Tooltip2>
+          > */}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.files_sensitive_count / visualItemMax.file_count}
+            intent={handleBarColor(
+              email.files_sensitive_count / visualItemMax.file_count
+            )}
+          />
+          <p className="max">(max:{visualItemMax.file_count})</p>
+          {/* </Tooltip2> */}
         </div>
         <p> </p>
         <div className="email-bar-individual">
-          <p>
-            {" "}
-            <b>Files Size: </b>
-            {/* {JSON.stringify(email.size, null, 2).slice(1,-1)} */}
-          </p>
-          <Tooltip2
+          <p> <b>Files Size:</b>{JSON.stringify(email.size, null, 2).slice(1, -1)}</p>
+          {/* <Tooltip2
             position={Position.TOP}
             hoverCloseDelay={400}
             hoverOpenDelay={400}
@@ -278,24 +269,21 @@ function EmailBox({
                 {visualItemMax.size}{" "}
               </p>
             }
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.size / visualItemMax.size}
-              intent={handleBarColor(email.size / visualItemMax.size)}
-            />
-          </Tooltip2>
+          > */}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.size / visualItemMax.size}
+            intent={handleBarColor(email.size / visualItemMax.size)}
+          />
+          <p className="max">(max: {visualItemMax.size})</p>
+          {/* </Tooltip2> */}
         </div>
         <p> </p>
         <div className="email-bar-individual">
-          <p>
-            {" "}
-            <b>Day since hire:</b>
-            {/* {JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)} */}
-          </p>
-          <Tooltip2
+          <p> <b>Day since hire:</b>{JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p>
+          {/* <Tooltip2
             position={Position.TOP}
             hoverCloseDelay={400}
             hoverOpenDelay={400}
@@ -305,17 +293,18 @@ function EmailBox({
                 max:{visualItemMax.day_since_hire}{" "}
               </p>
             }
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.day_since_hire / visualItemMax.day_since_hire}
-              intent={handleBarColor(
-                email.day_since_hire / visualItemMax.day_since_hire
-              )}
-            />
-          </Tooltip2>
+          > */}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.day_since_hire / visualItemMax.day_since_hire}
+            intent={handleBarColor(
+              email.day_since_hire / visualItemMax.day_since_hire
+            )}
+          />
+          {/* </Tooltip2> */}
+          <p className="max">(max:{visualItemMax.day_since_hire})</p>
         </div>
       </div>
       <FormGroup
