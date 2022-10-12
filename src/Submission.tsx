@@ -8,7 +8,6 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
     {page: number; setPage:(page:number) => void;sensitivityMap: Record<string, Record<string, any>>; numEmails: number}) {
     const [emailScore,setEmailScore] = useState(-1);
     const [dataToCompare, setDataToCompare] = useState<any>([]);
-
   
     function getScore() {
         let score = 0;
