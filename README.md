@@ -1,5 +1,6 @@
 # EmailLabler frontend and backend
 
+![main page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.09%20PM.png)
 ## EmailLabeler frontend
 The emailLabeler frontend currently consists of four pages. 
 main page
