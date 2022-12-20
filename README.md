@@ -15,7 +15,7 @@ reward page
 * labelling history fetcher
 
 ### Survey page feature
-![survey page] (https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.36%20PM.png)
+![survey page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.36%20PM.png)
 This page allows user to choose the number of email to label for this time. The min is set to 1 and the max is set to 10.
 
 ### Label page feature
