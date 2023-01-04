@@ -4,7 +4,7 @@ import { Button, NumericInput } from "@blueprintjs/core";
 import { Page, Header } from "../common";
 
 function StartSurvey(
-    { numEmails, setNumEmails, page, setPage }:
+    { numEmails, setNumEmails, page, setPage}:
         {
             numEmails: number,
             setNumEmails: (num: number) => void,

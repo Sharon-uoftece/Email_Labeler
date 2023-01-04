@@ -1,46 +1,30 @@
-# Getting Started with Create React App
+# EmailLabler frontend and backend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## EmailLabeler frontend
+The emailLabeler frontend currently consists of four pages. 
+main page
+survey page
+label page
+reward page
 
-## Available Scripts
+### Main page features
+![main page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.22%20PM.png)
+* quick start button (to be replaced by LogIn/SignIn button)
+* on-page video tutorial 
+* model performance line chart
+* labelling history fetcher
 
-In the project directory, you can run:
+### Survey page feature
+![survey page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.36%20PM.png)
+This page allows user to choose the number of email to label for this time. The min is set to 1 and the max is set to 10.
 
-### `npm start`
+### Label page feature
+![label page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.52%20PM.png)
+This page allows user to identify each email as sensitvie or not-sensitive using given information. Given information includes DateSent, SenderName, RecipientName, EmailSubject, RecipientCount, FileSensitiveCount, FileSize and DaySinceHire. To label each email, simply click the sensitive button if you suspecct the email to contain sensitive information, click the non-sensitive button otherwise. There is also a confidence slider bar for you to mark your confidence level of such choice. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Reward page feature
+![reward page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.09%20PM.png)
+This page shows how many email you have correctly label, for each correctly labeled email, the user will get one reward point.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

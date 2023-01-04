@@ -8,24 +8,19 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
     const [userNameErr, setUserNameErr] = useState(false);
     const [password, setPassword] = useState('');
     const [passwordErr, setPasswordErr] = useState(false);
-    const [interest, setInterest] = useState('Label');
 
     function loginHandler(e:React.SyntheticEvent) {
-        // const fs = require('fs');
-        // const current = new Date();
         e.preventDefault();
         let foundUsername = false;
-        const userInterest = interest;
-        
 
-        console.log(userName, password, interest);
+        console.log(userName, password);
         for (var i=0; i<userData.length; i++) {
             if (userName == userData[i].user) {
                 foundUsername = true;
                 if (password == userData[i].password) {
                     setPage(Page.Survey);
-                    console.log("username and psw match, ready to log in...");
                     loginHandle(e);
+                    console.log("username and psw match, ready to log in...");
                 } else {
                     setPasswordErr(true);
                     console.log("username exist but wrong password, cannot log in...");
@@ -40,15 +35,14 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
 
     const loginHandle = async(e:React.SyntheticEvent) => {
         e.preventDefault();
-        console.log(userName, password);
         
         const myData = {
             user: userName,
             password: password
         }
-        console.log("loginHandle function being called");
+        console.log("frontend login handler");
 
-        const result = await fetch('http://localhost:5000/login/', {
+        const result = await fetch('http://localhost:8000/login', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -58,6 +52,8 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
         })
         .then((response) => console.log(response))
         .catch(err => console.log("ERROR:", err));
+
+        console.log(JSON.stringify(result));
     }
 
 
@@ -94,20 +90,19 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
                     <br/> <br/>
                     <label>Password: &nbsp;</label>
                     <input 
-                        type="password"
+                        type="text"
                         placeholder="Enter password"
                         // onChange={(e) =>setPassword(e.target.value)}
                         onChange={passwordHandler}
                     />
                     {passwordErr?<span>&nbsp;Wrong Password...</span>:null}
                     <br/> <br/>
-                    <select onChange={(e) => setInterest(e.target.value)}>
+                    {/* <select onChange={(e) => setInterest(e.target.value)}>
                         <option>Label</option>
                         <option>Comment</option>
-                    </select>
-                    <br /> <br />
+                    </select> */}
                     <button type="submit">Log In</button>
-                    <br /> <br />
+                    <br /><br />
                 </form>
             </div>
         </div>

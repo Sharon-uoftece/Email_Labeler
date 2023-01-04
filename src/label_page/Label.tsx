@@ -420,7 +420,7 @@ function Label({
   const [markedAll, setMarkedAll] = useState(false);
 
   function handleSubmit() {
-    console.log("Sensitivity map: ", sensitivityMap);
+    // console.log("Sensitivity map: ", sensitivityMap);
     setSubmit(true);
     setPage(Page.Submitted);
   }

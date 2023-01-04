@@ -24,9 +24,10 @@
 // server.listen(5000);
 
 const express = require('express');
+// const cors = require('cors');
 const app = express(); 
+// app.use(cors);
 app.use(express.json());
-const {users} = require('./user');
 const fs = require('fs');
 
 app.use((req, res, next) => {
@@ -35,6 +36,25 @@ app.use((req, res, next) => {
     res.append("Access-Control-Allow-Headers", "Content-Type");
     next();
 });
+
+app.post('/login/',async (req,res) => {
+    console.log("inside backend /login");
+    // console.log("backend receive body:", req.body);
+    const userName = req.body.user;
+    let date_time = new Date();
+    let date = ("0" + date_time.getDate()).slice(-2);
+    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+    let year = date_time.getFullYear();
+    let hours = date_time.getHours();
+    let minutes = date_time.getMinutes();
+    let seconds = date_time.getSeconds();
+    var dataToPush = {
+        user: userName,
+        timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+    }
+    fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
+    console.log("testing server.js /login");
+})
 
 app.get('/testTimeStamp',(req,res) => {
     const newUser = req.data;
@@ -57,76 +77,39 @@ app.get('/testTimeStamp',(req,res) => {
     return res.json("already write data to test.txt");
 })
 
-app.get('/users/:userToLogIn/:password',(req,res) => {
-    console.log(req.params);
+// app.get('/users/:userToLogIn/:password',(req,res) => {
+//     console.log(req.params);
 
-    for(let i= 0; i < users.length; i++) {
-        if (users[i].username == req.params.userToLogIn) {
-            console.log("user found inside database");
-            if (users[i].password == req.params.password) {
-                console.log("user/psw matched, ready to log in");
-            }
-        }
-    }
+//     for(let i= 0; i < users.length; i++) {
+//         if (users[i].username == req.params.userToLogIn) {
+//             console.log("user found inside database");
+//             if (users[i].password == req.params.password) {
+//                 console.log("user/psw matched, ready to log in");
+//             }
+//         }
+//     }
 
-    const newUser = users.map((user) => {
-        const {username} = user;
-        let date_time = new Date();
-        let date = ("0" + date_time.getDate()).slice(-2);
-        let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-        let year = date_time.getFullYear();
-        let hours = date_time.getHours();
-        let minutes = date_time.getMinutes();
-        let seconds = date_time.getSeconds();
+//     const newUser = users.map((user) => {
+//         const {username} = user;
+//         let date_time = new Date();
+//         let date = ("0" + date_time.getDate()).slice(-2);
+//         let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+//         let year = date_time.getFullYear();
+//         let hours = date_time.getHours();
+//         let minutes = date_time.getMinutes();
+//         let seconds = date_time.getSeconds();
 
-        var dataToPush = {
-            user: username,
-            timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
-        }
+//         var dataToPush = {
+//             user: username,
+//             timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+//         }
 
-        fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
-        return {dataToPush}; 
-    })
-    return res.json(newUser);
-})
+//         fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
+//         return {dataToPush}; 
+//     })
+//     return res.json(newUser);
+// })
 
-app.post('/login',async (req,res) => {
-    console.log("testing /login");
-    console.log(req.body);
-    const userName = req.body.user;
-    let date_time = new Date();
-        let date = ("0" + date_time.getDate()).slice(-2);
-        let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-        let year = date_time.getFullYear();
-        let hours = date_time.getHours();
-        let minutes = date_time.getMinutes();
-        let seconds = date_time.getSeconds();
-        var dataToPush = {
-            user: userName,
-            timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
-        }
-        fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
-        // const newUser = users.map((user) => {
-        //     const {username} = user;
-        //     let date_time = new Date();
-        //     let date = ("0" + date_time.getDate()).slice(-2);
-        //     let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-        //     let year = date_time.getFullYear();
-        //     let hours = date_time.getHours();
-        //     let minutes = date_time.getMinutes();
-        //     let seconds = date_time.getSeconds();
-
-        //     var dataToPush = {
-        //         user: username,
-        //         timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
-        //     }
-
-        //     fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
-        //     return {dataToPush}; 
-        // })
-
-    return res.json("end of /login function, check timeStampTest to see result");
-})
 
 // app.get('/users/:targetUser', (req,res) => {
 //     const {targetUser} = req.params;
@@ -142,8 +125,8 @@ app.post('/login',async (req,res) => {
 //     res.status(404).send('resource not found');
 // })
 
-app.listen(5000, ()=> {
-    console.log("server is listening on port 5000");
+app.listen(8000, ()=> {
+    console.log("server is listening on port 8000");
 })
 
 

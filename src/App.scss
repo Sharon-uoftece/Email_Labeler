@@ -315,7 +315,7 @@ input:focus {
   color: black;
   font-family:Verdana;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 15px;
 
   padding: 0.5em 1.5em;
   border: 0;
@@ -323,9 +323,9 @@ input:focus {
   
   
   align-items: center;
-  transform: translateX(-78px) translateY(30px); 
-  height: 40px;
-  width: 200px;
+  transform: translateX(0px) translateY(-20px); 
+  height: 30px;
+  width: 120px;
   background-image: var(--gradient);
   background-size: 400%;
   background-position: left;
@@ -957,17 +957,13 @@ input:focus {
   transform: translateX(30px);
 }
 
-.log-in {
-  transform: translateX(300px) translateY(150px);
-}
-
 .log-in-item {
   display: flex;
 }
 
 .log-in-form {
   height: 400px;
-  transform: translateX(300px) translateY(20px);
+  transform: translateX(300px) translateY(60px);
 }
 
 .welcome-log-in {

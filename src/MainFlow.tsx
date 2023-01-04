@@ -3,7 +3,7 @@ import Welcome from "./welcome_page/Welcome";
 import Label from "./label_page/Label";
 import Comment from "./label_page/Comment";
 import StartSurvey from "./selection_page/StartSurvey";
-import { Page } from "./common"
+import { Page, Interest } from "./common"
 import { Header } from "./common"
 import Navbar from "./welcome_page/Navbar"
 import VideoStep from "./welcome_page/VideoStep"
@@ -31,13 +31,14 @@ function MainFlow() {
 
   const [sensitivityMap, setSensitivityMap] = useState(initialMap);
 
+  // if (page === Page.Welcome) {
   if (page === Page.Welcome) {
     return (
       <div>
         <Header />
         <Navbar page={page} setPage={setPage}/>
         <Welcome page={page} setPage={setPage}/>
-        <Login page={page} setPage={setPage}/>
+        <Login page={page} setPage={setPage} />
         <VideoStep />
         <ModelIllustrate />
         <PreviousLabels />

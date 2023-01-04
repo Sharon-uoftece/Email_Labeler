@@ -11,6 +11,7 @@ export enum Page {
 }
 
 export enum Interest {
+  Nonset,
   Label,
   Comment
 }
