@@ -41,15 +41,26 @@ input:focus {
   position: sticky;
   top: 0;
 }
+.btn-primary {
+  background: #ff5108;
+  border: 1px solid #ff5108;
+}
 
 .sunlife-logo {
   transform: translateX(75px);
   height: 45px;
 }
 
+.modal-body {
+  overflow-y: auto;
+  padding-right: 35px;
+  padding-bottom: 35px;
+  padding-left: 35px;
+}
+
 .sunlife-header-quick-start {
-  transform: translateX(90vw) translateY(-802px); 
-  z-index: 1000;
+  transform: translateX(90vw) translateY(-800px); 
+  z-index: 1;
   background-color: $yellow-white;
   border: 0.3px solid black;
   border-radius: 10px;
@@ -69,8 +80,9 @@ input:focus {
 
 .welcome {
   font-family: Verdana;
-  background-image: url(https://wallpaperaccess.com/full/2454669.jpg);
-  max-height: 700px;
+  // background-image: url(https://wallpaperaccess.com/full/2454669.jpg);
+  background-color: black;
+  max-height: 600px;
   margin: auto;
 }
 
@@ -262,9 +274,10 @@ input:focus {
       background-color: rgb(0,0,0);
       width: 100%;
       height: 90vh;
-      z-index: 999;
+      z-index: 1;
       // text-align: center;
       transition: .3s;
+
   }
 
   .nav-menu.active {
@@ -310,9 +323,9 @@ input:focus {
   
   
   align-items: center;
-  transform: translateX(88px) translateY(50px); 
-  height: 50px;
-  width: 300px;
+  transform: translateX(-78px) translateY(30px); 
+  height: 40px;
+  width: 200px;
   background-image: var(--gradient);
   background-size: 400%;
   background-position: left;
@@ -344,17 +357,17 @@ input:focus {
 
 .tut-connector {
   width: 100px;
-  height: 100px;
+  height: 70px;
   background-color: $sunlife-yellow;
   color: black;
-  transform: translateY(-52px) translateX(70px)
+  transform: translateY(-7px) translateX(70px)
 }
 
 .connector-one-text {
   font-family: Verdana;
   font-size: 15px;
   font-weight: bold; 
-  transform: translateY(56px) translateX(10px)
+  transform: translateY(26px) translateX(10px)
 }
 
 .tut-header {
@@ -740,7 +753,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(25px) translateY(140px); 
+  transform: translateX(25px) translateY(120px); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -757,7 +770,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(55px) translateY(140px); 
+  transform: translateX(55px) translateY(120px); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -784,14 +797,18 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 10px;
-  transform: translateX(500px) translateY(163px);
+  transform: translateX(500px) translateY(143px);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(500px) translateY(90px); 
+  transform: translateX(500px) translateY(60px); 
+}
+
+.textbox {
+  transform: translateX(30px) translateY(100px);
 }
 
 .alert-box {
@@ -940,3 +957,23 @@ input:focus {
   transform: translateX(30px);
 }
 
+.log-in {
+  transform: translateX(300px) translateY(150px);
+}
+
+.log-in-item {
+  display: flex;
+}
+
+.log-in-form {
+  height: 400px;
+  transform: translateX(300px) translateY(20px);
+}
+
+.welcome-log-in {
+  color: white;
+}
+
+.welcome-log-in-nav {
+  transform: translateX(810px) translateY(-370px);
+}

@@ -11,6 +11,7 @@ import { Tooltip2, Popover2 } from "@blueprintjs/popover2";
 import { Page, Tab } from "../common";
 import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
+import { LABEL } from "@blueprintjs/core/lib/esm/common/classes";
 
 function getMax() {
   const elementsOfInterest: any[] = [
@@ -303,7 +304,6 @@ function EmailBox({
               email.day_since_hire / visualItemMax.day_since_hire
             )}
           />
-          {/* </Tooltip2> */}
           <p className="max">(max:{visualItemMax.day_since_hire})</p>
         </div>
       </div>
@@ -386,6 +386,14 @@ function EmailBox({
           value={confidence}
           intent="none"
         />
+        <h1 className="textbox">
+          <input 
+            type="text" 
+            maxLength={60}
+            placeholder="Comment..."
+          />
+        </h1>
+        
       </FormGroup>
     </div>
   );

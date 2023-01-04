@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import logo from '../assets/sun.jpg'
 import {Link} from 'react-scroll'
+import {Link as LinkClick} from 'react-router-dom';
 import Logo from '../assets/logo.jpg'
 
+function Navbar({ page, setPage }: { page: number, setPage: (page: number) => void}) {
+    
+    const [click, setClick] = useState(false);
+    const closeMenu = () => setClick(false);
 
-const Navbar = () => {
-
-    const [click, setClick] = useState(false)
-    const handleClick = () => setClick(!click)
-    const closeMenu = () => setClick(false)
 
     return (
         <div className='header'>
@@ -29,7 +28,7 @@ const Navbar = () => {
                     <li className='nav-item'>
                         <Link to="labels" spy={true} smooth={true} offset={-130} duration={900} onClick={closeMenu}>Previous Labels</Link>
                     </li>
-                    {/* <button className='nav-item'>Sign In</button> */}
+                    {/* <LinkClick to="/login" className='nav-item'>Log in</LinkClick> */}
                 </ul>
             </nav>
         </div>
@@ -37,3 +36,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

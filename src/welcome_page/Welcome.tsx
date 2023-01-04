@@ -1,17 +1,15 @@
 import React, { useState, useLayoutEffect } from "react";
-import { Header } from "../common";
-import Navbar from "./Navbar"
 import { Page } from "../common";
+import {Link as LinkClick} from 'react-router-dom';
 
 function Welcome({ page, setPage }:
   {
       page: number,
-      setPage: (page: number) => void,
+      setPage: (page: number) => void
   }) {
 
-  function handlePage2() {
-     setPage(Page.Survey);
-  }
+
+
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -23,7 +21,11 @@ function Welcome({ page, setPage }:
         &nbsp;This is the space where you could help &nbsp; &nbsp;improve accuracy
         of our Machine&nbsp; &nbsp;Learning Model to identify Data Breaches.&nbsp; </mark>
       </p>
-      <button className="welcome-button" onClick={handlePage2}>GET STARTED</button>
+      {/* <nav className="welcome-log-in-nav">
+        <LinkClick to="/login" className="welcome-log-in">
+          <button className="welcome-button">Log in</button>
+        </LinkClick>
+      </nav>                      */}
     </div>
   );
 }

@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import sunlifeLogo from "./assets/sunlife3.jpg";
-import Navbar from "./welcome_page/Navbar"
 
 export enum Page {
   Welcome,
+  Login,
   Survey,
   LabelGeneral,
+  CommentGeneral,
   Submitted
+}
+
+export enum Interest {
+  Label,
+  Comment
 }
 
 export enum Tab {
