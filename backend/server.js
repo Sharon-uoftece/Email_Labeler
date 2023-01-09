@@ -52,8 +52,50 @@ app.post('/login/',async (req,res) => {
         user: userName,
         timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
     }
-    fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
+    fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
     console.log("testing server.js /login");
+})
+
+app.post('/submitLabel',async (req,res) => {
+    console.log("inside backend /submitLabel");
+    let date_time = new Date();
+    let date = ("0" + date_time.getDate()).slice(-2);
+    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+    let year = date_time.getFullYear();
+    let hours = date_time.getHours();
+    let minutes = date_time.getMinutes();
+
+    for (const element of Object.keys(req.body)) {
+        if (req.body[element].emailId == 0) {
+            continue;
+        }
+        const userName = req.body[element].user;
+        const emailId = req.body[element].emailId;
+        const label = req.body[element].label;
+        const confidence = req.body[element].confidence;
+        console.log("submitlabel debug", element, label);
+
+        var dataToPush = {
+            user: userName,
+            emailId: emailId,
+            sensitive: label,
+            confidence: confidence,
+            timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes
+        }
+        fs.appendFileSync('./labelRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+    }
+    
+    console.log("backend receive body:", req.body);
+    console.log("testing server.js /submitLabel" );
+})
+
+app.get('/getLabelHistory',(req,res) => {
+    console.log("inside /getLabelHistory");
+    const {readFileSync} = require('fs');
+    const labelHistory = readFileSync('./labelRecords.txt', 'utf8');
+    const historyArr = labelHistory.split("\r\n");
+    historyArr.pop();
+    return res.json(historyArr.map((value) => JSON.parse(value)));
 })
 
 app.get('/testTimeStamp',(req,res) => {

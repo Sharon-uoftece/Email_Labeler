@@ -4,6 +4,7 @@
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 @import "~@blueprintjs/datetime/lib/css/blueprint-datetime.css";
 @import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+@import "~@blueprintjs/select/lib/css/blueprint-select.css";
 
 
 //brighter yellow: rgb(253, 192, 60);
@@ -753,7 +754,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(25px) translateY(120px); 
+  transform: translateX(25px) translateY(90px); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -770,7 +771,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(55px) translateY(120px); 
+  transform: translateX(55px) translateY(90px); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -787,7 +788,7 @@ input:focus {
   border: 1px solid grey;
   border-radius: 10px;
   
-  transform: translateX(68vw) translateY(20px); 
+  transform: translateX(68vw) translateY(10px); 
   height: 40px;
   width: 180px;
   background-color: white;
@@ -797,18 +798,18 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 10px;
-  transform: translateX(500px) translateY(143px);
+  transform: translateX(500px) translateY(93px);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(500px) translateY(60px); 
+  transform: translateX(500px) translateY(30px); 
 }
 
 .textbox {
-  transform: translateX(30px) translateY(100px);
+  transform: translateX(30px) translateY(70px);
 }
 
 .alert-box {
@@ -972,4 +973,28 @@ input:focus {
 
 .welcome-log-in-nav {
   transform: translateX(810px) translateY(-370px);
+}
+
+.userinfo {
+  // display: flex;
+}
+
+.userinfo-welcome-text {
+  transform: translateX(70px);
+}
+
+.userinfo-history-button {
+  transform: translateX(80px) translateY(90px);
+}
+
+.userinfo-label-button {
+  transform: translateX(670px) translateY(90px);
+}
+
+.history-button {
+  transform: translateX(80px) translateY(90px);
+}
+
+.history-show {
+  transform: translateX(80px) translateY(30px);
 }

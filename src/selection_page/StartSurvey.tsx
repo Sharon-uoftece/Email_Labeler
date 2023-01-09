@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, NumericInput } from "@blueprintjs/core";
+import { Button, NumericInput} from "@blueprintjs/core";
+import { Select2 } from "@blueprintjs/select";
 import { Page, Header } from "../common";
 
 function StartSurvey(
@@ -25,12 +26,11 @@ function StartSurvey(
         <>
             <div className="survey">
                 <Button
-                    className="something"
                     icon="arrow-left"
                     intent="warning"
-                    text={"Back to Home Page"}
+                    text={"Back to User Info Page"}
                     onClick={() => {
-                    handleBackToWelcome();
+                        setPage(Page.UserInfo);
                     }}
                 />
                 <div className="survey-Block">

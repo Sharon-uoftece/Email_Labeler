@@ -1,9 +1,15 @@
 import React, {useState} from "react";
 import sunlifeLogo from "./assets/sunlife3.jpg";
 
+export function twoDecimal(num: Number) {
+  return parseFloat(num.toFixed(2));
+}
+
 export enum Page {
   Welcome,
   Login,
+  UserInfo,
+  LabelHistory,
   Survey,
   LabelGeneral,
   CommentGeneral,

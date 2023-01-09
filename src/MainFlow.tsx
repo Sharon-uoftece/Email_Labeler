@@ -11,6 +11,8 @@ import ModelIllustrate from "./welcome_page/ModelIllustrate";
 import PreviousLabels from "./welcome_page/PreviousLabels";
 import Submission from "./Submission";
 import Login from "./welcome_page/LogIn";
+import UserInfo from "./UserInfo";
+import LabelHistory from "./LabelHistory";
 import { json } from "stream/consumers";
 
 
@@ -18,11 +20,13 @@ import { json } from "stream/consumers";
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
   const [numEmails, setNumEmails] = useState(10);
+  const [currentUser, setCurrentUser] = useState("null");
 
   //initialize an empty initialMap
   const initialMap: Record<string, Record<string, any>> = {};
   for (let i = 0; i < numEmails; i++) {
     initialMap[i + 1] = {
+      emailId: 0,
       sensitive: false, 
       confidence: 0,
       marked: false
@@ -38,11 +42,19 @@ function MainFlow() {
         <Header />
         <Navbar page={page} setPage={setPage}/>
         <Welcome page={page} setPage={setPage}/>
-        <Login page={page} setPage={setPage} />
+        <Login page={page} setPage={setPage} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
         <VideoStep />
         <ModelIllustrate />
         <PreviousLabels />
       </div>
+    );
+  } else if (page === Page.UserInfo) {
+    return (
+      <UserInfo page={page} setPage={setPage} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+    );
+  } else if (page === Page.LabelHistory) {
+    return (
+      <LabelHistory page={page} setPage={setPage} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
     );
   } else if (page === Page.Survey) {
     return (
@@ -56,12 +68,14 @@ function MainFlow() {
   } else if (page === Page.LabelGeneral) {
     return (
       <div className="label">
-        <Comment 
+        <Label
           numEmails={numEmails} 
           page={page} 
           setPage={setPage} 
           sensitivityMap={sensitivityMap}
           setSensitivityMap={setSensitivityMap}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
         />
       </div>
     )

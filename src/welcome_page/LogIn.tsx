@@ -3,7 +3,7 @@ import axios from "axios";
 import {Page, Header} from "../common";
 import userData from "../userData";
 
-function LogIn({ page, setPage }: { page: number, setPage: (page: number) => void}) {
+function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
     const [userNameErr, setUserNameErr] = useState(false);
     const [password, setPassword] = useState('');
@@ -18,8 +18,11 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
             if (userName == userData[i].user) {
                 foundUsername = true;
                 if (password == userData[i].password) {
-                    setPage(Page.Survey);
+                    // setPage(Page.Survey);
+                    setPage(Page.UserInfo);
+                    setCurrentUser(userName);
                     loginHandle(e);
+                    setCurrentUser(userName);
                     console.log("username and psw match, ready to log in...");
                 } else {
                     setPasswordErr(true);
@@ -90,7 +93,7 @@ function LogIn({ page, setPage }: { page: number, setPage: (page: number) => voi
                     <br/> <br/>
                     <label>Password: &nbsp;</label>
                     <input 
-                        type="text"
+                        type="password"
                         placeholder="Enter password"
                         // onChange={(e) =>setPassword(e.target.value)}
                         onChange={passwordHandler}

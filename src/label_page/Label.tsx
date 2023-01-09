@@ -8,10 +8,11 @@ import {
   Position,
 } from "@blueprintjs/core";
 import { Tooltip2, Popover2 } from "@blueprintjs/popover2";
-import { Page, Tab } from "../common";
+import { Page, Tab, twoDecimal } from "../common";
 import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
 import { LABEL } from "@blueprintjs/core/lib/esm/common/classes";
+import MixcloudPlayer from "react-player/mixcloud";
 
 function getMax() {
   const elementsOfInterest: any[] = [
@@ -38,7 +39,7 @@ function getMax() {
       visualDic[element] = Math.max(visualDic[element], parseInt(number));
     }
   }
-  console.log(visualDic);
+  // console.log(visualDic);
   return visualDic;
 }
 
@@ -48,7 +49,7 @@ function EmailBox({
   sensitivityMap,
   setSensitivityMap,
 }: {
-  index: number;
+  index: number; 
   email: any;
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (val: any) => void;
@@ -80,12 +81,9 @@ function EmailBox({
     }
   }
 
-  useEffect(
-    () => console.log("Sensitivity map: ", sensitivityMap),
-    [sensitivityMap]
-  );
+
   return (
-    <div className="email-element">
+    <div key={index} className="email-element">
       <div className="email-box-header">
         <p className="email-header">{"Email " + (index + 1)}</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -185,6 +183,11 @@ function EmailBox({
           <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
           {JSON.stringify(email.month, null, 2).slice(1, -1)}/
           {JSON.stringify(email.day, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>EmailID:</b> {JSON.stringify(email.mid, null, 2).slice(1, -1)}
         </p>
         <p> </p>
         <p>
@@ -318,10 +321,9 @@ function EmailBox({
           onClick={() => {
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["sensitive"] = true;
-            setSensitivityMap(newMap);
-            const newMapTwo = { ...sensitivityMap };
             newMap[index + 1]["marked"] = true;
-            setSensitivityMap(newMapTwo);
+            newMap[index + 1]["emailId"] = email.mid;
+            setSensitivityMap(newMap);
             document.getElementById(
               "label-button-" + (index + 1)
             )!.style.backgroundColor = "rgb(182, 59, 59)";
@@ -345,10 +347,10 @@ function EmailBox({
           onClick={() => {
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["sensitive"] = false;
-            setSensitivityMap(newMap);
-            const newMapTwo = { ...sensitivityMap };
             newMap[index + 1]["marked"] = true;
-            setSensitivityMap(newMapTwo);
+            newMap[index + 1]["emailId"] = email.mid;
+            setSensitivityMap(newMap);
+
             document.getElementById(
               "label-button-non-" + (index + 1)
             )!.style.backgroundColor = "rgb(45, 125, 45)";
@@ -386,13 +388,13 @@ function EmailBox({
           value={confidence}
           intent="none"
         />
-        <h1 className="textbox">
+        {/* <h1 className="textbox">
           <input 
             type="text" 
             maxLength={60}
             placeholder="Comment..."
           />
-        </h1>
+        </h1> */}
         
       </FormGroup>
     </div>
@@ -405,13 +407,19 @@ function Label({
   setPage,
   sensitivityMap,
   setSensitivityMap,
+  currentUser,
+  setCurrentUser
 }: {
   numEmails: number;
   page: number;
   setPage: (page: number) => void;
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (map: Record<string, Record<string, any>>) => void;
+  currentUser: string;
+  setCurrentUser: (currentUser: string) => void;
 }) {
+
+  
   const [alertExitPage, setAlertExitPage] = useState(false);
   const [confidence, setConfidence] = useState(0);
   const [emails, setEmails] = useState<any>([]);
@@ -440,6 +448,8 @@ function Label({
         markedCount += 1;
       }
     }
+    console.log("Num emails: " + numEmails);
+    console.log("Marked count: " + markedCount);
     if (markedCount == numEmails) {
       setMarkedAll(true);
     }
@@ -473,6 +483,36 @@ function Label({
       mappingFunc(email, index, sensitivityMap, setSensitivityMap)
     )
   );
+
+  const labelSubmitHandler = async(e:React.SyntheticEvent) => {
+    handleSubmit();
+    e.preventDefault();
+    const dataToSubmit = [];
+    
+    for (const element of Object.keys(sensitivityMap)) {
+
+      const myData = {
+        user: currentUser,
+        emailId: sensitivityMap[element]["emailId"],
+        label: sensitivityMap[element]["sensitive"],
+        confidence: twoDecimal(sensitivityMap[element]["confidence"])
+      }
+
+      dataToSubmit.push(myData);
+    }
+
+    const result = await fetch('http://localhost:8000/submitLabel', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dataToSubmit)
+    })
+    .then((response) => console.log(response))
+    .catch(err => console.log("ERROR:", err));
+  }
+
   return ( 
     <div className="email-grid-big-block">
       
@@ -512,16 +552,21 @@ function Label({
         </div>
       </pre>
 
-      {markedAll == true && (<button
+      {/* {markedAll == true && (<button
         className="submit-button"
         onClick={() => {
           console.log("Setting submit true");
+          labelSubmitHandler(e);   
           setShowSubmit(true);
         }}
       >
         SUBMIT
       </button>)
-      }
+      } */}
+
+      <form onSubmit={labelSubmitHandler}>
+        {markedAll == true && <button className="submit-button" type="submit">SUBMIT</button>}
+      </form>
   
       <Alert
         className="submit-box"

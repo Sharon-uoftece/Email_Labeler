@@ -31,9 +31,9 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
             <Button
                 icon="arrow-left"
                 intent="warning"
-                text={"Back to Home Page"}
+                text={"Back to User Info Page"}
                 onClick={() => {
-                    setPage(Page.Welcome);
+                    setPage(Page.UserInfo);
                 }}
             />
             <p className="show-score">Thank you for completing this survey! </p>
