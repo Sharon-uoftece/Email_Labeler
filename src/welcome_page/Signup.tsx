@@ -2,50 +2,41 @@ import react, {useEffect, useState} from "react";
 import axios from "axios";
 import {Page, Header} from "../common";
 import userData from "../userData";
+import forbidUsers from "../forbidUsers";
+import { exit } from "process";
 
-function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
+function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
-    const [userNameErr, setUserNameErr] = useState(false);
     const [password, setPassword] = useState('');
-    const [passwordErr, setPasswordErr] = useState(false);
+    const [forbid, setForbid] = useState(false);
 
-    function loginHandler(e:React.SyntheticEvent) {
+    function signupHandler(e:React.SyntheticEvent) {
         e.preventDefault();
-        let foundUsername = false;
 
         console.log(userName, password);
-        for (var i=0; i<userData.length; i++) {
-            if (userName == userData[i].user) {
-                foundUsername = true;
-                if (password == userData[i].password) {
-                    // setPage(Page.Survey);
-                    setPage(Page.UserInfo);
-                    setCurrentUser(userName);
-                    loginHandle(e);
-                    setCurrentUser(userName);
-                    console.log("username and psw match, ready to log in...");
-                } else {
-                    setPasswordErr(true);
-                    console.log("username exist but wrong password, cannot log in...");
-                }
+        for (var i=0; i<forbidUsers.length; i++) {
+            if (userName == forbidUsers[i].user) {
+                setForbid(true);
+                break;
             } 
         }
-        if (!foundUsername) {
-            setUserNameErr(true);
-            console.log("username not in system");
+        if (forbid == false) {
+            setUserName(userName);
+            setPassword(password);
+            signupHandle(e);
         }
     }
 
-    const loginHandle = async(e:React.SyntheticEvent) => {
+    const signupHandle = async(e:React.SyntheticEvent) => {
         e.preventDefault();
         
         const myData = {
             user: userName,
             password: password
         }
-        console.log("frontend login handler");
+        console.log("frontend signup handler");
 
-        const result = await fetch('http://localhost:8000/login', {
+        const result = await fetch('http://localhost:8000/signup', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -62,26 +53,20 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
 
     function usernameHandler(e:React.SyntheticEvent) {
         e.preventDefault();
-        setUserNameErr(false);
+        setForbid(false);
         setUserName(e.target.value);
     }
 
     function passwordHandler(e:React.SyntheticEvent) {
         e.preventDefault();
-        setPasswordErr(false);
         setPassword(e.target.value);
     }
     
     return(
         <div>
             <div className="log-in-form">
-                <h1>Log in here...</h1>
-                {/* {data.map(item => 
-                    <div>
-                        <h1>{Object.values(JSON.parse(item))}</h1>
-                    </div>
-                )} */}
-                <form onSubmit={loginHandler}>
+                <h1>Sign up here...</h1>
+                <form onSubmit={signupHandler}>
                     <label>ID: </label>
                     <input 
                         type="text"
@@ -104,9 +89,9 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
                         <option>Label</option>
                         <option>Comment</option>
                     </select> */}
-                    {(userNameErr || passwordErr)?<span>&nbsp;Wrong Credentials...</span>:null}
-
-                    <button type="submit">Log In</button>
+                    {/* {(userNameErr || passwordErr)?<span>&nbsp;Wrong Credentials...</span>:null} */}
+                    {forbid?<span>&nbsp; no access</span>:null}
+                    <button type="submit">Sign up</button>
                     <br /><br />
                 </form>
             </div>
@@ -114,4 +99,4 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
     )
 }
 
-export default LogIn
+export default Signup

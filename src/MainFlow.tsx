@@ -11,6 +11,7 @@ import ModelIllustrate from "./welcome_page/ModelIllustrate";
 import PreviousLabels from "./welcome_page/PreviousLabels";
 import Submission from "./Submission";
 import Login from "./welcome_page/LogIn";
+import Signup from "./welcome_page/Signup";
 import UserInfo from "./UserInfo";
 import LabelHistory from "./LabelHistory";
 import { json } from "stream/consumers";
@@ -43,6 +44,7 @@ function MainFlow() {
         <Navbar page={page} setPage={setPage}/>
         <Welcome page={page} setPage={setPage}/>
         <Login page={page} setPage={setPage} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+        <Signup page={page} setPage={setPage} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
         <VideoStep />
         <ModelIllustrate />
         <PreviousLabels />
