@@ -1,38 +1,19 @@
-import react, {useEffect, useState} from "react";
-import axios from "axios";
-import {Page, Header} from "../common";
-import userData from "../userData";
+import react, {useState} from "react";
+import {Page} from "../common";
 
 function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
-    const [userNameErr, setUserNameErr] = useState(false);
     const [password, setPassword] = useState('');
-    const [passwordErr, setPasswordErr] = useState(false);
-
-    function loginHandler(e:React.SyntheticEvent) {
-        e.preventDefault();
-        let foundUsername = false;
-
-        console.log(userName, password);
-        for (var i=0; i<userData.length; i++) {
-            if (userName == userData[i].user) {
-                foundUsername = true;
-                if (password == userData[i].password) {
-                    // setPage(Page.Survey);
-                    setPage(Page.UserInfo);
-                    setCurrentUser(userName);
-                    loginHandle(e);
-                    setCurrentUser(userName);
-                    console.log("username and psw match, ready to log in...");
-                } else {
-                    setPasswordErr(true);
-                    console.log("username exist but wrong password, cannot log in...");
-                }
-            } 
+    const [loginErr, setLoginErr] = useState(false);
+ 
+    function loginResponseHandle(response:any) {
+        if (response.status == 200) {
+            setLoginErr(false);
+            setPage(Page.UserInfo);
+            setCurrentUser(userName);
         }
-        if (!foundUsername) {
-            setUserNameErr(true);
-            console.log("username not in system");
+        else {
+            setLoginErr(false);
         }
     }
 
@@ -43,7 +24,7 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
             user: userName,
             password: password
         }
-        console.log("frontend login handler");
+        console.log("frontend loginHandle ready to send user input to backend");
 
         const result = await fetch('http://localhost:8000/login', {
             method: 'POST',
@@ -53,58 +34,46 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
             },
             body: JSON.stringify(myData)
         })
-        .then((response) => console.log(response))
+        .then((response) => loginResponseHandle(response))
         .catch(err => console.log("ERROR:", err));
 
         console.log(JSON.stringify(result));
     }
 
-
     function usernameHandler(e:React.SyntheticEvent) {
+        const element = e.currentTarget as HTMLInputElement;
+        const value = element.value;
         e.preventDefault();
-        setUserNameErr(false);
-        setUserName(e.target.value);
+        setUserName(value);
     }
 
     function passwordHandler(e:React.SyntheticEvent) {
+        const element = e.currentTarget as HTMLInputElement;
+        const value = element.value;
         e.preventDefault();
-        setPasswordErr(false);
-        setPassword(e.target.value);
+        setPassword(value);
     }
     
     return(
         <div>
             <div className="log-in-form">
                 <h1>Log in here...</h1>
-                {/* {data.map(item => 
-                    <div>
-                        <h1>{Object.values(JSON.parse(item))}</h1>
-                    </div>
-                )} */}
-                <form onSubmit={loginHandler}>
+                <form onSubmit={loginHandle}>
                     <label>ID: </label>
                     <input 
                         type="text"
                         placeholder="Enter name"
-                        // onChange={(e) =>setUserName(e.target.value)}
                         onChange={(e) => usernameHandler(e)}
                     />
-                    {/* {userNameErr?<span>&nbsp;User name does not exist in system...</span>:null} */}
                     <br/> <br/>
                     <label>Password: &nbsp;</label>
                     <input 
                         type="password"
                         placeholder="Enter password"
-                        // onChange={(e) =>setPassword(e.target.value)}
                         onChange={passwordHandler}
                     />
-                    {/* {passwordErr?<span>&nbsp;Wrong Password...</span>:null} */}
                     <br/> <br/>
-                    {/* <select onChange={(e) => setInterest(e.target.value)}>
-                        <option>Label</option>
-                        <option>Comment</option>
-                    </select> */}
-                    {(userNameErr || passwordErr)?<span>&nbsp;Wrong Credentials...</span>:null}
+                    {(loginErr)?<span>&nbsp;Wrong Credentials...</span>:null}
 
                     <button type="submit">Log In</button>
                     <br /><br />

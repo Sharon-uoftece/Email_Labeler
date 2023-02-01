@@ -964,7 +964,12 @@ input:focus {
 
 .log-in-form {
   height: 400px;
-  transform: translateX(300px) translateY(60px);
+  transform: translateX(300px) translateY(90px);
+}
+
+.sign-up-form {
+  height: 1px;
+  transform: translateX(900px) translateY(-330px);
 }
 
 .welcome-log-in {

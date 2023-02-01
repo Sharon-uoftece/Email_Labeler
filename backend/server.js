@@ -30,6 +30,7 @@ const app = express();
 app.use(express.json());
 const fs = require('fs');
 
+
 app.use((req, res, next) => {
     res.append('Access-Control-Allow-Origin', ["*"]);
     res.append("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT");
@@ -37,42 +38,70 @@ app.use((req, res, next) => {
     next();
 });
 
-app.post('/login/',async (req,res) => {
-    console.log("inside backend /login");
-    // console.log("backend receive body:", req.body);
-    const userName = req.body.user;
-    let date_time = new Date();
-    let date = ("0" + date_time.getDate()).slice(-2);
-    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-    let year = date_time.getFullYear();
-    let hours = date_time.getHours();
-    let minutes = date_time.getMinutes();
-    let seconds = date_time.getSeconds();
-    var dataToPush = {
-        user: userName,
-        timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+app.post('/login',async (req,res) => {
+    // const registeredUser = fs.readFileSync('./registeredUser.txt', 'utf8');
+    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+    const registeredJson = JSON.parse(registeredUser);
+    let success = false;
+
+    for (let i = 0; i < registeredJson.length; i++) {
+        if (registeredJson[i].user == req.body.user && registeredJson[i].password == req.body.password) {
+            console.log("BREAKPOINT success backend /login");
+            success = true;
+            res.status(200).send('success');
+            const userName = req.body.user;
+            let date_time = new Date();
+            let date = ("0" + date_time.getDate()).slice(-2);
+            let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+            let year = date_time.getFullYear();
+            let hours = date_time.getHours();
+            let minutes = date_time.getMinutes();
+            let seconds = date_time.getSeconds();
+            var dataToPush = {
+                user: userName,
+                timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+            }
+            fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+        } 
     }
-    fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
-    console.log("testing server.js /login");
+    
+    if (success == false) {
+        console.log("BREAKPOINT wrong credentials backend /login");
+        res.status(404).send('wrong credentials');
+    } 
 })
 
 app.post('/signup/',async (req,res) => {
     console.log("inside backend /signup");
-    // console.log("backend receive body:", req.body);
+
+    const forbidUser = fs.readFileSync('./forbidUser.txt', {encoding:'utf8', flag:'r'});
+    const forbidJson = JSON.parse(forbidUser);
+    for (let i = 0; i < forbidJson.length; i++) {
+        if (forbidJson[i].user == req.body.user) {
+            res.status(400).send('no access');
+        } 
+    }
+
+    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+    const registeredJson = JSON.parse(registeredUser);
+    for (let i = 0; i < registeredJson.length; i++) {
+        if (registeredJson[i].user == req.body.user) {
+            res.status(401).send('already registered');
+        } 
+    }
+
     const userName = req.body.user;
-    let date_time = new Date();
-    let date = ("0" + date_time.getDate()).slice(-2);
-    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-    let year = date_time.getFullYear();
-    let hours = date_time.getHours();
-    let minutes = date_time.getMinutes();
-    let seconds = date_time.getSeconds();
+    const password = req.body.password;
+   
     var dataToPush = {
         user: userName,
-        timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+        password: password
     }
-    fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
-    console.log("testing server.js /signup");
+
+    registeredJson.push(dataToPush);
+    console.log(registeredJson);
+    fs.writeFileSync('./registeredUser.txt', JSON.stringify(registeredJson));
+    res.status(200).send('user successfully created');
 })
 
 app.post('/submitLabel',async (req,res) => {
