@@ -3,7 +3,7 @@ import {Page, Header} from "./common";
 
 function UserInfo({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     function handleStartLabel() {
-        setPage(Page.Survey);
+        setPage(Page.LabelGeneral);
     }
     function handleShowHistory() {
         setPage(Page.LabelHistory);

@@ -39,7 +39,6 @@ function getMax() {
       visualDic[element] = Math.max(visualDic[element], parseInt(number));
     }
   }
-  // console.log(visualDic);
   return visualDic;
 }
 
@@ -208,17 +207,6 @@ function EmailBox({
         <p> </p>
         <div className="email-bar-individual">
           <p> <b>Recipient Count:</b> {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}</p>
-          {/* <Tooltip2
-            position={Position.TOP}
-            hoverCloseDelay={400}
-            hoverOpenDelay={400}
-            content={
-              <p>
-                {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}, max:
-                {visualItemMax.rcpt_count}{" "}
-              </p>
-            }
-          > */}
           <ProgressBar
             className="email-bar"
             animate={false}
@@ -229,25 +217,11 @@ function EmailBox({
             )}
           />
           <p className="max">(max:{visualItemMax.rcpt_count})</p>
-          {/* </Tooltip2> */}
+  
         </div>
         <p> </p>
         <div className="email-bar-individual">
           <p> <b>Files Sensitive Count:</b>{JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p>
-          {/* <Tooltip2
-            position={Position.TOP}
-            hoverCloseDelay={400}
-            hoverOpenDelay={400}
-            content={
-              <p>
-                {JSON.stringify(email.files_sensitive_count, null, 2).slice(
-                  1,
-                  -1
-                )}
-                , max:{visualItemMax.file_count}{" "}
-              </p>
-            }
-          > */}
           <ProgressBar
             className="email-bar"
             animate={false}
@@ -258,22 +232,10 @@ function EmailBox({
             )}
           />
           <p className="max">(max:{visualItemMax.file_count})</p>
-          {/* </Tooltip2> */}
         </div>
         <p> </p>
         <div className="email-bar-individual">
           <p> <b>Files Size:</b>{JSON.stringify(email.size, null, 2).slice(1, -1)}</p>
-          {/* <Tooltip2
-            position={Position.TOP}
-            hoverCloseDelay={400}
-            hoverOpenDelay={400}
-            content={
-              <p>
-                {JSON.stringify(email.size, null, 2).slice(1, -1)}, max:
-                {visualItemMax.size}{" "}
-              </p>
-            }
-          > */}
           <ProgressBar
             className="email-bar"
             animate={false}
@@ -282,22 +244,10 @@ function EmailBox({
             intent={handleBarColor(email.size / visualItemMax.size)}
           />
           <p className="max">(max: {visualItemMax.size})</p>
-          {/* </Tooltip2> */}
         </div>
         <p> </p>
         <div className="email-bar-individual">
           <p> <b>Day since hire:</b>{JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p>
-          {/* <Tooltip2
-            position={Position.TOP}
-            hoverCloseDelay={400}
-            hoverOpenDelay={400}
-            content={
-              <p>
-                {JSON.stringify(email.day_since_hire, null, 2).slice(1, -1)},
-                max:{visualItemMax.day_since_hire}{" "}
-              </p>
-            }
-          > */}
           <ProgressBar
             className="email-bar"
             animate={false}
@@ -402,7 +352,7 @@ function EmailBox({
 }
 
 function Label({
-  numEmails,
+  // numEmails,
   page,
   setPage,
   sensitivityMap,
@@ -410,7 +360,7 @@ function Label({
   currentUser,
   setCurrentUser
 }: {
-  numEmails: number;
+  // numEmails: number;
   page: number;
   setPage: (page: number) => void;
   sensitivityMap: Record<string, Record<string, any>>;
@@ -433,6 +383,7 @@ function Label({
     setPage(Page.Submitted);
   }
 
+  var numEmails = 10;
   useEffect(() => {
     const emailsToShow = [];
     for (let i = 0; i < numEmails; i++) {
@@ -448,8 +399,8 @@ function Label({
         markedCount += 1;
       }
     }
-    console.log("Num emails: " + numEmails);
-    console.log("Marked count: " + markedCount);
+    // console.log("Num emails: " + numEmails);
+    // console.log("Marked count: " + markedCount);
     if (markedCount == numEmails) {
       setMarkedAll(true);
     }
@@ -471,7 +422,7 @@ function Label({
   };
 
   const handleExitConfirm = () => {
-    setPage(Page.Survey);
+    setPage(Page.UserInfo);
   };
 
   useLayoutEffect(() => {
@@ -519,7 +470,7 @@ function Label({
       <Button
         icon="arrow-left"
         intent="warning"
-        text={"Back to Selection Page"}
+        text={"Back to User Info Page"}
         onClick={() => {
           setAlertExitPage(!alertExitPage);
         }}
@@ -551,18 +502,6 @@ function Label({
           }
         </div>
       </pre>
-
-      {/* {markedAll == true && (<button
-        className="submit-button"
-        onClick={() => {
-          console.log("Setting submit true");
-          labelSubmitHandler(e);   
-          setShowSubmit(true);
-        }}
-      >
-        SUBMIT
-      </button>)
-      } */}
 
       <form onSubmit={labelSubmitHandler}>
         {markedAll == true && <button className="submit-button" type="submit">SUBMIT</button>}

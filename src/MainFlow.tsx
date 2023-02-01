@@ -71,7 +71,7 @@ function MainFlow() {
     return (
       <div className="label">
         <Label
-          numEmails={numEmails} 
+          // numEmails={10} 
           page={page} 
           setPage={setPage} 
           sensitivityMap={sensitivityMap}

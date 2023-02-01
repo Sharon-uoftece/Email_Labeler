@@ -10,8 +10,9 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
     const labelSubmitHandler = async() => {
         const response = await fetch('http://localhost:8000/getLabelHistory');
         var data = await response.json();
-        // setHistory(data);
-        const userHistory = data.filter((item: any) => item.user === currentUser)
+        var sha512 = require('js-sha512').sha512;
+        var hashedUsername = sha512(currentUser);
+        const userHistory = data.filter((item: any) => item.user === hashedUsername)
             .map((item: any) => <p>{JSON.stringify(item)}<br></br></p>);
         setNumLabels(userHistory.length);
         setUserLabel(userHistory);
