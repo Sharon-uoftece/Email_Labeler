@@ -1,5 +1,9 @@
 # EmailLabler frontend and backend
 
+## npm version 8.5.5
+## node version 16.15.0
+## react version 18.2.0
+
 ## EmailLabeler frontend
 The emailLabeler frontend currently consists of four pages. 
 main page
