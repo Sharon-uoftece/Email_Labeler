@@ -4,9 +4,9 @@
 ## node version 16.15.0
 ## react version 18.2.0
 
-### records of all registered users are saved in registeredUser.txt, all newly signup users's credentials should be included upon registration
-### records of all labelling made by registered users are saved in labelRecords.txt, all newly submitted labelling should be included upon submition 
-### records of all user login history are saved in userLoginRecords.txt, when you successfully login/signup, a new record(with timestamp) will be included 
+### *records of all registered users are saved in registeredUser.txt, all newly signup users's credentials should be included upon registration
+### *records of all labelling made by registered users are saved in labelRecords.txt, all newly submitted labelling should be included upon submition 
+### *records of all user login history are saved in userLoginRecords.txt, when you successfully login/signup, a new record(with timestamp) will be included 
 
 ## EmailLabeler frontend
 The emailLabeler frontend currently consists of four pages. 
