@@ -8,7 +8,7 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
     const [userLabel, setUserLabel] = useState([]);
 
     const labelSubmitHandler = async() => {
-        const response = await fetch('http://0.0.0.0:8000/getLabelHistory');
+        const response = await fetch('http://10.232.64.217:8000/getLabelHistory');
         var data = await response.json();
         var sha512 = require('js-sha512').sha512;
         var hashedUsername = sha512(currentUser);

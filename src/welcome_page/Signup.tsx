@@ -27,7 +27,7 @@ function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, s
             password: password
         }
 
-        const result = await fetch('http://0.0.0.0:8000/signup', {
+        const result = await fetch('http://10.232.64.217:8000/signup', {
             method: 'POST',
             mode: 'cors',
             headers: {

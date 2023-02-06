@@ -452,7 +452,7 @@ function Label({
       dataToSubmit.push(myData);
     }
 
-    const result = await fetch('http://0.0.0.0:8000/submitLabel', {
+    const result = await fetch('http://10.232.64.217:8000/submitLabel', {
     method: 'POST',
     mode: 'cors',
     headers: {
