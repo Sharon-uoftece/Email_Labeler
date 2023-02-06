@@ -13,7 +13,11 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
         var sha512 = require('js-sha512').sha512;
         var hashedUsername = sha512(currentUser);
         const userHistory = data.filter((item: any) => item.user === hashedUsername)
-            .map((item: any) => <p>{JSON.stringify(item)}<br></br></p>);
+            .map((item: any) => 
+            <div>
+                <p>emailID:{JSON.stringify(item.emailId)}&nbsp;&nbsp;&nbsp;Status:{JSON.stringify(item.sensitive)}&nbsp;&nbsp;&nbsp;Confidence Level:{JSON.stringify(item.confidence)}&nbsp;&nbsp;&nbsp;Time Stamp:{JSON.stringify(item.timestamp)}</p>
+            </div>);
+            
         setNumLabels(userHistory.length);
         setUserLabel(userHistory);
     }

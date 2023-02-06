@@ -21,7 +21,7 @@
 //     }
 // );
 
-// server.listen(5000);
+// server.listen(1234, '0.0.0.0');
 
 const express = require('express');
 // const cors = require('cors');
@@ -233,8 +233,10 @@ app.get('/testTimeStamp',(req,res) => {
 //     res.status(404).send('resource not found');
 // })
 
-app.listen(8000, ()=> {
-    console.log("server is listening on port 8000");
-})
+// app.listen(8000, ()=> {
+//     console.log("server is listening on port 8000");
+// })
+
+app.listen(8000, '0.0.0.0');
 
 

@@ -64,25 +64,16 @@ function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, s
                     <input 
                         type="text"
                         placeholder="Enter name"
-                        // onChange={(e) =>setUserName(e.target.value)}
                         onChange={(e) => usernameHandler(e)}
                     />
-                    {/* {userNameErr?<span>&nbsp;User name does not exist in system...</span>:null} */}
                     <br/> <br/>
                     <label>Password: &nbsp;</label>
                     <input 
                         type="password"
                         placeholder="Enter password"
-                        // onChange={(e) =>setPassword(e.target.value)}
                         onChange={passwordHandler}
                     />
-                    {/* {passwordErr?<span>&nbsp;Wrong Password...</span>:null} */}
                     <br/> <br/>
-                    {/* <select onChange={(e) => setInterest(e.target.value)}>
-                        <option>Label</option>
-                        <option>Comment</option>
-                    </select> */}
-                    {/* {(userNameErr || passwordErr)?<span>&nbsp;Wrong Credentials...</span>:null} */}
                     {noAccess?<span>&nbsp; no access</span>:null}
                     {alreadyExist?<span>&nbsp; user already exist</span>:null}
                     <button type="submit">Sign up</button>

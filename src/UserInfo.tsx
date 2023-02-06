@@ -12,7 +12,7 @@ function UserInfo({ page, setPage, currentUser, setCurrentUser}: { page: number,
     return(
         <div className="userinfo">
             <Header />
-            <h1 className="userinfo-welcome-text">Hi {currentUser}!</h1>
+            {/* <h1 className="userinfo-welcome-text">Hi {currentUser}!</h1> */}
             <button 
                 className="userinfo-history-button"
                 onClick={handleShowHistory}>

@@ -16,8 +16,6 @@ import UserInfo from "./UserInfo";
 import LabelHistory from "./LabelHistory";
 import { json } from "stream/consumers";
 
-
-
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
   const [numEmails, setNumEmails] = useState(10);
@@ -94,7 +92,6 @@ function MainFlow() {
       </div>
     )
   } else{
-    //page === Page.submitted
     return (
       <div>
         <Submission
