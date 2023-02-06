@@ -26,7 +26,7 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
         }
         console.log("frontend loginHandle ready to send user input to backend");
 
-        const result = await fetch('http://localhost:8000/login', {
+        const result = await fetch('http://0.0.0.0:8000/login', {
             method: 'POST',
             mode: 'cors',
             headers: {
