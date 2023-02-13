@@ -25,13 +25,13 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
     
     cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(1, 5), len(X_pool), axis=0))
     conf_weighted_distance_scores = cwds_ndarray[:,0:].min(axis=1)
-    #conf_weighted_similarity_scores = 1 / (1 + conf_weighted_distance_scores)
+    conf_weighted_similarity_scores = 1 / (1 + conf_weighted_distance_scores)
 
     alpha = len(X_pool)/671
     beta = 0.9
     
     scores = alpha * uncertainty \
-             + alpha * beta * conf_weighted_distance_scores \
+             + alpha * beta * conf_weighted_similarity_scores \
              + (1 - alpha) * (1 - similarity_scores) * (1 - beta)
     
 
