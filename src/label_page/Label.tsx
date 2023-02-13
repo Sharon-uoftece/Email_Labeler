@@ -4,15 +4,13 @@ import {
   FormGroup,
   Alert,
   Slider,
-  ProgressBar,
-  Position,
+  ProgressBar
 } from "@blueprintjs/core";
-import { Tooltip2, Popover2 } from "@blueprintjs/popover2";
+import { Popover2 } from "@blueprintjs/popover2";
 import { Page, Tab, twoDecimal } from "../common";
 import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
-import { LABEL } from "@blueprintjs/core/lib/esm/common/classes";
-import MixcloudPlayer from "react-player/mixcloud";
+import { pythonBridge } from "python-bridge";
 
 function getMax() {
   const elementsOfInterest: any[] = [
@@ -57,6 +55,8 @@ function EmailBox({
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
 
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
@@ -80,7 +80,6 @@ function EmailBox({
     }
   }
 
-
   return (
     <div key={index} className="email-element">
       <div className="email-box-header">
@@ -98,6 +97,7 @@ function EmailBox({
             fill={false}
             placement="bottom-end"
             content={
+              
               <div className="popover">
                 <div className="popover-button">
                   <div>
@@ -177,6 +177,8 @@ function EmailBox({
       <hr className="separator" />
       <p> </p>
       <div className="email-content">
+        <div>{vw}</div>
+        <div>{vh}</div>
         <p>
           {" "}
           <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
@@ -369,7 +371,13 @@ function Label({
   setCurrentUser: (currentUser: string) => void;
 }) {
 
-  
+
+  // // let pythonBridge = require('python-bridge');
+  // let python = pythonBridge({python:'python3'});
+  // // python.ex`import hello.py`;
+  // // python`hello()`.then();
+
+  // python.ex`exec(open("hello.py").read())`
   const [alertExitPage, setAlertExitPage] = useState(false);
   const [confidence, setConfidence] = useState(0);
   const [emails, setEmails] = useState<any>([]);
@@ -452,7 +460,7 @@ function Label({
       dataToSubmit.push(myData);
     }
 
-    const result = await fetch('http://10.232.64.217:8000/submitLabel', {
+    const result = await fetch('http://localhost:8000/submitLabel', {
     method: 'POST',
     mode: 'cors',
     headers: {
