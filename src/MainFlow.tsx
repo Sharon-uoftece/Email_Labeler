@@ -18,7 +18,7 @@ import { json } from "stream/consumers";
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
-  const [numEmails, setNumEmails] = useState(10);
+  const [numEmails, setNumEmails] = useState(2);
   const [currentUser, setCurrentUser] = useState("null");
 
   //initialize an empty initialMap

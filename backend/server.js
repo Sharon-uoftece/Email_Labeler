@@ -84,20 +84,19 @@ app.post('/signup/',async (req,res) => {
     //         res.status(400).send('no access');
     //     } 
     // }
+    var sha512 = require('js-sha512').sha512;
+    const userName = req.body.user;
+    var hashedUsername = sha512(userName);
 
     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
     for (let i = 0; i < registeredJson.length; i++) {
-        if (registeredJson[i].user == req.body.user) {
+        if (registeredJson[i].user == hashedUsername) {
             res.status(401).send('already registered');
         } 
     }
 
-    const userName = req.body.user;
     const password = req.body.password;
-   
-    var sha512 = require('js-sha512').sha512;
-    var hashedUsername = sha512(userName);
     var hashedPwd = sha512(password);
 
     var dataToPush = {
@@ -132,30 +131,43 @@ app.post('/submitLabel',async (req,res) => {
     let year = date_time.getFullYear();
     let hours = date_time.getHours();
     let minutes = date_time.getMinutes();
+    let timestamp =  year + "-" + month + "-" + date + " " + hours + ":" + minutes;
 
+    const userName = req.body[0].user;
+
+    var sha512 = require('js-sha512').sha512;
+    var hashedUsername = sha512(userName);
+    var fileUsername = hashedUsername.slice(0,5);
+    let fileLocation = './';
+    let fileSuffix = '.txt';
+    var fileName = fileLocation.concat(fileUsername, fileSuffix);
+        
+    console.log("fileName", fileName);
+    var labelsThisRound = [];
 
     for (const element of Object.keys(req.body)) {
-        if (req.body[element].emailId == 0) {
-            continue;
-        }
-        const userName = req.body[element].user;
         const emailId = req.body[element].emailId;
         const label = req.body[element].label;
         const confidence = req.body[element].confidence;
 
-        var sha512 = require('js-sha512').sha512;
-        var hashedUsername = sha512(userName);
-
         var dataToPush = {
-            user: hashedUsername,
             emailId: emailId,
             sensitive: label,
             confidence: confidence,
-            timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes
         }
-        fs.appendFileSync('./labelRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+        labelsThisRound.push(dataToPush);
+
     }
+    var recordToPush = {
+        user: fileUsername,
+        timestamp: timestamp,
+        labels: labelsThisRound
+    }
+
+    console.log("this is record to push", recordToPush);
+    fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
 })
+
 
 app.get('/getLabelHistory',(req,res) => {
     const {readFileSync} = require('fs');
