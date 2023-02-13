@@ -1,0 +1,16 @@
+{
+  "user": "c613d",
+  "timestamp": "2023-02-13 16:30",
+  "labels": [
+    {
+      "emailId": "209834578",
+      "sensitive": false,
+      "confidence": 0
+    },
+    {
+      "emailId": "209834579",
+      "sensitive": false,
+      "confidence": 0
+    }
+  ]
+}

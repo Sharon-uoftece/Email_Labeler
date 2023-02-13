@@ -27,7 +27,8 @@ function getMax() {
     visualDic[element] = -1;
   }
 
-  for (let i = 0; i < emailData.length; i++) {
+  // for (let i = 0; i < emailData.length; i++) {
+  for (let i = 0; i < 2; i++) {
     for (const element of elementsOfInterest) {
       const number = emailData[i][element];
       if (Number.isNaN(parseInt(number))) {
@@ -55,8 +56,8 @@ function EmailBox({
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
-  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+  // const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+  // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
 
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
@@ -177,8 +178,8 @@ function EmailBox({
       <hr className="separator" />
       <p> </p>
       <div className="email-content">
-        <div>{vw}</div>
-        <div>{vh}</div>
+        {/* <div>{vw}</div>
+        <div>{vh}</div> */}
         <p>
           {" "}
           <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
@@ -340,13 +341,6 @@ function EmailBox({
           value={confidence}
           intent="none"
         />
-        {/* <h1 className="textbox">
-          <input 
-            type="text" 
-            maxLength={60}
-            placeholder="Comment..."
-          />
-        </h1> */}
         
       </FormGroup>
     </div>
@@ -391,7 +385,7 @@ function Label({
     setPage(Page.Submitted);
   }
 
-  var numEmails = 10;
+  var numEmails = 2;
   useEffect(() => {
     const emailsToShow = [];
     for (let i = 0; i < numEmails; i++) {
@@ -407,8 +401,6 @@ function Label({
         markedCount += 1;
       }
     }
-    // console.log("Num emails: " + numEmails);
-    // console.log("Marked count: " + markedCount);
     if (markedCount == numEmails) {
       setMarkedAll(true);
     }
