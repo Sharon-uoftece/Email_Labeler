@@ -124,7 +124,7 @@ app.post('/signup/',async (req,res) => {
 })
 
 app.post('/submitLabel',async (req,res) => {
-    console.log("inside backend /submitLabel");
+    console.log("inside backend /submitLabel"); // more info here? such as username and rounds done
     let date_time = new Date();
     let date = ("0" + date_time.getDate()).slice(-2);
     let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
@@ -138,8 +138,8 @@ app.post('/submitLabel',async (req,res) => {
     var sha512 = require('js-sha512').sha512;
     var hashedUsername = sha512(userName);
     var fileUsername = hashedUsername.slice(0,5);
-    let fileLocation = './';
-    let fileSuffix = '.txt';
+    let fileLocation = './history/';
+    let fileSuffix = '.json';
     var fileName = fileLocation.concat(fileUsername, fileSuffix);
         
     console.log("fileName", fileName);
@@ -171,7 +171,17 @@ app.post('/submitLabel',async (req,res) => {
 
 app.get('/getLabelHistory',(req,res) => {
     const {readFileSync} = require('fs');
-    const labelHistory = readFileSync('./labelRecords.txt', 'utf8');
+    // read history_day0.json for day 0
+    // if username !isin(allowedUser): 
+            const labelHistory = readFileSync("./history/history_day0.json", 'utf-8');
+    // else:
+    // read dynamic history for each user for the rest of the experiment
+            var sha512 = require('js-sha512').sha512;
+            var hashedUsername = sha512(userName);
+            var fileUsername = hashedUsername.slice(0,5);
+            const labelHistory = readFileSync("./history/{fileUsername}.json", 'utf-8');
+            
+    //const readFileSync('./labelRecords.txt', 'utf8'); 
     const historyArr = labelHistory.split("\r\n");
     historyArr.pop();
     return res.json(historyArr.map((value) => JSON.parse(value)));

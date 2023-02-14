@@ -42,41 +42,63 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
     return query_idx, X_pool[query_idx]
 
 
+def read_json(data, day, model_type, var_name):
+    return_arr = np.empty_like((5,), dtype=int) # get mid to be used for AL model teaching
+    for row in data[str(day-1)]:
+        if row['model_type'] == model_type:
+            return_arr = np.append(return_arr, row[var_name])
+    return_arr = return_arr[1:]
+    
+    return return_arr
+
+
+def save_json(df_query_RB, df_query_EDIG):
+    # Shuffle
+    df_query = pd.concat([df_query_RB, df_query_EDIG], 0).sample(frac=1).reset_index(drop=True)
+    day = df_query['day'].values[0]
+
+    # Parse to JSON and save
+    cols_as_dict = df_query.set_index('day').apply(dict, axis=1)
+    combined = cols_as_dict
+
+    result = combined.to_json(orient="records")
+    parsed = json.loads(result)
+
+    ### *** NEED TO MAKE SURE FORMATS MATCH !!! ***
+    with open(glob.glob('../history/{u}.json'.format(u=user))[0]) as json_file:
+        json_decoded = json.load(json_file)
+        
+    json_decoded[str(day)] = parsed
+    json_object = json.dumps(json_decoded, indent=4)
+
+    with open(glob.glob('../history/{u}.json'.format(u=user))[0], "w") as outfile:
+        outfile.write(json_object)
+
 
 def main(user, model_type):
  
     ### Read JS output (day N-1) ### 
-    label = [1, 0, 1, 0, 0]
-    conf = [0.74, 0.8, 0.66, 0.85, 0.78] # Not using this in RB
-    
-    with open(glob.glob('../history/{u}/history.json'.format(u=user))[0], 'r') as p: # read history day N-1
+    with open(glob.glob('../history/{u}.json'.format(u=user))[0], 'r') as p: # read history of user
         data = json.load(p)
     
-    day = int(max(data))+1 # find max day in history.json
+    day = int(max(data))+1 # find max day in history (.json) read
     
-    mid = np.empty_like((5,), dtype=int) # get mid to be used for AL model teaching
-    for row in data[str(day-1)]:
-        if row['model_type'] == model_type:
-            mid = np.append(mid, row['query_mid'])
-    mid = mid[1:]
-    
-    label = np.empty_like((5,), dtype=int) # get label to be used for AL model teaching
-    for row in data[str(day-1)]:
-        if row['model_type'] == model_type:
-            label = np.append(label, row['query_mid'])
-    label = label[1:]
-    
-    conf = np.empty_like((5,), dtype=int) # get conf to be used for AL model teaching
-    for row in data[str(day-1)]:
-        if row['model_type'] == model_type:
-            conf = np.append(conf, row['query_mid'])
-    conf = conf[1:]
+    mid = read_json(data, day, model_type, 'query_mid')
+    label = read_json(data, day, model_type, 'sensitive')
+    conf = read_json(data, day, model_type, 'confidence')
         
     
     ### Load the model (day N-1) and pool data (day N-1) ###
-    learner = pickle.load(open(glob.glob('../model/{u}/'.format(u=user))[0]+"learner_{m}_day{d}".format(m=model_type,d=day-1), "rb"))
-    df_pool = pd.read_csv(glob.glob('../py_data/{u}/'.format(u=user))[0]+"df_pool_{m}_day{d}.csv".format(m=model_type,d=day-1))
-    X_pool = df_pool.loc[:, df_pool.columns!="target"]
+    if day>1:
+        learner = pickle.load(open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day-1), "rb"))
+        df_pool = pd.read_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day-1))
+        X_pool = df_pool.loc[:, df_pool.columns!="target"]
+    else:
+        learner = pickle.load(open('../model/learner_{m}_day0'.format(m=model_type), "rb"))
+        df_pool = pd.read_csv('../py_data/df_pool_{m}_day0.csv'.format(m=model_type))
+        X_pool = df_pool.loc[:, df_pool.columns!="target"]
+        
+        
     
     
     ### Teach the model ###
@@ -85,7 +107,11 @@ def main(user, model_type):
     
     
     ### Update labeled data (mainly for EDIG training) ###
-    df_labeled = pd.read_csv(glob.glob('../py_data/{u}/'.format(u=user))[0]+"df_labeled_{m}.csv".format(m=model_type))
+    if day>1:
+        df_labeled = pd.read_csv('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type))
+    else:
+        df_labeled = pd.read_csv('../py_data/df_labeled_{m}.csv'.format(m=model_type))                             
+                             
     df_temp = X_pool[X_pool.mid.isin(mid)]
     df_temp['label'] = label
     df_temp['conf'] = conf
@@ -109,12 +135,12 @@ def main(user, model_type):
     
 
     ### Save CSVs and model ###
-    pickle.dump(learner, open(glob.glob('../model/{u}/'.format(u=user))[0]+"learner_{m}_day{d}".format(m=model_type,d=day), "wb"))
-    df_pool.to_csv(glob.glob('../py_data/{u}/'.format(u=user))[0]+"df_pool_{m}_day{d}.csv".format(m=model_type,d=day))
-    df_labeled.to_csv(glob.glob('../py_data/{u}/'.format(u=user))[0]+"df_labeled_{m}.csv".format(m=model_type), index=False)   
+    pickle.dump(learner, open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day), "wb"))
+    df_pool.to_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day))
+    df_labeled.to_csv(glob.glob('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type), index=False)   
         
     
-    # Saving query to history.json
+    ### Return query ###
     df_query = pd.DataFrame(dict(query_mid=query_mid)).reset_index(drop=True)
     df_query["day"] = day
     df_query["model_type"] = model_type
@@ -126,27 +152,10 @@ def main(user, model_type):
 ### main ###
 ############
 
-# user = sys.argv[1] # use this when called from JS
-user = "user1_*" # use this for testing
+# user = sys.argv[1] # use this when called from JS or *** from main.py ***
+user = "c613d" # use this for testing
     
 df_query_RB = main(user, "RB")
 df_query_EDIG = main(user, "EDIG")
 
-# Shuffle
-df_query = pd.concat([df_query_RB, df_query_EDIG], 0).sample(frac=1).reset_index(drop=True)
-
-# Parse to JSON and save
-cols_as_dict = df_query.set_index('day').apply(dict, axis=1)
-combined = cols_as_dict
-
-result = combined.to_json(orient="records")
-parsed = json.loads(result)
-
-with open(glob.glob('../history/{u}/history.json'.format(u=user))[0]) as json_file:
-    json_decoded = json.load(json_file)
-    
-json_decoded['1'] = parsed
-json_object = json.dumps(json_decoded, indent=4)
-
-with open(glob.glob('../history/{u}/history.json'.format(u=user))[0], "w") as outfile:
-    outfile.write(json_object)
+save_json(df_query_RB, df_query_EDIG)
