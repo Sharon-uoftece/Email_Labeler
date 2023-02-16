@@ -91,7 +91,7 @@ app.post('/signup/',async (req,res) => {
     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
     for (let i = 0; i < registeredJson.length; i++) {
-        if (registeredJson[i].user == hashedUsername) {
+        if (registeredJson[i].user === hashedUsername) {
             res.status(401).send('already registered');
         } 
     }
@@ -124,26 +124,30 @@ app.post('/signup/',async (req,res) => {
 })
 
 app.post('/submitLabel',async (req,res) => {
-    console.log("inside backend /submitLabel"); // more info here? such as username and rounds done
-    let date_time = new Date();
-    let date = ("0" + date_time.getDate()).slice(-2);
-    let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-    let year = date_time.getFullYear();
-    let hours = date_time.getHours();
-    let minutes = date_time.getMinutes();
-    let timestamp =  year + "-" + month + "-" + date + " " + hours + ":" + minutes;
+    console.log("inside backend /submitLabel"); 
 
     const userName = req.body[0].user;
-
     var sha512 = require('js-sha512').sha512;
     var hashedUsername = sha512(userName);
+    
     var fileUsername = hashedUsername.slice(0,5);
-    let fileLocation = './history/';
+    let fileLocation = '../history/';
     let fileSuffix = '.json';
-    var fileName = fileLocation.concat(fileUsername, fileSuffix);
-        
+    var fileName = fileLocation.concat(fileUsername, fileSuffix);   
     console.log("fileName", fileName);
-    var labelsThisRound = [];
+    
+    let roundCount = -1;
+    try {
+        let previousLabels = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
+        const history = JSON.parse(previousLabels);
+        roundCount = history.length;
+
+    } catch (e) {
+        console.log(`No database available`);
+        roundCount = 0;
+    };
+
+    var labelToPush = [];
 
     for (const element of Object.keys(req.body)) {
         const emailId = req.body[element].emailId;
@@ -151,41 +155,65 @@ app.post('/submitLabel',async (req,res) => {
         const confidence = req.body[element].confidence;
 
         var dataToPush = {
-            emailId: emailId,
+            query_mid: emailId,
+            model_type: "EDIG",
             sensitive: label,
             confidence: confidence,
         }
-        labelsThisRound.push(dataToPush);
+        labelToPush.push(dataToPush);
+    }
 
-    }
+    let roundStr = roundCount.toString();
+    console.log("roundStr",roundStr);
+
     var recordToPush = {
-        user: fileUsername,
-        timestamp: timestamp,
-        labels: labelsThisRound
     }
+
+    recordToPush[roundStr] = labelToPush;
 
     console.log("this is record to push", recordToPush);
     fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
 })
 
+// app.get('/getLabelHistory',(req,res) => {
+//     const {readFileSync} = require('fs');
+//     var sha512 = require('js-sha512').sha512;
+//     var hUsername = sha512(req.body.user);
 
-app.get('/getLabelHistory',(req,res) => {
-    const {readFileSync} = require('fs');
-    // read history_day0.json for day 0
-    // if username !isin(allowedUser): 
-            const labelHistory = readFileSync("./history/history_day0.json", 'utf-8');
-    // else:
-    // read dynamic history for each user for the rest of the experiment
-            var sha512 = require('js-sha512').sha512;
-            var hashedUsername = sha512(userName);
-            var fileUsername = hashedUsername.slice(0,5);
-            const labelHistory = readFileSync("./history/{fileUsername}.json", 'utf-8');
+//     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+//     const registeredJson = JSON.parse(registeredUser);
+//     for (let i = 0; i < registeredJson.length; i++) {
+//         if (registeredJson[i].user === hUsername ) {
+//             var labelHistory = readFileSync("../history/history_day0.json", 'utf-8');
+//         } else {
+//             var fileUsername = hUsername.slice(0,5);
+//             let fileLocation = '../history/';
+//             let fileSuffix = '.json';
+//             var fileName = fileLocation.concat(fileUsername, fileSuffix);
             
-    //const readFileSync('./labelRecords.txt', 'utf8'); 
-    const historyArr = labelHistory.split("\r\n");
-    historyArr.pop();
-    return res.json(historyArr.map((value) => JSON.parse(value)));
-})
+//             // const labelHistory = readFileSync("../history/{fileUsername}.json", 'utf-8');
+//             labelHistory = readFileSync(fileName, 'utf-8');
+//         }
+//     }
+
+//     // // read history_day0.json for day 0
+//     // // if username !isin(allowedUser): 
+//     //         var labelHistory = readFileSync("../history/history_day0.json", 'utf-8');
+//     // // else:
+//     // // read dynamic history for each user for the rest of the experiment
+//     //         var fileUsername = hUsername.slice(0,5);
+//     //         let fileLocation = '../history/';
+//     //         let fileSuffix = '.json';
+//     //         var fileName = fileLocation.concat(fileUsername, fileSuffix);
+            
+//     //         // const labelHistory = readFileSync("../history/{fileUsername}.json", 'utf-8');
+//     //         labelHistory = readFileSync(fileName, 'utf-8');
+            
+//     //const readFileSync('./labelRecords.txt', 'utf8'); 
+//     var historyArr = labelHistory.split("\r\n");
+//     // historyArr.pop();
+//     return res.json(historyArr.map((value) => JSON.parse(value)));
+// })
 
 app.get('/testTimeStamp',(req,res) => {
     const newUser = req.data;
