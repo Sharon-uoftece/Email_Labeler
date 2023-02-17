@@ -141,16 +141,16 @@ app.post('/submitLabel',async (req,res) => {
     var fileName = fileLocation.concat(fileUsername, fileSuffix);   
     console.log("fileName", fileName);
     
-    let roundCount = -1;
-    try {
-        let previousLabels = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
-        const history = JSON.parse(previousLabels);
-        roundCount = history.length;
+    // let roundCount = -1;
+    // try {
+    //     let previousLabels = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
+    //     const history = JSON.parse(previousLabels);
+    //     roundCount = history.length;
 
-    } catch (e) {
-        console.log(`No database available`);
-        roundCount = 0;
-    };
+    // } catch (e) {
+    //     console.log(`No database available`);
+    //     roundCount = 0;
+    // };
 
     var labelToPush = [];
 
@@ -168,13 +168,13 @@ app.post('/submitLabel',async (req,res) => {
         labelToPush.push(dataToPush);
     }
 
-    let roundStr = roundCount.toString();
-    console.log("roundStr",roundStr);
+    // let roundStr = roundCount.toString();
+    // console.log("roundStr",roundStr);
 
     var recordToPush = {
     }
 
-    recordToPush[roundStr] = labelToPush;
+    recordToPush["0"] = labelToPush;
 
     console.log("this is record to push", recordToPush);
     fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");

@@ -28,14 +28,14 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
 
     return (
         <div className="score-page">
-            <Button
+            {/* <Button
                 icon="arrow-left"
                 intent="warning"
                 text={"Back to User Info Page"}
                 onClick={() => {
                     setPage(Page.UserInfo);
                 }}
-            />
+            /> */}
             <p className="show-score">Thank you for completing this survey! </p>
             <p className="show-score-2">You scored {emailScore}/{numEmails} on this survey</p>
             <p className="show-score-3">You now have {emailScore} Reward Points</p>

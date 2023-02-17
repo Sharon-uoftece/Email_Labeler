@@ -30,14 +30,14 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
     return(
         <div>
             <Header />
-            <Button
+            {/* <Button
                 icon="arrow-left"
                 intent="warning"
                 text={"Back to User Info Page"}
                 onClick={() => {
                     setPage(Page.UserInfo);
                 }}
-            />
+            /> */}
              <p> </p>
             <div className="history-show">
                 <h1>You have labelled {numLabels} emails.</h1>
