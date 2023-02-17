@@ -9,7 +9,7 @@
     {
       "query_mid": "209834579",
       "model_type": "EDIG",
-      "sensitive": false,
+      "sensitive": true,
       "confidence": 0
     }
   ]

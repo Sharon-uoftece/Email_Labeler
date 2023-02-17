@@ -52,12 +52,13 @@ function EmailBox({
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (val: any) => void;
 }) {
+
+  //the initial value of the confidence slider is set to 5, to improve user interaction
   const [confidence, setConfidence] = useState(5);
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
-  // const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-  // const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+
 
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
@@ -178,8 +179,6 @@ function EmailBox({
       <hr className="separator" />
       <p> </p>
       <div className="email-content">
-        {/* <div>{vw}</div>
-        <div>{vh}</div> */}
         <p>
           {" "}
           <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
@@ -338,7 +337,6 @@ function EmailBox({
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["confidence"] = val;
             setSensitivityMap(newMap);
-            // console.log("NEW map after conf change: ", newMap);
           }}
           intent="none"
         />
@@ -357,7 +355,6 @@ function Label({
   currentUser,
   setCurrentUser
 }: {
-  // numEmails: number;
   page: number;
   setPage: (page: number) => void;
   sensitivityMap: Record<string, Record<string, any>>;
@@ -366,13 +363,6 @@ function Label({
   setCurrentUser: (currentUser: string) => void;
 }) {
 
-
-  // // let pythonBridge = require('python-bridge');
-  // let python = pythonBridge({python:'python3'});
-  // // python.ex`import hello.py`;
-  // // python`hello()`.then();
-
-  // python.ex`exec(open("hello.py").read())`
   const [alertExitPage, setAlertExitPage] = useState(false);
   const [confidence, setConfidence] = useState(5);
   const [emails, setEmails] = useState<any>([]);
@@ -381,7 +371,6 @@ function Label({
   const [markedAll, setMarkedAll] = useState(false);
 
   function handleSubmit() {
-    // console.log("Sensitivity map: ", sensitivityMap);
     setSubmit(true);
     setPage(Page.Submitted);
   }
