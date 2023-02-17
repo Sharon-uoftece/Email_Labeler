@@ -14,12 +14,12 @@ import Login from "./welcome_page/LogIn";
 import Signup from "./welcome_page/Signup";
 import UserInfo from "./UserInfo";
 import LabelHistory from "./LabelHistory";
-import { json } from "stream/consumers";
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
   const [numEmails, setNumEmails] = useState(2);
   const [currentUser, setCurrentUser] = useState("null");
+  const [markedAll, setMarkedAll] = useState(false);
 
   //initialize an empty initialMap
   const initialMap: Record<string, Record<string, any>> = {};
@@ -72,6 +72,7 @@ function MainFlow() {
           // numEmails={10} 
           page={page} 
           setPage={setPage} 
+          initialMap={initialMap} 
           sensitivityMap={sensitivityMap}
           setSensitivityMap={setSensitivityMap}
           currentUser={currentUser}

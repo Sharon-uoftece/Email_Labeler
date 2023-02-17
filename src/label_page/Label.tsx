@@ -135,7 +135,7 @@ function EmailBox({
                   </div>
                 </div>
                 <div className="popover-content-detail">
-                  {popoverContent == Tab.SenderInfo && (
+                  {popoverContent === Tab.SenderInfo && (
                     <div>
                       <p>
                         Division:{" "}
@@ -148,13 +148,13 @@ function EmailBox({
                     </div>
                   )}
 
-                  {popoverContent == Tab.ScatterPlot && (
+                  {popoverContent === Tab.ScatterPlot && (
                     <div>
                       <p>Below display {email.sender} scatter plot: </p>
                     </div>
                   )}
 
-                  {popoverContent == Tab.EmailHistory && (
+                  {popoverContent === Tab.EmailHistory && (
                     <div>
                       <p>Below display {email.sender} email history: </p>
                     </div>
@@ -347,9 +347,9 @@ function EmailBox({
 }
 
 function Label({
-  // numEmails,
   page,
   setPage,
+  initialMap,
   sensitivityMap,
   setSensitivityMap,
   currentUser,
@@ -357,6 +357,7 @@ function Label({
 }: {
   page: number;
   setPage: (page: number) => void;
+  initialMap: Record<string, Record<string, any>>;
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (map: Record<string, Record<string, any>>) => void;
   currentUser: string;
@@ -372,10 +373,13 @@ function Label({
 
   function handleSubmit() {
     setSubmit(true);
+    setMarkedAll(false);
+    setSensitivityMap(initialMap);
     setPage(Page.Submitted);
   }
 
   var numEmails = 2;
+
   useEffect(() => {
     const emailsToShow = [];
     for (let i = 0; i < numEmails; i++) {
@@ -387,13 +391,13 @@ function Label({
   useEffect(() => {
     let markedCount = 0;
     for (const element of Object.keys(sensitivityMap)) {
-      if (sensitivityMap[element]["marked"] == true) {
+      if (sensitivityMap[element]["marked"] === true) {
         markedCount += 1;
       }
     }
-    if (markedCount == numEmails) {
+    if (markedCount === numEmails) {
       setMarkedAll(true);
-    }
+    } 
   }, [sensitivityMap]);
 
   const mappingFunc = (email: any, index: number, map: any, setMap: any) => {
@@ -494,7 +498,7 @@ function Label({
       </pre>
 
       <form onSubmit={labelSubmitHandler}>
-        {markedAll == true && <button className="submit-button" type="submit">SUBMIT</button>}
+        {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
       </form>
   
       <Alert

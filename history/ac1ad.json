@@ -4,13 +4,13 @@
       "query_mid": "209834578",
       "model_type": "EDIG",
       "sensitive": false,
-      "confidence": 0
+      "confidence": 7
     },
     {
       "query_mid": "209834579",
       "model_type": "EDIG",
       "sensitive": true,
-      "confidence": 0
+      "confidence": 2.8
     }
   ]
 }

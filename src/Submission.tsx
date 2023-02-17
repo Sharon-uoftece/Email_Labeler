@@ -6,25 +6,25 @@ import correctData from "./correctData"
 
 function Submission({page,setPage,sensitivityMap, numEmails}:
     {page: number; setPage:(page:number) => void;sensitivityMap: Record<string, Record<string, any>>; numEmails: number}) {
-    const [emailScore,setEmailScore] = useState(-1);
-    const [dataToCompare, setDataToCompare] = useState<any>([]);
+    // const [emailScore,setEmailScore] = useState(-1);
+    // const [dataToCompare, setDataToCompare] = useState<any>([]);
   
-    function getScore() {
-        let score = 0;
-        console.log(dataToCompare);
-        for (const element of Object.keys(sensitivityMap)){
-            if (parseInt(element) > numEmails) {
-                break;
-            }
-            const index = parseInt(element) - 1;
-            if (sensitivityMap[element]["sensitive"] == correctData[index]["sensitive"]) {
-                score += 1;
-            }
-        }
-        setEmailScore(score);
-    }
+    // function getScore() {
+    //     let score = 0;
+    //     console.log(dataToCompare);
+    //     for (const element of Object.keys(sensitivityMap)){
+    //         if (parseInt(element) > numEmails) {
+    //             break;
+    //         }
+    //         const index = parseInt(element) - 1;
+    //         if (sensitivityMap[element]["sensitive"] == correctData[index]["sensitive"]) {
+    //             score += 1;
+    //         }
+    //     }
+    //     setEmailScore(score);
+    // }
 
-    useEffect(getScore, []);
+    // useEffect(getScore, []);
 
     return (
         <div className="score-page">
@@ -32,7 +32,7 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
 
             {/*button for going back to user info page is removed, need to work on cleaning up states to start re-label fresh*/}
             {/*scoring points and giving reward points are removed, since no doing reward system anymore, should focus on input/output data */}
-            {/* <Button
+            <Button
                 icon="arrow-left"
                 intent="warning"
                 text={"Back to User Info Page"}
@@ -41,7 +41,7 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
                 }}
             />
             
-            <p className="show-score-2">You scored {emailScore}/{numEmails} on this survey</p>
+            {/* <p className="show-score-2">You scored {emailScore}/{numEmails} on this survey</p>
             <p className="show-score-3">You now have {emailScore} Reward Points</p>
             <button className="redeem-button">redeem Reward Points</button> */}
         </div>
