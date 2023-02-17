@@ -32,7 +32,7 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
 
             {/*button for going back to user info page is removed, need to work on cleaning up states to start re-label fresh*/}
             {/*scoring points and giving reward points are removed, since no doing reward system anymore, should focus on input/output data */}
-            <Button
+            {/* <Button
                 icon="arrow-left"
                 intent="warning"
                 text={"Back to User Info Page"}
@@ -43,7 +43,7 @@ function Submission({page,setPage,sensitivityMap, numEmails}:
             
             <p className="show-score-2">You scored {emailScore}/{numEmails} on this survey</p>
             <p className="show-score-3">You now have {emailScore} Reward Points</p>
-            <button className="redeem-button">redeem Reward Points</button>
+            <button className="redeem-button">redeem Reward Points</button> */}
         </div>
     )
 }
