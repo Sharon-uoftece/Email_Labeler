@@ -978,3 +978,30 @@ input:focus {
 .history-show {
   transform: translateX(80px) translateY(30px);
 }
+
+
+.nextLabel-button {
+  outline: none;
+  margin: auto;
+  cursor: grab;
+  color: black;
+  font-family:Verdana;
+  font-weight: bold;
+  font-size: 18px;
+
+  padding: 0.5em 1.5em;
+  border: 0;
+  border-radius: 10px;
+  
+  
+  align-items: center;
+  transform: translateX(44vw) translateY(50vh); 
+  height: 60px;
+  width: 300px;
+  background-image: var(--gradient);
+  background-size: 400%;
+  background-position: left;
+  // transition: background-position 1s;
+
+  animation: button-animation 3s infinite alternate;
+}
