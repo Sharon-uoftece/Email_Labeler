@@ -10,15 +10,14 @@ function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, s
     const [alreadyExist, setAlreadyExist] = useState(false);
 
     function signupResponseHandle(response:any) {
-        if (response.status == 400) {
-            setNoAccess(true);
-        } else if (response.status == 401) {
+        if (response.status === 401) {
             setAlreadyExist(true);
-        } else {
+        } else if (response.status === 200){
             setPage(Page.UserInfo);
             setCurrentUser(userName);
         }
     }
+    
     const signupHandle = async(e:React.SyntheticEvent) => {
         e.preventDefault();
         

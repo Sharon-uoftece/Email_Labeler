@@ -13,11 +13,11 @@ function UserInfo({ page, setPage, currentUser, setCurrentUser}: { page: number,
         <div className="userinfo">
             <Header />
             {/* <h1 className="userinfo-welcome-text">Hi {currentUser}!</h1> */}
-            <button 
+            {/* <button 
                 className="userinfo-history-button"
                 onClick={handleShowHistory}>
                 See previous labeling history...
-            </button>
+            </button> */}
             <button 
                 className="userinfo-label-button"
                 onClick={handleStartLabel}

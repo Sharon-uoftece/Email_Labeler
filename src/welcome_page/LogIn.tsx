@@ -4,16 +4,18 @@ import {Page} from "../common";
 function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [loginErr, setLoginErr] = useState(false);
+    const [noUserErr, setNoUserErr] = useState(false);
+    const [pswErr, setPswErr] = useState(false);
  
     function loginResponseHandle(response:any) {
-        if (response.status == 200) {
-            setLoginErr(false);
+        if (response.status === 200) {
             setPage(Page.UserInfo);
             setCurrentUser(userName);
         }
-        else {
-            setLoginErr(false);
+        else if (response.status === 404) {
+            setNoUserErr(true);
+        } else {
+            setPswErr(true);
         }
     }
 
@@ -73,7 +75,9 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
                         onChange={passwordHandler}
                     />
                     <br/> <br/>
-                    {(loginErr)?<span>&nbsp;Wrong Credentials...</span>:null}
+                    {noUserErr?<span>&nbsp;User does not exist, sign up first&nbsp;</span>:null}
+                    {pswErr?<span>&nbsp;Wrong credentials &nbsp;</span>:null}
+
 
                     <button type="submit">Log In</button>
                     <br /><br />

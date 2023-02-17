@@ -39,73 +39,55 @@ app.use((req, res, next) => {
 });
 
 app.post('/login',async (req,res) => {
-    // const registeredUser = fs.readFileSync('./registeredUser.txt', 'utf8');
     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
-    let success = false;
+    let foundUser = false;
     var sha512 = require('js-sha512').sha512;
     var hUsername = sha512(req.body.user);
     var hPwd = sha512(req.body.password);
 
     for (let i = 0; i < registeredJson.length; i++) {
-        if (registeredJson[i].user == hUsername && registeredJson[i].password == hPwd) {
-            console.log("BREAKPOINT success backend /login");
-            success = true;
-            res.status(200).send('success');
-            const userName = req.body.user;
-            let date_time = new Date();
-            let date = ("0" + date_time.getDate()).slice(-2);
-            let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
-            let year = date_time.getFullYear();
-            let hours = date_time.getHours();
-            let minutes = date_time.getMinutes();
-            let seconds = date_time.getSeconds();
-            var dataToPush = {
-                user: userName,
-                timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+        if (registeredJson[i].hashedUser === hUsername) {
+            foundUser = true;
+            if (registeredJson[i].hashedPassword === hPwd) {
+                console.log("BREAKPOINT success backend /login");
+                
+                res.status(200).send('success');
+                // const userName = req.body.user;
+                let date_time = new Date();
+                let date = ("0" + date_time.getDate()).slice(-2);
+                let month = ("0" + (date_time.getMonth() + 1)).slice(-2);
+                let year = date_time.getFullYear();
+                let hours = date_time.getHours();
+                let minutes = date_time.getMinutes();
+                let seconds = date_time.getSeconds();
+                var dataToPush = {
+                    user: hUsername,
+                    timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+                }
+                fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+            } else {
+                res.status(401).send('wrong password');
             }
-            fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+            
         } 
     }
     
-    if (success == false) {
+    if (foundUser === false) {
         console.log("BREAKPOINT wrong credentials backend /login");
         res.status(404).send('wrong credentials');
     } 
 })
 
-app.post('/signup/',async (req,res) => {
+app.post('/signup/',async (req,res,next) => {
     console.log("inside backend /signup");
 
-    // const forbidUser = fs.readFileSync('./forbidUser.txt', {encoding:'utf8', flag:'r'});
-    // const forbidJson = JSON.parse(forbidUser);
-    // for (let i = 0; i < forbidJson.length; i++) {
-    //     if (forbidJson[i].user == req.body.user) {
-    //         res.status(400).send('no access');
-    //     } 
-    // }
     var sha512 = require('js-sha512').sha512;
+
     const userName = req.body.user;
     var hashedUsername = sha512(userName);
-
-    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
-    const registeredJson = JSON.parse(registeredUser);
-    for (let i = 0; i < registeredJson.length; i++) {
-        if (registeredJson[i].user === hashedUsername) {
-            res.status(401).send('already registered');
-        } 
-    }
-
     const password = req.body.password;
     var hashedPwd = sha512(password);
-
-    var dataToPush = {
-        user: hashedUsername,
-        password: hashedPwd
-    }
-
-    registeredJson.push(dataToPush);
-    fs.writeFileSync('./registeredUser.txt', JSON.stringify(registeredJson, null, 2));
 
     let date_time = new Date();
     let date = ("0" + date_time.getDate()).slice(-2);
@@ -114,9 +96,32 @@ app.post('/signup/',async (req,res) => {
     let hours = date_time.getHours();
     let minutes = date_time.getMinutes();
     let seconds = date_time.getSeconds();
+    let timestamp = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
+
+    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+    const registeredJson = JSON.parse(registeredUser);
+
+    for (let i = 0; i < registeredJson.length; i++) {
+        if (registeredJson[i].hashedUser === hashedUsername) {
+            res.status(401).send('already registered');
+            return next();
+        } 
+    }
+    
+    //appending unhashed user and psw just for purpose of testing whether multiple signup can occur, unhashed info will be removed later
+    var dataToPush = {
+        hashedUser: hashedUsername, 
+        hashedPassword: hashedPwd,
+        user: userName,
+        password: password,
+        timestamp: timestamp
+    }
+    registeredJson.push(dataToPush);
+    fs.writeFileSync('./registeredUser.txt', JSON.stringify(registeredJson, null, 2));
+
     var data = {
         user: hashedUsername,
-        timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+        timestamp: timestamp
     }
     fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(data) + '\r\n');
 
