@@ -330,7 +330,6 @@ function EmailBox({
           max={10}
           stepSize={0.1}
           labelPrecision={0.1}
-          initialValue={5}
           value={confidence}
           onChange={(val) => {
             setConfidence(val);

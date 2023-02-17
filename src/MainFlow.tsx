@@ -27,7 +27,7 @@ function MainFlow() {
     initialMap[i + 1] = {
       emailId: 0,
       sensitive: false, 
-      confidence: 0,
+      confidence: 5,
       marked: false
     };
   }
