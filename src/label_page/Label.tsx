@@ -52,7 +52,7 @@ function EmailBox({
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (val: any) => void;
 }) {
-  const [confidence, setConfidence] = useState(1);
+  const [confidence, setConfidence] = useState(5);
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax();
@@ -331,6 +331,8 @@ function EmailBox({
           max={10}
           stepSize={0.1}
           labelPrecision={0.1}
+          initialValue={5}
+          value={confidence}
           onChange={(val) => {
             setConfidence(val);
             const newMap = { ...sensitivityMap };
@@ -338,7 +340,6 @@ function EmailBox({
             setSensitivityMap(newMap);
             // console.log("NEW map after conf change: ", newMap);
           }}
-          value={confidence}
           intent="none"
         />
         
@@ -373,7 +374,7 @@ function Label({
 
   // python.ex`exec(open("hello.py").read())`
   const [alertExitPage, setAlertExitPage] = useState(false);
-  const [confidence, setConfidence] = useState(0);
+  const [confidence, setConfidence] = useState(5);
   const [emails, setEmails] = useState<any>([]);
   const [submit, setSubmit] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
