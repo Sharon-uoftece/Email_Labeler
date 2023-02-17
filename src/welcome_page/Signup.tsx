@@ -6,7 +6,6 @@ import { exit } from "process";
 function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [noAccess, setNoAccess] = useState(false);
     const [alreadyExist, setAlreadyExist] = useState(false);
 
     function signupResponseHandle(response:any) {
@@ -73,7 +72,6 @@ function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, s
                         onChange={passwordHandler}
                     />
                     <br/> <br/>
-                    {noAccess?<span>&nbsp; no access</span>:null}
                     {alreadyExist?<span>&nbsp; user already exist</span>:null}
                     <button type="submit">Sign up</button>
                     <br /><br />
