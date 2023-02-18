@@ -2,6 +2,11 @@ import os
 import shutil
 from datetime import datetime
 import hashlib
+# from models import *
+import time
+import json
+  
+
 
 JS_OUTPUT_DIR = './archived/temp/'
 ARCHIVED_DIR = './archived/processed/'
@@ -27,40 +32,45 @@ def sha123(filename):
     return sha1.hexdigest()
 
 
-def check_for_update():
-    now = datetime.now()
+def get_usernames():
+    return [n[:-5] for n in os.listdir("../history/") if len(n[:-5]) == 5]
 
-    # assume outputs from JS are saved here
-    if not os.path.exists(JS_OUTPUT_DIR):
-        os.makedirs(JS_OUTPUT_DIR)
+def get_current_round(user_filename):
+    f = open(f'../history/{user_filename}.json')
+    data = json.load(f)
+    round = len(data)
+    label_latest_round = len(data[f'{round-1}'])
+
+    f.close()
+
+    return (round, label_latest_round)
+  
+
+if __name__ == "__main__":
+    while(True):
+        print('=========================================')
+        
+        usernames = get_usernames()
+        for user in usernames:
+            print(user)
+            r, l = get_current_round(user)
+            print(f'{r} is at {r} round(s)')
+            if l == 10:
+                print("Start re-trainig ...")
+                # df_query_RB = main(user, "RB")
+                # df_query_EDIG = main(user, "EDIG")
+                # save_json(df_query_RB, df_query_EDIG)
+                # 
+        
+        time.sleep(60*60)
 
 
-    # generate some random text
-    with open(f'{JS_OUTPUT_DIR}{now.strftime("%Y%d%m")}_{LABEL_NUM_PER_SESSION}.txt', 'w') as f:
-        f.write('readme')
+# user = "c613d" # use this for testing
+    
+# df_query_RB = main(user, "RB")
+# df_query_EDIG = main(user, "EDIG")
 
-
-    dir_list = os.listdir(JS_OUTPUT_DIR)
-
-    # assume that JS ouput only one file with a number showing how many label
-    filename = dir_list[0]
-    print("===>", filename)
-
-
-    labeled_num = filename.split("/")[-1][9:-4]
-    print(labeled_num)
-
-    if int(labeled_num) == LABEL_NUM_PER_SESSION:
-        print("10 labelled")
-        # train to models
-        # move to archived
-        move_files(f'{JS_OUTPUT_DIR}{filename}', filename)
-    else:
-        print("Not yet 10 labeled ready")
-
-
-check_for_update()
-
+# save_json(df_query_RB, df_query_EDIG)
 
 
 # run cronjob to executes this simple python program

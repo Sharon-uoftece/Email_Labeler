@@ -23,7 +23,7 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
     distance_scores = pairwise_distances(X_pool, X_training, metric='cosine').min(axis=1)
     similarity_scores = 1 / (1 + distance_scores)
     
-    cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(1, 5), len(X_pool), axis=1))
+    cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(5, 1), len(X_pool), axis=1).T)
     conf_weighted_distance_scores = cwds_ndarray[:,0:].min(axis=1)
     conf_weighted_similarity_scores = 1 / (1 + conf_weighted_distance_scores)
 
@@ -136,12 +136,12 @@ def main(user, model_type):
 
     ### Save CSVs and model ###
     pickle.dump(learner, open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day), "wb"))
-    df_pool.to_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day))
-    df_labeled.to_csv(glob.glob('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type), index=False)   
+    df_pool.to_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day), index=False)
+    df_labeled.to_csv('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type), index=False)
         
     
-    ### Return query ###
-    df_query = pd.DataFrame(dict(query_mid=query_mid)).reset_index(drop=True)
+    ### Return query
+    df_query = pd.DataFrame(query_mid.values, columns=["query_mid"]).reset_index(drop=True)
     df_query["day"] = day
     df_query["model_type"] = model_type
     
@@ -153,9 +153,9 @@ def main(user, model_type):
 ############
 
 # user = sys.argv[1] # use this when called from JS or *** from main.py ***
-user = "c613d" # use this for testing
-    
-df_query_RB = main(user, "RB")
-df_query_EDIG = main(user, "EDIG")
-
-save_json(df_query_RB, df_query_EDIG)
+#user = "c613d" # use this for testing
+#    
+#df_query_RB = main(user, "RB")
+#df_query_EDIG = main(user, "EDIG")
+#
+#save_json(df_query_RB, df_query_EDIG)
