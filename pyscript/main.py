@@ -55,7 +55,7 @@ if __name__ == "__main__":
         for user in usernames:
             print(user)
             r, l = get_current_round(user)
-            print(f'{r} is at {r} round(s)')
+            print(f'{user} is at {r} round, labeled {l} in prev round')
             if l == 10:
                 print("Start re-trainig ...")
                 flag_RB, df_query_RB = models.main(user, "RB")

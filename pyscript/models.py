@@ -82,16 +82,13 @@ def main(user, model_type):
         data = json.load(p)
     
     day = int(max(data))+1 # find max day in history (.json) read
-
-    if (['sensitive'] not in data[str(day-1)]):
-        return 1, []
     
-    else:        
+    
+    try:
         mid = read_json(data, day, model_type, 'query_mid')
         label = read_json(data, day, model_type, 'sensitive')
         conf = read_json(data, day, model_type, 'confidence')
-            
-        
+    
         ### Load the model (day N-1) and pool data (day N-1) ###
         if day>1:
             learner = pickle.load(open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day-1), "rb"))
@@ -151,6 +148,9 @@ def main(user, model_type):
         
         return 0, df_query
 
+    except KeyError:
+        
+        return 1, []
     
 ############
 ### main ###
