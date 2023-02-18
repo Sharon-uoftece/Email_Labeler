@@ -241,8 +241,11 @@ app.post('/submitLabel',async (req,res,next) => {
 // })
 
 //this backend function sends frontend the emails that the currentUser supposed to see
-//for day0 users, they will see the ten emails in history_day0.json
-//for other users that had done day0, they will see ten random emails from the casestudy2_var_only csv pool
+//for day0 users, they will see the ten fixed emails in history_day0.json
+//for other users that had done day0, they will see the ten emails assigned to them
+//fully functional now, next step to do is to have the model_type correctly updated
+//need to send model_type info as well to frontend, so then when frontend calls /submitLabel, it has the correct model_type
+//currently model_type is hardcoded to "EDIG"
 app.post('/fetchEmailToShow',(req,res,next) => {
     console.log("inside backend fetchEmailToShow", req.body.currentUser);
     
