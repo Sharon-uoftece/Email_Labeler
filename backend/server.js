@@ -246,6 +246,8 @@ app.post('/submitLabel',async (req,res,next) => {
 //fully functional now, next step to do is to have the model_type correctly updated
 //need to send model_type info as well to frontend, so then when frontend calls /submitLabel, it has the correct model_type
 //currently model_type is hardcoded to "EDIG"
+//NOTE: the column titles of casestudy2_var_only are reformatted and uniformed, spaces are omitted
+//if possible please keep them that way in the future
 app.post('/fetchEmailToShow',(req,res,next) => {
     console.log("inside backend fetchEmailToShow", req.body.currentUser);
     
