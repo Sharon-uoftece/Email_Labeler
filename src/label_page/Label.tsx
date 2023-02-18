@@ -8,11 +8,12 @@ import {
 } from "@blueprintjs/core";
 import { Popover2 } from "@blueprintjs/popover2";
 import { Page, Tab, twoDecimal } from "../common";
-import emailData from "../label_page/emailData";
+// import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
 import { pythonBridge } from "python-bridge";
+import { json } from "stream/consumers";
 
-function getMax() {
+function getMax(emailData:any) {
   const elementsOfInterest: any[] = [
     "day_since_hire",
     "size",
@@ -27,8 +28,7 @@ function getMax() {
     visualDic[element] = -1;
   }
 
-  // for (let i = 0; i < emailData.length; i++) {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10; i++) {
     for (const element of elementsOfInterest) {
       const number = emailData[i][element];
       if (Number.isNaN(parseInt(number))) {
@@ -46,18 +46,20 @@ function EmailBox({
   email,
   sensitivityMap,
   setSensitivityMap,
+  emailData
 }: {
   index: number; 
   email: any;
   sensitivityMap: Record<string, Record<string, any>>;
   setSensitivityMap: (val: any) => void;
+  emailData: any[];
 }) {
-
+  console.log("EMAIL DATA IN EMAIL BOX: ", emailData);
   //the initial value of the confidence slider is set to 5, to improve user interaction
   const [confidence, setConfidence] = useState(5);
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
-  const visualItemMax = getMax();
+  const visualItemMax = getMax(emailData);
 
 
   function handelScatterPlot() {
@@ -88,12 +90,13 @@ function EmailBox({
         <p className="email-header">{"Email " + (index + 1)}</p>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
-        <FormGroup
+        {/*this part is the more info popover*/}
+        {/* <FormGroup
           className="email-box-labels"
           inline={true}
           style={{ position: "relative", top: -10, left: 700 }}
-        >
-          <Popover2
+        > */}
+          {/* <Popover2
             interactionKind="click"
             isOpen={pop}
             fill={false}
@@ -173,9 +176,11 @@ function EmailBox({
             >
               More Info regarding Sender {email.sender}
             </button>
-          </Popover2>
-        </FormGroup>
+          </Popover2> */}
+        {/* </FormGroup> */}
       </div>
+
+      {/*this part is the email body display*/ }
       <hr className="separator" />
       <p> </p>
       <div className="email-content">
@@ -188,7 +193,8 @@ function EmailBox({
         <p> </p>
         <p>
           {" "}
-          <b>EmailID:</b> {JSON.stringify(email.mid, null, 2).slice(1, -1)}
+          {/* showing query-mid just to check if correct emails are displayed, will remove later */}
+          <b>Query_mid:</b> {JSON.stringify(email.query_mid, null, 2).slice(1, -1)} 
         </p>
         <p> </p>
         <p>
@@ -204,11 +210,23 @@ function EmailBox({
         <p>
           {" "}
           <b>Email Subject:</b>{" "}
-          {JSON.stringify(email.files, null, 2).slice(1, -1)}
+          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
         </p>
         <p> </p>
-        <div className="email-bar-individual">
-          <p> <b>Recipient Count:</b> {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}</p>
+        {/* <p>
+          {" "}
+          <b>Recipient Count:</b>{" "}
+          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Files Sensitive Count:</b>{" "}
+          {JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}
+        </p> */}
+
+        {/* <div className="email-bar-individual">
+          <p> <b>Recipient Count:</b> {JSON.stringify(email.Rcpt_count, null, 2).slice(1, -1)}</p>
           <ProgressBar
             className="email-bar"
             animate={false}
@@ -220,9 +238,9 @@ function EmailBox({
           />
           <p className="max">(max:{visualItemMax.rcpt_count})</p>
   
-        </div>
+        </div> */}
         <p> </p>
-        <div className="email-bar-individual">
+        {/* <div className="email-bar-individual">
           <p> <b>Files Sensitive Count:</b>{JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p>
           <ProgressBar
             className="email-bar"
@@ -234,9 +252,9 @@ function EmailBox({
             )}
           />
           <p className="max">(max:{visualItemMax.file_count})</p>
-        </div>
+        </div> */}
         <p> </p>
-        <div className="email-bar-individual">
+        {/* <div className="email-bar-individual">
           <p> <b>Files Size:</b>{JSON.stringify(email.size, null, 2).slice(1, -1)}</p>
           <ProgressBar
             className="email-bar"
@@ -246,9 +264,9 @@ function EmailBox({
             intent={handleBarColor(email.size / visualItemMax.size)}
           />
           <p className="max">(max: {visualItemMax.size})</p>
-        </div>
+        </div> */}
         <p> </p>
-        <div className="email-bar-individual">
+        {/* <div className="email-bar-individual">
           <p> <b>Day since hire:</b>{JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p>
           <ProgressBar
             className="email-bar"
@@ -260,21 +278,21 @@ function EmailBox({
             )}
           />
           <p className="max">(max:{visualItemMax.day_since_hire})</p>
-        </div>
+        </div> */}
       </div>
       <FormGroup
         className="email-box-labels"
         inline={true}
         style={{ position: "relative", top: -0.5 }}
       >
-        <button
+         <button
           className={"label-button"}
           id={"label-button-" + (index + 1)}
           onClick={() => {
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["sensitive"] = true;
             newMap[index + 1]["marked"] = true;
-            newMap[index + 1]["emailId"] = email.mid;
+            newMap[index + 1]["emailId"] = email.query_mid;
             setSensitivityMap(newMap);
             document.getElementById(
               "label-button-" + (index + 1)
@@ -291,7 +309,7 @@ function EmailBox({
           }}
         >
           Sensitive
-        </button>
+        </button> 
 
         <button
           className={"label-button-non"}
@@ -300,7 +318,7 @@ function EmailBox({
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["sensitive"] = false;
             newMap[index + 1]["marked"] = true;
-            newMap[index + 1]["emailId"] = email.mid;
+            newMap[index + 1]["emailId"] = email.query_mid;
             setSensitivityMap(newMap);
 
             document.getElementById(
@@ -318,7 +336,7 @@ function EmailBox({
           }}
         >
           Non-Sensitive
-        </button>
+        </button> 
 
         <h1 className="slider-notes">
           Confidence Slider: 1 being extremely inconfident, 10 being extremely
@@ -362,14 +380,50 @@ function Label({
   currentUser: string;
   setCurrentUser: (currentUser: string) => void;
 }) {
+  var info = {
+    currentUser: currentUser
+  }
+  const [emailData, setEmailData] = useState<any[]>([]);
+  const [emails, setEmails] = useState<any[]>([]);
+
+  async function handleResponse(response:any) {
+    const resData = await response.json();
+    const emails = [];
+    for (let i = 0; i < 10; i++) {
+      emails.push(resData[i]);
+    }
+
+    setEmailData(resData);
+    setEmails(emails);
+    console.log("this is response body", resData);
+  }
+
+  //send request to backend to identify which data to show (history_day0 V.S. casestudy2_var_only)
+  //information that backend need for identification of rounds, emails to send back: currentUser
+  useEffect(()=>{
+    console.log("Current User: ", currentUser);
+    async function fetchData() {
+      const result = await fetch('http://localhost:8000/fetchEmailToShow', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+          body: JSON.stringify(info)
+        })
+        .then((response) => handleResponse(response))
+        .catch(err => console.log("ERROR:", err));
+    }
+    fetchData();
+  }, []);
+
 
   const [alertExitPage, setAlertExitPage] = useState(false);
   const [confidence, setConfidence] = useState(5);
-  const [emails, setEmails] = useState<any>([]);
   const [submit, setSubmit] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
   const [markedAll, setMarkedAll] = useState(false);
-
+  
   function handleSubmit() {
     setSubmit(true);
     setMarkedAll(false);
@@ -377,15 +431,15 @@ function Label({
     setPage(Page.Submitted);
   }
 
-  var numEmails = 2;
+  // var numEmails = 10;
 
-  useEffect(() => {
-    const emailsToShow = [];
-    for (let i = 0; i < numEmails; i++) {
-      emailsToShow.push(emailData[i]);
-    }
-    setEmails(emailsToShow);
-  }, [numEmails]);
+  // useEffect(() => {
+  //   const emailsToShow = [];
+  //   for (let i = 0; i < numEmails; i++) {
+  //     emailsToShow.push(emailData[i]);
+  //   }
+  //   setEmails(emailsToShow);
+  // }, [numEmails]);
   
   useEffect(() => {
     let markedCount = 0;
@@ -394,7 +448,7 @@ function Label({
         markedCount += 1;
       }
     }
-    if (markedCount === numEmails) {
+    if (markedCount === 10) {
       setMarkedAll(true);
     } 
   }, [sensitivityMap]);
@@ -406,6 +460,7 @@ function Label({
         email={email}
         sensitivityMap={map}
         setSensitivityMap={setMap}
+        emailData={emailData}
       />
     );
   };
@@ -432,9 +487,9 @@ function Label({
     handleSubmit();
     e.preventDefault();
     const dataToSubmit = [];
-    
+    console.log(sensitivityMap);
     for (const element of Object.keys(sensitivityMap)) {
-
+      
       const myData = {
         user: currentUser,
         emailId: sensitivityMap[element]["emailId"],
@@ -488,9 +543,11 @@ function Label({
           {
             // @ts-ignore
             <Carousel>
-              {emails.map((email: any, index: number) =>
-                mappingFunc(email, index, sensitivityMap, setSensitivityMap)
-              )}
+              {
+                (emailData.length > 0 && emails.map((email: any, index: number) =>
+                mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
+                (emailData.length === 0 && <div></div>)
+              }
             </Carousel>
           }
         </div>

@@ -17,7 +17,7 @@ import LabelHistory from "./LabelHistory";
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
-  const [numEmails, setNumEmails] = useState(2);
+  const [numEmails, setNumEmails] = useState(10);
   const [currentUser, setCurrentUser] = useState("null");
   const [markedAll, setMarkedAll] = useState(false);
 

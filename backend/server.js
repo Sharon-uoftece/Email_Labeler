@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/login',async (req,res) => {
+    console.log("Inside /login")
     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
     let foundUser = false;
@@ -66,6 +67,7 @@ app.post('/login',async (req,res) => {
                     timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
                 }
                 fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+                
             } else {
                 res.status(401).send('wrong password');
             }
@@ -128,7 +130,7 @@ app.post('/signup/',async (req,res,next) => {
     res.status(200).send('user successfully created');
 })
 
-app.post('/submitLabel',async (req,res) => {
+app.post('/submitLabel',async (req,res,next) => {
     console.log("inside backend /submitLabel"); 
 
     const userName = req.body[0].user;
@@ -139,7 +141,7 @@ app.post('/submitLabel',async (req,res) => {
     let fileLocation = '../history/';
     let fileSuffix = '.json';
     var fileName = fileLocation.concat(fileUsername, fileSuffix);   
-    console.log("fileName", fileName);
+    // console.log("fileName", fileName);
     
     // let roundCount = -1;
     // try {
@@ -176,8 +178,26 @@ app.post('/submitLabel',async (req,res) => {
 
     recordToPush["0"] = labelToPush;
 
-    console.log("this is record to push", recordToPush);
+    // console.log("this is record to push", recordToPush);
     fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
+
+
+    /////////////////adding code to update userDoneDay0.txt to see if user should see email from history_day_0.json
+    const userDoneDay0= fs.readFileSync('./userDoneDay0.txt', {encoding:'utf8', flag:'r'});
+    const noneFirstTimeUsers = JSON.parse(userDoneDay0);
+
+    for (let i = 0; i < noneFirstTimeUsers.length; i++) {
+        if (noneFirstTimeUsers[i].user === hashedUsername) {
+            return next();
+        } 
+    }
+    
+    //if the user is not already in this list, then we need to append for future reference
+    var userReady = {
+        user: hashedUsername, 
+    }
+    noneFirstTimeUsers.push(userReady);
+    fs.writeFileSync('./userDoneDay0.txt', JSON.stringify(noneFirstTimeUsers, null, 2));
 })
 
 // app.get('/getLabelHistory',(req,res) => {
@@ -220,7 +240,71 @@ app.post('/submitLabel',async (req,res) => {
 //     return res.json(historyArr.map((value) => JSON.parse(value)));
 // })
 
+//this backend function sends frontend the emails that the currentUser supposed to see
+//for day0 users, they will see the ten emails in history_day0.json
+//for other users that had done day0, they will see ten random emails from the casestudy2_var_only csv pool
+app.post('/fetchEmailToShow',(req,res,next) => {
+    console.log("inside backend fetchEmailToShow", req.body.currentUser);
+    
+    let currentUser = req.body.currentUser;
+    var sha512 = require('js-sha512').sha512;
+    var hashedUsername = sha512(currentUser);
+    var showDay0Data = true;
+
+    const userDoneDay0= fs.readFileSync('./userDoneDay0.txt', {encoding:'utf8', flag:'r'});
+    const noneFirstTimeUsers = JSON.parse(userDoneDay0);
+
+    for (let i = 0; i < noneFirstTimeUsers.length; i++) {
+        if (noneFirstTimeUsers[i].user === hashedUsername) {
+            showDay0Data = false;
+        } 
+    }
+
+
+    if (showDay0Data === false) {
+        //show ten random emails from the casestudy2_var_only pool
+        console.log("show ten random emails from the casestudy2_var_only pool");
+    } else {
+        //show the emails in history_day0.json
+        console.log("show the emails in history_day0.json");
+
+        const day0ToRead = fs.readFileSync('../history/history_day0.json', {encoding:'utf8', flag:'r'});
+        var toReadList = JSON.parse(day0ToRead);
+        const csvPool = fs.readFileSync('../history/casestudy2_var_only.csv', {encoding:'utf8', flag:'r'});
+
+        // console.log("toReadList", toReadList[0]);
+        const CSVToJSON = csv => {
+            const lines = csv.split('\n');
+            const keys = lines[0].split(',');
+            return lines.slice(1).map(line => { 
+                return line.split(',').reduce((acc, cur, i) => {
+                    const toAdd = {};
+                    toAdd[keys[i]] = cur;
+                    return { ...acc, ...toAdd };
+                }, {});
+            });
+        };
+        var jsonPool = CSVToJSON(csvPool); 
+        var dataToSendBack = [];
+
+        for( let i = 0; i < toReadList[0].length; i++) {
+            var index = toReadList[0][i].query_mid - 1;
+            console.log(i, index);
+            dataToSendBack.push(jsonPool[index]);
+        }
+        
+        console.log("this is data to sent back", dataToSendBack);
+        return res.send(dataToSendBack);
+    }
+
+    
+    // fs.appendFileSync('./timeStampTest.txt', JSON.stringify(dataToPush) + '\r\n');
+
+    return res.json("testing fetchEmailToShow");
+})
+
 app.get('/testTimeStamp',(req,res) => {
+    console.log("Inside test timestamp")
     const newUser = req.data;
 
     let date_time = new Date();
