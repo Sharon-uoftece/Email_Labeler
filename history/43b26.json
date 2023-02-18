@@ -1,64 +1,64 @@
 {
-  "0": [
-    {
-      "query_mid": "185",
-      "model_type": "EDIG",
-      "sensitive": true,
-      "confidence": 5
-    },
-    {
-      "query_mid": "668",
-      "model_type": "EDIG",
-      "sensitive": false,
-      "confidence": 5
-    },
-    {
-      "query_mid": "452",
-      "model_type": "EDIG",
-      "sensitive": true,
-      "confidence": 5
-    },
-    {
-      "query_mid": "317",
-      "model_type": "EDIG",
-      "sensitive": false,
-      "confidence": 5
-    },
-    {
-      "query_mid": "260",
-      "model_type": "EDIG",
-      "sensitive": true,
-      "confidence": 5
-    },
-    {
-      "query_mid": "646",
-      "model_type": "EDIG",
-      "sensitive": false,
-      "confidence": 5
-    },
-    {
-      "query_mid": "649",
-      "model_type": "EDIG",
-      "sensitive": true,
-      "confidence": 5
-    },
-    {
-      "query_mid": "451",
-      "model_type": "EDIG",
-      "sensitive": false,
-      "confidence": 5
-    },
-    {
-      "query_mid": "647",
-      "model_type": "EDIG",
-      "sensitive": true,
-      "confidence": 5
-    },
-    {
-      "query_mid": "371",
-      "model_type": "EDIG",
-      "sensitive": false,
-      "confidence": 5
-    }
-  ]
+    "0": [
+        {
+            "query_mid": "185",
+            "model_type": "RB",
+            "sensitive": true,
+            "confidence": 5
+        },
+        {
+            "query_mid": "668",
+            "model_type": "RB",
+            "sensitive": false,
+            "confidence": 5
+        },
+        {
+            "query_mid": "452",
+            "model_type": "RB",
+            "sensitive": false,
+            "confidence": 5
+        },
+        {
+            "query_mid": "317",
+            "model_type": "RB",
+            "sensitive": false,
+            "confidence": 5
+        },
+        {
+            "query_mid": "260",
+            "model_type": "RB",
+            "sensitive": false,
+            "confidence": 5
+        },
+        {
+            "query_mid": "646",
+            "model_type": "EDIG",
+            "sensitive": false,
+            "confidence": 5
+        },
+        {
+            "query_mid": "649",
+            "model_type": "EDIG",
+            "sensitive": true,
+            "confidence": 5
+        },
+        {
+            "query_mid": "451",
+            "model_type": "EDIG",
+            "sensitive": true,
+            "confidence": 5
+        },
+        {
+            "query_mid": "647",
+            "model_type": "EDIG",
+            "sensitive": true,
+            "confidence": 5
+        },
+        {
+            "query_mid": "371",
+            "model_type": "EDIG",
+            "sensitive": true,
+            "confidence": 8.9
+        }
+    ]
 }
