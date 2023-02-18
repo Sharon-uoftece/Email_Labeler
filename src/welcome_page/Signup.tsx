@@ -3,6 +3,12 @@ import axios from "axios";
 import {Page, Header} from "../common";
 import { exit } from "process";
 
+//updated signup logic, user no longer can sign up with same ID
+//if user attempt signup with already-registered ID, frontend shows error msg "user already exist"
+//now signup system will not cause any kind of backend crash
+//after successful sign up, user is automatically logged in and will be directed to USERINFO page 
+//USERINFO page allows user to start labelling
+//user can log in with the ID and psw that they used to sign up, backend fully functional
 function Signup({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
