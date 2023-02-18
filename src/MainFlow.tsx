@@ -26,6 +26,7 @@ function MainFlow() {
   for (let i = 0; i < numEmails; i++) {
     initialMap[i + 1] = {
       emailId: 0,
+      model_type: null,
       sensitive: false, 
       confidence: 5,
       marked: false

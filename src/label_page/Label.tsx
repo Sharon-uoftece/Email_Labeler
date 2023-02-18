@@ -84,7 +84,12 @@ function EmailBox({
     }
   }
 
+  //only a few elements are shown for now, dw it was just for the simplicity of comparing for correctness (frontend VS csv pool)
+  //will include all required element-to-display later, now only a few elements are shown 
+  //NOTE: query_mid will be removed later, again, it is just here now for the sake of easiness of testing
+  
   return (
+    
     <div key={index} className="email-element">
       <div className="email-box-header">
         <p className="email-header">{"Email " + (index + 1)}</p>
