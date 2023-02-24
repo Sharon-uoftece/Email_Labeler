@@ -1,0 +1,210 @@
+{
+  "0": [
+    {
+      "query_mid": 185,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 668,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 452,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 317,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 260,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 646,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 649,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 451,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 647,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 371,
+      "model_type": "RB"
+    }
+  ],
+  "1": [
+    {
+      "query_mid": 1,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 1,
+      "model_type": "RB"
+    }
+  ],
+  "2": [
+    {
+      "query_mid": 2,
+      "model_type": "EDIG",
+      "label": false,
+      "confidence": 1.1
+    },
+    {
+      "query_mid": 2,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 2
+    },
+    {
+      "query_mid": 2,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 3
+    },
+    {
+      "query_mid": 2,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 4
+    },
+    {
+      "query_mid": 2,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 5
+    },
+    {
+      "query_mid": 2,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 5.8
+    },
+    {
+      "query_mid": 2,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 7
+    },
+    {
+      "query_mid": 2,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 7.8
+    },
+    {
+      "query_mid": 2,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 9
+    },
+    {
+      "query_mid": 2,
+      "model_type": "RB",
+      "label": true,
+      "confidence": 9.9
+    }
+  ],
+  "3": [
+    {
+      "query_mid": 100,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 5
+    },
+    {
+      "query_mid": 101,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 1.8
+    },
+    {
+      "query_mid": 102,
+      "model_type": "RB",
+      "label": true,
+      "confidence": 4.2
+    },
+    {
+      "query_mid": 103,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 3.5
+    },
+    {
+      "query_mid": 104,
+      "model_type": "RB",
+      "label": true,
+      "confidence": 2.7
+    },
+    {
+      "query_mid": 105,
+      "model_type": "EDIG",
+      "label": false,
+      "confidence": 2.4
+    },
+    {
+      "query_mid": 106,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 6.2
+    },
+    {
+      "query_mid": 107,
+      "model_type": "EDIG",
+      "label": false,
+      "confidence": 3.3
+    },
+    {
+      "query_mid": 108,
+      "model_type": "EDIG",
+      "label": true,
+      "confidence": 3.4
+    },
+    {
+      "query_mid": 109,
+      "model_type": "RB",
+      "label": false,
+      "confidence": 3.5
+    }
+  ]
+}

@@ -54,25 +54,11 @@ app.post('/login',async (req,res) => {
 })
 
 app.post('/signup/',async (req,res,next) => {
-    console.log("inside backend /signup");
-
     var sha512 = require('js-sha512').sha512;
-
     const userName = req.body.user;
     var hashedUsername = sha512(userName);
     const password = req.body.password;
     var hashedPwd = sha512(password);
-
-    var fileUsername = hashedUsername.slice(0,5);
-    let fileLocation = '../history/';
-    let fileSuffix = '.json';
-    var fileName = fileLocation.concat(fileUsername, fileSuffix);   
-
-    const day0ToRead = fs.readFileSync('../history/history_day0.json', {encoding:'utf8', flag:'r'});
-    var toReadList = JSON.parse(day0ToRead);
-    // console.log("toReadList",toReadList);
-
-    fs.writeFileSync(fileName, JSON.stringify(toReadList, null, 2) + "\r\n");
 
     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
@@ -83,6 +69,19 @@ app.post('/signup/',async (req,res,next) => {
             return next();
         } 
     }
+
+    var fileUsername = hashedUsername.slice(0,5);
+    let fileLocation = '../history/';
+    let fileSuffix = '.json';
+    var fileName = fileLocation.concat(fileUsername, fileSuffix);  
+    
+    console.log("inside backend /signup", fileUsername);
+
+    const day0ToRead = fs.readFileSync('../history/history_day0.json', {encoding:'utf8', flag:'r'});
+    var toReadList = JSON.parse(day0ToRead);
+    // console.log("toReadList",toReadList);
+
+    fs.writeFileSync(fileName, JSON.stringify(toReadList, null, 2) + "\r\n");
     
     let date_time = new Date();
     let date = ("0" + date_time.getDate()).slice(-2);
@@ -148,27 +147,25 @@ app.post('/fetchEmailToShow',(req,res,next) => {
 
     const userFile = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
     var userFileJson = JSON.parse(userFile);
-    // var toReadList = userFileJson.
     var jsonPool = CSVToJSON(csvPool); 
     var dataToSendBack = [];
 
+    var keysArray = Object.keys(userFileJson);
     var userFileLen = Object.keys(userFileJson).length;
-    var toReadList = userFileJson.new;
-    console.log("toReadList", toReadList);
+    var lastKey = keysArray[userFileLen - 1];
+    
+    for (const element of Object.keys(userFileJson)) {
+        console.log("element in object.keys(userFileJson)", element);
+        if (element === lastKey) {
+            var toReadList = userFileJson[element];
+            console.log("toReadList", userFileJson[element]);
+        }
+    }
 
-    console.log("userFileLen",userFileLen);
     for( let i = 0; i < 10; i++) {
         var index = toReadList[i].query_mid - 1;
         dataToSendBack.push(jsonPool[index]);
     }
-    console.log("this is data to sent back", dataToSendBack);
-
-    // for( let i = 0; i < userFileJson[userFileLen - 1]; i++) {
-    //     var index = userFileJson[userFileLen - 1][i].query_mid - 1;
-    //     dataToSendBack.push(jsonPool[index]);
-    // }
-    
-    // console.log("this is data to sent back", dataToSendBack);
     return res.send(dataToSendBack);
 })
 
@@ -186,51 +183,24 @@ app.post('/submitLabel',async (req,res,next) => {
 
     const userFile = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
     var userFileJson = JSON.parse(userFile);
-    console.log("userFileJson",userFileJson);
+    var keysArray = Object.keys(userFileJson);
+    var userFileLen = Object.keys(userFileJson).length;
+    var lastKey = keysArray[userFileLen - 1];
+    var i = 0;
 
-    var userFileLen = Object.keys(userFileJson).length;  
-    console.log("userFileLen",userFileLen);
-    var emailThisRound = userFileJson.new;
-    // console.log("retrieve the last 10 element", userFileJson[0].slice(userFileLen-10, userFileLen));
-
-    var labelToPush = [];
-    var index = 0;
-
-    for (const element of Object.keys(req.body)) {
-        const emailId = req.body[element].emailId;
-        const label = req.body[element].label;
-        const confidence = req.body[element].confidence;
-        const model_type = emailThisRound[index].model_type;
-        index++;
-
-        var dataToPush = {
-            query_mid: emailId,
-            model_type: model_type,
-            sensitive: label,
-            confidence: confidence,
+    for (const element of Object.keys(userFileJson)) {
+        console.log("element in object.keys(userFileJson)", element);
+        if (element === lastKey) {
+            for (const reqElement of Object.keys(req.body)) {
+                userFileJson[element][i].label = req.body[reqElement].label;
+                userFileJson[element][i].confidence = req.body[reqElement].confidence;
+                i++;
+            }
+            
         }
-        labelToPush.push(dataToPush);
     }
-
-    // delete userFileJson.new;
-    userFileJson.userFileLen = labelToPush;
-    // userFileJson.yes = false;
-    // userFileJson.whu = "askdjfhg";
-
-    // var recordToPush = {
-    // }
-
-    // var roundsCount = Object.keys(userFileJson).length - 1;
-    // recordToPush[roundsCount] = labelToPush;
-
-    // var recordToPush = userFileJson;
-    // delete recordToPush.new;
-    // recordToPush.push(labelToPush);
-    // console.log("this is recordToPush", recordToPush);
-    // // fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
     
     fs.writeFileSync(fileName, JSON.stringify(userFileJson, null, 2) + "\r\n");
-
 })
 
 
