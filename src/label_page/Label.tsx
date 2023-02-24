@@ -87,7 +87,7 @@ function EmailBox({
   //only a few elements are shown for now, dw it was just for the simplicity of comparing for correctness (frontend VS csv pool)
   //will include all required element-to-display later, now only a few elements are shown 
   //NOTE: query_mid will be removed later, again, it is just here now for the sake of easiness of testing
-  
+
   return (
     
     <div key={index} className="email-element">
@@ -214,8 +214,50 @@ function EmailBox({
         <p> </p>
         <p>
           {" "}
-          <b>Email Subject:</b>{" "}
-          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
+          <b>Job Family:</b>{" "}
+          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Employment Type:</b>{" "}
+          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Privileged User:</b>{" "}
+          {JSON.stringify(email.privileged_user, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Day of Week:</b>{" "}
+          {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Email Size:</b>{" "}
+          {JSON.stringify(email.size, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>File Count:</b>{" "}
+          {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Recipient Count:</b>{" "}
+          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Recipient Count Job Max:</b>{" "}
+          {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
         </p>
         <p> </p>
         {/* <p>

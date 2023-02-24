@@ -622,7 +622,7 @@ input:focus {
     transform: translateY(5px);
   }
   .separator {
-    transform: translateY(8px) translateX(4px);
+    transform: translateY(45px) translateX(10px);
     width: 1420px;
     z-index: -1;
   }
@@ -643,8 +643,8 @@ input:focus {
 }
 
 .email-content {
-  font-size: 17px;
-  transform: translateX(17px);
+  font-size: 13px;
+  transform: translateX(22px) translateY(50px);
 }
 
 .email-info-1 {
@@ -665,7 +665,7 @@ input:focus {
 
 .email-header {
   font-size: 30px;
-  transform: translateX(25px);
+  transform: translateX(28px) translateY(25px);
 }
 
 .email-grid-big-block {
@@ -726,7 +726,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(25px) translateY(5vh); 
+  transform: translateX(34vw) translateY(-81vh); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -743,7 +743,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(55px) translateY(5vh); 
+  transform: translateX(35vw) translateY(-81vh); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -770,14 +770,14 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 10px;
-  transform: translateX(500px) translateY(8vh);
+  transform: translateX(59vw) translateY(-80vh);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(500px) translateY(0vh); 
+  transform: translateX(59vw) translateY(-87vh); 
 }
 
 .textbox {

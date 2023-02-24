@@ -122,7 +122,6 @@ app.post('/signup/',async (req,res,next) => {
 //NOTE: the column titles of casestudy2_var_only are reformatted and uniformed, spaces are omitted
 //if possible please keep them that way in the future
 app.post('/fetchEmailToShow',(req,res,next) => {
-    console.log("inside backend fetchEmailToShow" , req.body.currentUser);
     
     let currentUser = req.body.currentUser;
     var sha512 = require('js-sha512').sha512;
@@ -131,6 +130,8 @@ app.post('/fetchEmailToShow',(req,res,next) => {
     let fileLocation = '../history/';
     let fileSuffix = '.json';
     var fileName = fileLocation.concat(fileUsername, fileSuffix);   
+
+    console.log("inside backend fetchEmailToShow" , fileUsername);
 
     const csvPool = fs.readFileSync('../history/casestudy2_var_only.csv', {encoding:'utf8', flag:'r'});
     const CSVToJSON = csv => {
@@ -146,25 +147,37 @@ app.post('/fetchEmailToShow',(req,res,next) => {
     };
 
     const userFile = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
-    var toReadList = JSON.parse(userFile);
+    var userFileJson = JSON.parse(userFile);
+    // var toReadList = userFileJson.
     var jsonPool = CSVToJSON(csvPool); 
     var dataToSendBack = [];
 
-    for( let i = 0; i < toReadList[0].length; i++) {
-        var index = toReadList[0][i].query_mid - 1;
+    var userFileLen = Object.keys(userFileJson).length;
+    var toReadList = userFileJson.new;
+    console.log("toReadList", toReadList);
+
+    console.log("userFileLen",userFileLen);
+    for( let i = 0; i < 10; i++) {
+        var index = toReadList[i].query_mid - 1;
         dataToSendBack.push(jsonPool[index]);
     }
+    console.log("this is data to sent back", dataToSendBack);
+
+    // for( let i = 0; i < userFileJson[userFileLen - 1]; i++) {
+    //     var index = userFileJson[userFileLen - 1][i].query_mid - 1;
+    //     dataToSendBack.push(jsonPool[index]);
+    // }
     
     // console.log("this is data to sent back", dataToSendBack);
     return res.send(dataToSendBack);
 })
 
 app.post('/submitLabel',async (req,res,next) => {
-    console.log("inside backend /submitLabel"); 
 
     const userName = req.body[0].user;
     var sha512 = require('js-sha512').sha512;
     var hashedUsername = sha512(userName);
+    console.log("inside backend /submitLabel", hashedUsername.slice(0,5)); 
     
     var fileUsername = hashedUsername.slice(0,5);
     let fileLocation = '../history/';
@@ -175,9 +188,10 @@ app.post('/submitLabel',async (req,res,next) => {
     var userFileJson = JSON.parse(userFile);
     console.log("userFileJson",userFileJson);
 
-    var userFileLen = userFileJson.length;
-    var emailThisRound = userFileJson[0].slice(userFileLen-10, userFileLen);
-    console.log("retrieve the last 10 element", userFileJson[0].slice(userFileLen-10, userFileLen));
+    var userFileLen = Object.keys(userFileJson).length;  
+    console.log("userFileLen",userFileLen);
+    var emailThisRound = userFileJson.new;
+    // console.log("retrieve the last 10 element", userFileJson[0].slice(userFileLen-10, userFileLen));
 
     var labelToPush = [];
     var index = 0;
@@ -198,12 +212,25 @@ app.post('/submitLabel',async (req,res,next) => {
         labelToPush.push(dataToPush);
     }
 
-    var recordToPush = {
-    }
+    // delete userFileJson.new;
+    userFileJson.userFileLen = labelToPush;
+    // userFileJson.yes = false;
+    // userFileJson.whu = "askdjfhg";
 
-    var roundsCount = Object.keys(userFileJson).length - 1;
-    recordToPush[roundsCount] = labelToPush;
-    fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
+    // var recordToPush = {
+    // }
+
+    // var roundsCount = Object.keys(userFileJson).length - 1;
+    // recordToPush[roundsCount] = labelToPush;
+
+    // var recordToPush = userFileJson;
+    // delete recordToPush.new;
+    // recordToPush.push(labelToPush);
+    // console.log("this is recordToPush", recordToPush);
+    // // fs.writeFileSync(fileName, JSON.stringify(recordToPush, null, 2) + "\r\n");
+    
+    fs.writeFileSync(fileName, JSON.stringify(userFileJson, null, 2) + "\r\n");
+
 })
 
 
