@@ -23,7 +23,7 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
     distance_scores = pairwise_distances(X_pool, X_training, metric='cosine').min(axis=1)
     similarity_scores = 1 / (1 + distance_scores)
     
-    cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(5, 1), len(X_pool), axis=1).T)
+    cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(len(conf_training), 1), len(X_pool), axis=1).T)
     conf_weighted_distance_scores = cwds_ndarray[:,0:].min(axis=1)
     conf_weighted_similarity_scores = 1 / (1 + conf_weighted_distance_scores)
 
@@ -86,7 +86,7 @@ def main(user, model_type):
     
     try:
         mid = read_json(data, day, model_type, 'query_mid')
-        label = read_json(data, day, model_type, 'sensitive')
+        label = read_json(data, day, model_type, 'label')
         conf = read_json(data, day, model_type, 'confidence')
     
         ### Load the model (day N-1) and pool data (day N-1) ###
@@ -157,9 +157,9 @@ def main(user, model_type):
 ############
 
 # user = sys.argv[1] # use this when called from JS or *** from main.py ***
-#user = "c613d" # use this for testing
-#    
-#df_query_RB = main(user, "RB")
-#df_query_EDIG = main(user, "EDIG")
-#
+# user = "1bdd1" # use this for testing
+    
+# df_query_RB = main(user, "RB")
+# df_query_EDIG = main(user, "EDIG")
+
 #save_json(df_query_RB, df_query_EDIG)
