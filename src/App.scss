@@ -1005,3 +1005,29 @@ input:focus {
 
   animation: button-animation 3s infinite alternate;
 }
+
+.back-button {
+  outline: none;
+  margin: auto;
+  cursor: grab;
+  color: black;
+  font-family:Verdana;
+  font-weight: bold;
+  font-size: 15px;
+
+  padding: 0.5em 1.5em;
+  border: 0;
+  border-radius: 10px;
+  
+  
+  align-items: center;
+  transform: translateX(40vw) translateY(45vh); 
+  height: 60px;
+  width: 300px;
+  background-image: var(--gradient);
+  background-size: 400%;
+  background-position: left;
+  // transition: background-position 1s;
+
+  animation: button-animation 3s infinite alternate;
+}
