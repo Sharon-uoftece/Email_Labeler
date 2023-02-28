@@ -3,7 +3,7 @@
     {
       "query_mid": 185,
       "model_type": "EDIG",
-      "label": true,
+      "label": false,
       "confidence": 5
     },
     {
@@ -33,7 +33,7 @@
     {
       "query_mid": 646,
       "model_type": "EDIG",
-      "label": true,
+      "label": false,
       "confidence": 5
     },
     {
@@ -45,7 +45,7 @@
     {
       "query_mid": 451,
       "model_type": "EDIG",
-      "label": true,
+      "label": false,
       "confidence": 5
     },
     {

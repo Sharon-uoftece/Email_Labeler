@@ -643,8 +643,13 @@ input:focus {
 }
 
 .email-content {
-  font-size: 13px;
+  font-size: 15px;
   transform: translateX(22px) translateY(50px);
+}
+
+.email-content-2 {
+  font-size: 15px;
+  transform: translateX(720px) translateY(-650px);
 }
 
 .email-info-1 {
@@ -726,7 +731,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(34vw) translateY(-81vh); 
+  transform: translateX(34vw) translateY(-158vh); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -743,7 +748,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(35vw) translateY(-81vh); 
+  transform: translateX(35vw) translateY(-158vh); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -769,15 +774,15 @@ input:focus {
 .slider-notes {
   font-family:Verdana;
   font-weight: bold;
-  font-size: 10px;
-  transform: translateX(59vw) translateY(-80vh);
+  font-size: 9px;
+  transform: translateX(59vw) translateY(-157.5vh);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(59vw) translateY(-87vh); 
+  transform: translateX(59vw) translateY(-163.5vh); 
 }
 
 .textbox {

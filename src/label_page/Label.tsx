@@ -12,6 +12,7 @@ import { Page, Tab, twoDecimal } from "../common";
 import Carousel from "react-elastic-carousel";
 import { pythonBridge } from "python-bridge";
 import { json } from "stream/consumers";
+import { exit } from "process";
 
 function getMax(emailData:any) {
   const elementsOfInterest: any[] = [
@@ -214,6 +215,57 @@ function EmailBox({
         <p> </p>
         <p>
           {" "}
+          <b>Email Subject:</b>{" "}
+          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Files:</b>{" "}
+          {JSON.stringify(email.files, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Manager Name:</b>{" "}
+          {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Job Family:</b>{" "}
+          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Employment Type:</b>{" "}
+          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Business Location:</b>{" "}
+          {JSON.stringify(email.business_location, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Hire Date:</b>{" "}
+          {JSON.stringify(email.hire_date, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Employee Status:</b>{" "}
+          {JSON.stringify(email.employee_status, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        </div>
+
+        <div className="email-content-2">
+        <p>
+          {" "}
           <b>Job Family:</b>{" "}
           {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
         </p>
@@ -232,32 +284,55 @@ function EmailBox({
         <p> </p>
         <p>
           {" "}
-          <b>Day of Week:</b>{" "}
-          {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
+          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1, -1)}
         </p>
         <p> </p>
         <p>
           {" "}
-          <b>Email Size:</b>{" "}
-          {JSON.stringify(email.size, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>File Count:</b>{" "}
-          {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Recipient Count:</b>{" "}
+          <b>Job Family:</b>{" "}
           {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
         </p>
         <p> </p>
         <p>
           {" "}
-          <b>Recipient Count Job Max:</b>{" "}
+          <b>rcpt count personal max:</b>{" "}
+          {JSON.stringify(email.rcpt_count_personal_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>rcpt count job max:</b>{" "}
           {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>file_count_personal_max:</b>{" "}
+          {JSON.stringify(email.file_count_personal_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>file count job max:</b>{" "}
+          {JSON.stringify(email.file_count_job_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>size personal max:</b>{" "}
+          {JSON.stringify(email.size_personal_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>size job max:</b>{" "}
+          {JSON.stringify(email.size_job_max, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>sub sensitive count:</b>{" "}
+          {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
         </p>
         <p> </p>
         {/* <p>
@@ -427,13 +502,22 @@ function Label({
   currentUser: string;
   setCurrentUser: (currentUser: string) => void;
 }) {
+
   var info = {
     currentUser: currentUser
   }
+
   const [emailData, setEmailData] = useState<any[]>([]);
   const [emails, setEmails] = useState<any[]>([]);
+  const [notDone, setNotDone] = useState(true);
 
   async function handleResponse(response:any) {
+    // if (response.status === 200) {
+    //   setNotDone(false);
+    //   console.log("user had finished 10 rounds, show form");
+    //   return;
+    // }
+
     const resData = await response.json();
     const emails = [];
     for (let i = 0; i < 10; i++) {
@@ -442,7 +526,7 @@ function Label({
 
     setEmailData(resData);
     setEmails(emails);
-    console.log("this is response body", resData);
+    // console.log("this is response body", resData);
   }
 
   //send request to backend to identify which data to show (history_day0 V.S. casestudy2_var_only)
@@ -477,16 +561,6 @@ function Label({
     setSensitivityMap(initialMap);
     setPage(Page.Submitted);
   }
-
-  // var numEmails = 10;
-
-  // useEffect(() => {
-  //   const emailsToShow = [];
-  //   for (let i = 0; i < numEmails; i++) {
-  //     emailsToShow.push(emailData[i]);
-  //   }
-  //   setEmails(emailsToShow);
-  // }, [numEmails]);
   
   useEffect(() => {
     let markedCount = 0;
@@ -547,6 +621,7 @@ function Label({
       dataToSubmit.push(myData);
     }
 
+    
     const result = await fetch('http://localhost:8000/submitLabel', {
     method: 'POST',
     mode: 'cors',
@@ -560,65 +635,68 @@ function Label({
   }
 
   return ( 
-    <div className="email-grid-big-block">
-      
-      <Button
-        icon="arrow-left"
-        intent="warning"
-        text={"Back to User Info Page"}
-        onClick={() => {
-          setAlertExitPage(!alertExitPage);
-        }}
-      />
+      <div className="email-grid-big-block">
+        
+        <div>
+        <Button
+          icon="arrow-left"
+          intent="warning"
+          text={"Back to User Info Page"}
+          onClick={() => {
+            setAlertExitPage(!alertExitPage);
+          }}
+        />
 
-      <Alert
-        className="alert-box"
-        isOpen={alertExitPage}
-        confirmButtonText="Exit"
-        cancelButtonText="Cancel"
-        icon="undo"
-        intent="danger"
-        onCancel={handleExitCancel}
-        onConfirm={handleExitConfirm}
-      >
-        <h2 className="alert-header">Are you sure you want to exit?</h2>
-        <p className="alert-sub">Your data will be lost.</p>
-      </Alert>
+        <Alert
+          className="alert-box"
+          isOpen={alertExitPage}
+          confirmButtonText="Exit"
+          cancelButtonText="Cancel"
+          icon="undo"
+          intent="danger"
+          onCancel={handleExitCancel}
+          onConfirm={handleExitConfirm}
+        >
+          <h2 className="alert-header">Are you sure you want to exit?</h2>
+          <p className="alert-sub">Your data will be lost.</p>
+        </Alert>
 
-      <pre>
-        <div className="email-grid">
-          {
-            // @ts-ignore
-            <Carousel>
-              {
-                (emailData.length > 0 && emails.map((email: any, index: number) =>
-                mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
-                (emailData.length === 0 && <div></div>)
-              }
-            </Carousel>
-          }
-        </div>
-      </pre>
+        <pre>
+          <div className="email-grid">
+            {
+              // @ts-ignore
+              <Carousel>
+                {
+                  (emailData.length > 0 && emails.map((email: any, index: number) =>
+                  mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
+                  (emailData.length === 0 && <div></div>)
+                }
+              </Carousel>
+            }
+          </div>
+        </pre>
 
-      <form onSubmit={labelSubmitHandler}>
-        {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
-      </form>
+        <form onSubmit={labelSubmitHandler}>
+          {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
+        </form>
   
-      <Alert
-        className="submit-box"
-        isOpen={showSubmit}
-        icon="clean"
-        intent="success"
-        confirmButtonText="Submit"
-        cancelButtonText="Cancel"
-        onConfirm={handleSubmit}
-        onCancel={() => {
-          setShowSubmit(false);
-        }}
-      >
-        <h2 className="submit-header">Are you sure you want to submit?</h2>
-        <p className="submit-sub">You can't undo this submit.</p>
-      </Alert>
+        <Alert
+          className="submit-box"
+          isOpen={showSubmit}
+          icon="clean"
+          intent="success"
+          confirmButtonText="Submit"
+          cancelButtonText="Cancel"
+          onConfirm={handleSubmit}
+          onCancel={() => {
+            setShowSubmit(false);
+          }}
+        >
+          <h2 className="submit-header">Are you sure you want to submit?</h2>
+          <p className="submit-sub">You can't undo this submit.</p>
+        </Alert>
+        </div>
+
     </div>
   );
 }

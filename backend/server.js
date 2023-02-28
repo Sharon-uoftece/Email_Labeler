@@ -152,6 +152,9 @@ app.post('/fetchEmailToShow',(req,res,next) => {
 
     var keysArray = Object.keys(userFileJson);
     var userFileLen = Object.keys(userFileJson).length;
+    // if (userFileLen === 10) {
+    //     res.status(200).send('user finished all ten rounds');
+    // } 
     var lastKey = keysArray[userFileLen - 1];
     
     for (const element of Object.keys(userFileJson)) {
