@@ -91,12 +91,12 @@ def main(user, model_type):
     
         ### Load the model (day N-1) and pool data (day N-1) ###
         if day>1:
-            learner = pickle.load(open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day-1), "rb"))
-            df_pool = pd.read_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day-1))
+            learner = pickle.load(open('./model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day-1), "rb"))
+            df_pool = pd.read_csv('./data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day-1))
             X_pool = df_pool.loc[:, df_pool.columns!="target"]
         else:
-            learner = pickle.load(open('../model/learner_{m}_day0'.format(m=model_type), "rb"))
-            df_pool = pd.read_csv('../py_data/df_pool_{m}_day0.csv'.format(m=model_type))
+            learner = pickle.load(open('./model/learner_{m}_day0'.format(m=model_type), "rb"))
+            df_pool = pd.read_csv('./data/df_pool_{m}_day0.csv'.format(m=model_type))
             X_pool = df_pool.loc[:, df_pool.columns!="target"]
             
             
@@ -109,9 +109,9 @@ def main(user, model_type):
         
         ### Update labeled data (mainly for EDIG training) ###
         if day>1:
-            df_labeled = pd.read_csv('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type))
+            df_labeled = pd.read_csv('./data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type))
         else:
-            df_labeled = pd.read_csv('../py_data/df_labeled_{m}.csv'.format(m=model_type))                             
+            df_labeled = pd.read_csv('./data/df_labeled_{m}.csv'.format(m=model_type))                             
                                  
         df_temp = X_pool[X_pool.mid.isin(mid)]
         df_temp['label'] = label
@@ -136,9 +136,9 @@ def main(user, model_type):
         
     
         ### Save CSVs and model ###
-        pickle.dump(learner, open('../model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day), "wb"))
-        df_pool.to_csv('../py_data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day), index=False)
-        df_labeled.to_csv('../py_data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type), index=False)
+        pickle.dump(learner, open('./model/{u}_learner_{m}_day{d}'.format(u=user,m=model_type,d=day), "wb"))
+        df_pool.to_csv('./data/{u}_df_pool_{m}_day{d}.csv'.format(u=user,m=model_type,d=day), index=False)
+        df_labeled.to_csv('./data/{u}_df_labeled_{m}.csv'.format(u=user,m=model_type), index=False)
             
         
         ### Return query

@@ -87,11 +87,11 @@ learner_EDIG = ActiveLearner(
 )
 print(f1_score(y_test, learner_EDIG.predict(X_test), average='weighted'))
 
-for dirpath_model in glob.glob("../model/"):
+for dirpath_model in glob.glob("./model/"):
     pickle.dump(learner_RB, open(dirpath_model+"learner_RB_day0", "wb"))
     pickle.dump(learner_EDIG, open(dirpath_model+"learner_EDIG_day0", "wb"))
     
-for dirpath_pool in glob.glob("../py_data/"):
+for dirpath_pool in glob.glob("./data/"):
     df_train.to_csv(dirpath_pool+"df_pool_RB_day0.csv", index=False)
     df_train.to_csv(dirpath_pool+"df_pool_EDIG_day0.csv", index=False)
 
