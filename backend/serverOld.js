@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 
 app.post('/login',async (req,res) => {
     console.log("Inside /login")
-    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+    const registeredUser = fs.readFileSync('./records/registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
     let foundUser = false;
     var sha512 = require('js-sha512').sha512;
@@ -66,7 +66,7 @@ app.post('/login',async (req,res) => {
                     user: hUsername,
                     timestamp: year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
                 }
-                fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
+                fs.appendFileSync('./records/userLogInRecords.txt', JSON.stringify(dataToPush) + '\r\n');
                 
             } else {
                 res.status(401).send('wrong password');
@@ -100,7 +100,7 @@ app.post('/signup/',async (req,res,next) => {
     let seconds = date_time.getSeconds();
     let timestamp = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 
-    const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+    const registeredUser = fs.readFileSync('./records/registeredUser.txt', {encoding:'utf8', flag:'r'});
     const registeredJson = JSON.parse(registeredUser);
 
     for (let i = 0; i < registeredJson.length; i++) {
@@ -119,13 +119,13 @@ app.post('/signup/',async (req,res,next) => {
         timestamp: timestamp
     }
     registeredJson.push(dataToPush);
-    fs.writeFileSync('./registeredUser.txt', JSON.stringify(registeredJson, null, 2));
+    fs.writeFileSync('./records/registeredUser.txt', JSON.stringify(registeredJson, null, 2));
 
     var data = {
         user: hashedUsername,
         timestamp: timestamp
     }
-    fs.appendFileSync('./userLogInRecords.txt', JSON.stringify(data) + '\r\n');
+    fs.appendFileSync('./records/userLogInRecords.txt', JSON.stringify(data) + '\r\n');
 
     res.status(200).send('user successfully created');
 })
@@ -168,7 +168,7 @@ app.post('/submitLabel',async (req,res,next) => {
 
 
     /////////////////adding code to update userDoneDay0.txt to see if user should see email from history_day_0.json
-    const userDoneDay0= fs.readFileSync('./userDoneDay0.txt', {encoding:'utf8', flag:'r'});
+    const userDoneDay0= fs.readFileSync('./records/userDoneDay0.txt', {encoding:'utf8', flag:'r'});
     const noneFirstTimeUsers = JSON.parse(userDoneDay0);
 
     for (let i = 0; i < noneFirstTimeUsers.length; i++) {
@@ -182,7 +182,7 @@ app.post('/submitLabel',async (req,res,next) => {
         user: hashedUsername, 
     }
     noneFirstTimeUsers.push(userReady);
-    fs.writeFileSync('./userDoneDay0.txt', JSON.stringify(noneFirstTimeUsers, null, 2));
+    fs.writeFileSync('./records/userDoneDay0.txt', JSON.stringify(noneFirstTimeUsers, null, 2));
 })
 
 // app.get('/getLabelHistory',(req,res) => {
@@ -190,7 +190,7 @@ app.post('/submitLabel',async (req,res,next) => {
 //     var sha512 = require('js-sha512').sha512;
 //     var hUsername = sha512(req.body.user);
 
-//     const registeredUser = fs.readFileSync('./registeredUser.txt', {encoding:'utf8', flag:'r'});
+//     const registeredUser = fs.readFileSync('./records/registeredUser.txt', {encoding:'utf8', flag:'r'});
 //     const registeredJson = JSON.parse(registeredUser);
 //     for (let i = 0; i < registeredJson.length; i++) {
 //         if (registeredJson[i].user === hUsername ) {
@@ -241,7 +241,7 @@ app.post('/fetchEmailToShow',(req,res,next) => {
     var hashedUsername = sha512(currentUser);
     var showDay0Data = true;
 
-    const userDoneDay0= fs.readFileSync('./userDoneDay0.txt', {encoding:'utf8', flag:'r'});
+    const userDoneDay0= fs.readFileSync('./records/userDoneDay0.txt', {encoding:'utf8', flag:'r'});
     const noneFirstTimeUsers = JSON.parse(userDoneDay0);
 
     for (let i = 0; i < noneFirstTimeUsers.length; i++) {
