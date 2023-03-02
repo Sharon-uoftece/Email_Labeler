@@ -14,20 +14,21 @@ import Login from "./welcome_page/LogIn";
 import Signup from "./welcome_page/Signup";
 import UserInfo from "./UserInfo";
 import LabelHistory from "./LabelHistory";
-import { json } from "stream/consumers";
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
   const [numEmails, setNumEmails] = useState(10);
   const [currentUser, setCurrentUser] = useState("null");
+  const [markedAll, setMarkedAll] = useState(false);
 
   //initialize an empty initialMap
   const initialMap: Record<string, Record<string, any>> = {};
   for (let i = 0; i < numEmails; i++) {
     initialMap[i + 1] = {
       emailId: 0,
+      model_type: null,
       sensitive: false, 
-      confidence: 0,
+      confidence: 5,
       marked: false
     };
   }
@@ -72,6 +73,7 @@ function MainFlow() {
           // numEmails={10} 
           page={page} 
           setPage={setPage} 
+          initialMap={initialMap} 
           sensitivityMap={sensitivityMap}
           setSensitivityMap={setSensitivityMap}
           currentUser={currentUser}

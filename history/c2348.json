@@ -1,0 +1,44 @@
+{
+  "0": [
+    {
+      "query_mid": 185,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 668,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 452,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 317,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 260,
+      "model_type": "RB"
+    },
+    {
+      "query_mid": 646,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 649,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 451,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 647,
+      "model_type": "EDIG"
+    },
+    {
+      "query_mid": 371,
+      "model_type": "RB"
+    }
+  ]
+}

@@ -1,7 +1,11 @@
 import React from "react"
 import {Page, Header} from "./common";
 
-function UserInfo({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
+function UserInfo({ page, setPage, currentUser, setCurrentUser}: 
+    { page: number, 
+      setPage: (page: number) => void, 
+      currentUser: string, 
+      setCurrentUser: (currentUser: string) => void}) {
     function handleStartLabel() {
         setPage(Page.LabelGeneral);
     }
@@ -13,11 +17,11 @@ function UserInfo({ page, setPage, currentUser, setCurrentUser}: { page: number,
         <div className="userinfo">
             <Header />
             {/* <h1 className="userinfo-welcome-text">Hi {currentUser}!</h1> */}
-            <button 
+            {/* <button 
                 className="userinfo-history-button"
                 onClick={handleShowHistory}>
                 See previous labeling history...
-            </button>
+            </button> */}
             <button 
                 className="userinfo-label-button"
                 onClick={handleStartLabel}

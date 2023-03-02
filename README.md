@@ -1,20 +1,29 @@
 # EmailLabler frontend and backend
 
-## npm version 8.5.5
-## node version 16.15.0
-## react version 18.2.0
+## JavaScript's requirements before running this project
+- npm version 8.5.5
+- node version 16.15.0
+- react version 18.2.0
 
-### *records of all registered users are saved in registeredUser.txt, all newly signup users's credentials should be included upon registration
-### *records of all labelling made by registered users are saved in labelRecords.txt, all newly submitted labelling should be included upon submition 
-### *records of all user login history are saved in userLoginRecords.txt, when you successfully login/signup, a new record(with timestamp) will be included
-### you could find these three files within the backend folder
+## Main Features
+- *records of all registered users are saved in registeredUser.txt, all newly signup users's credentials should be included upon registration
+- *records of all labelling made by registered users are saved in labelRecords.txt, all newly submitted labelling should be included upon submition 
+- *records of all user login history are saved in userLoginRecords.txt, when you successfully login/signup, a new record(with timestamp) will be included
+
+
+## Steps to run (preferable to run them in order)
+### JS
+- `node server.js` at `./backend`
+- `npm start` at `./` then open (click or copy-and-paste on any web browser) `link` shown in your terminal
+### Python
+- `python main.py` at `./pyscript`
 
 ## EmailLabeler frontend
 The emailLabeler frontend currently consists of four pages. 
-main page
-survey page
-label page
-reward page
+- main page
+- survey page
+- label page
+- reward page
 
 ### Main page features
 ![main page](https://github.com/Siyuan-uoftece/Email_Labeler/blob/master/Screen%20Shot%202022-12-19%20at%209.54.22%20PM.png)

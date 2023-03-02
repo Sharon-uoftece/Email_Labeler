@@ -8,7 +8,7 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
     const [userLabel, setUserLabel] = useState([]);
 
     const labelSubmitHandler = async() => {
-        const response = await fetch('http://10.232.64.217:8000/getLabelHistory');
+        const response = await fetch('http://localhost:8000/getLabelHistory');
         var data = await response.json();
         var sha512 = require('js-sha512').sha512;
         var hashedUsername = sha512(currentUser);
@@ -30,14 +30,14 @@ function LabelHistory({ page, setPage, currentUser, setCurrentUser}: { page: num
     return(
         <div>
             <Header />
-            <Button
+            {/* <Button
                 icon="arrow-left"
                 intent="warning"
                 text={"Back to User Info Page"}
                 onClick={() => {
                     setPage(Page.UserInfo);
                 }}
-            />
+            /> */}
              <p> </p>
             <div className="history-show">
                 <h1>You have labelled {numLabels} emails.</h1>

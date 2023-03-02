@@ -1,19 +1,26 @@
 import react, {useState} from "react";
 import {Page} from "../common";
 
+//SCENARIOS: 1. for newly signed up users, you are automaticaly logged in you do not need to use login function again
+//2. for newly signed up users, for testing, you can refresh the page and try log in with your credentials
+//3. NOTE: each user can only do one round of labelling, reason being python backend is not conencted yet to generate new round of email instructions
+//all user can only do one round, which is with the emails identified in day0.json, will implement later round logic when python backend connected
+//if a user attempt to do the second round of labelling, backend will crash and THIS IS EXPECTED
 function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, setPage: (page: number) => void, currentUser: string, setCurrentUser: (currentUser: string) => void}) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [loginErr, setLoginErr] = useState(false);
+    const [noUserErr, setNoUserErr] = useState(false);
+    const [pswErr, setPswErr] = useState(false);
  
     function loginResponseHandle(response:any) {
-        if (response.status == 200) {
-            setLoginErr(false);
+        if (response.status === 200) {
             setPage(Page.UserInfo);
             setCurrentUser(userName);
         }
-        else {
-            setLoginErr(false);
+        else if (response.status === 404) {
+            setNoUserErr(true);
+        } else {
+            setPswErr(true);
         }
     }
 
@@ -26,7 +33,7 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
         }
         console.log("frontend loginHandle ready to send user input to backend");
 
-        const result = await fetch('http://10.232.64.217:8000/login', {
+        const result = await fetch('http://localhost:8000/login', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -73,7 +80,9 @@ function LogIn({ page, setPage, currentUser, setCurrentUser}: { page: number, se
                         onChange={passwordHandler}
                     />
                     <br/> <br/>
-                    {(loginErr)?<span>&nbsp;Wrong Credentials...</span>:null}
+                    {noUserErr?<span>&nbsp;User does not exist, sign up first&nbsp;</span>:null}
+                    {pswErr?<span>&nbsp;Wrong credentials &nbsp;</span>:null}
+
 
                     <button type="submit">Log In</button>
                     <br /><br />
