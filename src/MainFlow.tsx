@@ -14,6 +14,7 @@ import Login from "./welcome_page/LogIn";
 import Signup from "./welcome_page/Signup";
 import UserInfo from "./UserInfo";
 import LabelHistory from "./LabelHistory";
+import Thankyou from "./thankyou";
 
 function MainFlow() {
   const [page, setPage] = useState(Page.Welcome);
@@ -93,7 +94,7 @@ function MainFlow() {
         />
       </div>
     )
-  } else{
+  } else if (page === Page.Submitted){
     return (
       <div>
         <Submission
@@ -101,10 +102,16 @@ function MainFlow() {
           setPage={setPage}
           sensitivityMap={sensitivityMap}
           numEmails={numEmails}
+          currentUser={currentUser}
+          setCurrentUser={setCurrentUser}
         />
       </div>
     )
-  } 
+  } else {
+    return(
+      <Thankyou />
+    )
+  }
 }
 
 export default MainFlow;

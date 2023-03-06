@@ -6,7 +6,7 @@ import {
   Slider,
   ProgressBar
 } from "@blueprintjs/core";
-import { Popover2 } from "@blueprintjs/popover2";
+import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import { Page, Tab, twoDecimal } from "../common";
 // import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
@@ -93,323 +93,16 @@ function EmailBox({
     
     <div key={index} className="email-element">
       <div className="email-box-header">
-        <p className="email-header">{"Email " + (index + 1)}</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-
-        {/*this part is the more info popover*/}
-        {/* <FormGroup
-          className="email-box-labels"
-          inline={true}
-          style={{ position: "relative", top: -10, left: 700 }}
-        > */}
-          {/* <Popover2
-            interactionKind="click"
-            isOpen={pop}
-            fill={false}
-            placement="bottom-end"
-            content={
-              
-              <div className="popover">
-                <div className="popover-button">
-                  <div>
-                    <button
-                      className="popover-content-button"
-                      onClick={handelSenderInfo}
-                    >
-                      {" "}
-                      Sender Info
-                    </button>
-                    <hr className="popover-separator" />
-                  </div>
-
-                  <div>
-                    <button
-                      className="popover-content-button"
-                      onClick={handelScatterPlot}
-                    >
-                      {" "}
-                      Scatter Plot
-                    </button>
-                    <hr className="popover-separator" />
-                  </div>
-
-                  <div>
-                    <button
-                      className="popover-content-button"
-                      onClick={handelEmailHistory}
-                    >
-                      {" "}
-                      Email History
-                    </button>
-                  </div>
-                </div>
-                <div className="popover-content-detail">
-                  {popoverContent === Tab.SenderInfo && (
-                    <div>
-                      <p>
-                        Division:{" "}
-                        {JSON.stringify(email.division, null, 2).slice(1, -1)}
-                      </p>
-                      <p>
-                        EmailId:{" "}
-                        {JSON.stringify(email.mid, null, 2).slice(1, -1)}
-                      </p>
-                    </div>
-                  )}
-
-                  {popoverContent === Tab.ScatterPlot && (
-                    <div>
-                      <p>Below display {email.sender} scatter plot: </p>
-                    </div>
-                  )}
-
-                  {popoverContent === Tab.EmailHistory && (
-                    <div>
-                      <p>Below display {email.sender} email history: </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            }
-          >
-            <button
-              className="sender-button"
-              id={"sender-button" + (index + 1)}
-              onClick={() => {
-                console.log("sender" + (index + 1));
-                setPop(!pop);
-              }}
-            >
-              More Info regarding Sender {email.sender}
-            </button>
-          </Popover2> */}
-        {/* </FormGroup> */}
-      </div>
-
-      {/*this part is the email body display*/ }
-      <hr className="separator" />
-      <p> </p>
-      <div className="email-content">
-        <p>
-          {" "}
-          <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
-          {JSON.stringify(email.month, null, 2).slice(1, -1)}/
-          {JSON.stringify(email.day, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          {/* showing query-mid just to check if correct emails are displayed, will remove later */}
-          <b>Query_mid:</b> {JSON.stringify(email.query_mid, null, 2).slice(1, -1)} 
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Email Subject:</b>{" "}
-          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Files:</b>{" "}
-          {JSON.stringify(email.files, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Manager Name:</b>{" "}
-          {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Job Family:</b>{" "}
-          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Employment Type:</b>{" "}
-          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Business Location:</b>{" "}
-          {JSON.stringify(email.business_location, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Hire Date:</b>{" "}
-          {JSON.stringify(email.hire_date, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Employee Status:</b>{" "}
-          {JSON.stringify(email.employee_status, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        </div>
-
-        <div className="email-content-2">
-        <p>
-          {" "}
-          <b>Job Family:</b>{" "}
-          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Employment Type:</b>{" "}
-          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Privileged User:</b>{" "}
-          {JSON.stringify(email.privileged_user, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Job Family:</b>{" "}
-          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>rcpt count personal max:</b>{" "}
-          {JSON.stringify(email.rcpt_count_personal_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>rcpt count job max:</b>{" "}
-          {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>file_count_personal_max:</b>{" "}
-          {JSON.stringify(email.file_count_personal_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>file count job max:</b>{" "}
-          {JSON.stringify(email.file_count_job_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>size personal max:</b>{" "}
-          {JSON.stringify(email.size_personal_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>size job max:</b>{" "}
-          {JSON.stringify(email.size_job_max, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>sub sensitive count:</b>{" "}
-          {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        {/* <p>
-          {" "}
-          <b>Recipient Count:</b>{" "}
-          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Files Sensitive Count:</b>{" "}
-          {JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}
-        </p> */}
-
-        {/* <div className="email-bar-individual">
-          <p> <b>Recipient Count:</b> {JSON.stringify(email.Rcpt_count, null, 2).slice(1, -1)}</p>
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.rcpt_count / visualItemMax.rcpt_count}
-            intent={handleBarColor(
-              email.rcpt_count / visualItemMax.rcpt_count
-            )}
-          />
-          <p className="max">(max:{visualItemMax.rcpt_count})</p>
-  
-        </div> */}
-        <p> </p>
-        {/* <div className="email-bar-individual">
-          <p> <b>Files Sensitive Count:</b>{JSON.stringify(email.files_sensitive_count, null, 2).slice(1,-1)}</p>
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.files_sensitive_count / visualItemMax.file_count}
-            intent={handleBarColor(
-              email.files_sensitive_count / visualItemMax.file_count
-            )}
-          />
-          <p className="max">(max:{visualItemMax.file_count})</p>
-        </div> */}
-        <p> </p>
-        {/* <div className="email-bar-individual">
-          <p> <b>Files Size:</b>{JSON.stringify(email.size, null, 2).slice(1, -1)}</p>
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.size / visualItemMax.size}
-            intent={handleBarColor(email.size / visualItemMax.size)}
-          />
-          <p className="max">(max: {visualItemMax.size})</p>
-        </div> */}
-        <p> </p>
-        {/* <div className="email-bar-individual">
-          <p> <b>Day since hire:</b>{JSON.stringify(email.day_since_hire, null, 2).slice(1,-1)}</p>
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.day_since_hire / visualItemMax.day_since_hire}
-            intent={handleBarColor(
-              email.day_since_hire / visualItemMax.day_since_hire
-            )}
-          />
-          <p className="max">(max:{visualItemMax.day_since_hire})</p>
-        </div> */}
-      </div>
+        
       <FormGroup
         className="email-box-labels"
         inline={true}
         style={{ position: "relative", top: -0.5 }}
-      >
+      >   
+        <p className="email-header">{"Email " + (index + 1)}</p>
          <button
           className={"label-button"}
-          id={"label-button-" + (index + 1)}
+          id={"label-button-" + (index + 1)}  
           onClick={() => {
             const newMap = { ...sensitivityMap };
             newMap[index + 1]["sensitive"] = true;
@@ -481,6 +174,243 @@ function EmailBox({
         />
         
       </FormGroup>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      </div>
+
+      {/*this part is the email body display*/ }
+      <hr className="separator" />
+      <p> </p>
+      <div className="email-content">
+        {/* <p>
+          {" "}
+          <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
+          {JSON.stringify(email.month, null, 2).slice(1, -1)}/
+          {JSON.stringify(email.day, null, 2).slice(1, -1)}
+        </p> */}
+        {/* <p> </p> */}
+        {/* <p> */}
+          {/* {" "} */}
+          {/* showing query-mid just to check if correct emails are displayed, will remove later */}
+          {/* <b>Query_mid:</b> {JSON.stringify(email.query_mid, null, 2).slice(1, -1)} 
+        </p>
+        <p> </p> */}
+        <p>
+          {" "}
+          <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Email Subject:</b>{" "}
+          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Files:</b>{" "}
+          {JSON.stringify(email.files, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Manager Name:</b>{" "}
+          {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Job Family:</b>{" "}
+          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Employment Type:</b>{" "}
+          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Business Location:</b>{" "}
+          {JSON.stringify(email.business_location, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Hire Date:</b>{" "}
+          {JSON.stringify(email.hire_date, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Employee Status:</b>{" "}
+          {JSON.stringify(email.employee_status, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        </div>
+
+        <div className="email-content-2">
+        <p>
+          {" "}
+          <b>Government Cleared:</b>{" "}
+          {JSON.stringify(email.government_cleared, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Day of Week:</b>{" "}
+          {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Privileged User:</b>{" "}
+          {JSON.stringify(email.privileged_user, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Local Admin:</b>{" "}
+          {JSON.stringify(email.local_admin, null, 2).slice(1, -1)}
+        </p>
+        <p> </p>
+        <p>
+          {" "}
+          <b>Recipient Count:</b>{" "}
+          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            className="tooltip-hover"
+            content={<div>Recipient Count Personal Max: {email.rcpt_count_personal_max}</div>}
+          >
+            <ProgressBar
+              className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.rcpt_count / email.rcpt_count_personal_max}
+              intent={handleBarColor(
+                email.rcpt_count / email.rcpt_count_personal_max
+              )}
+            />
+          </Tooltip2>
+          
+        </p>
+        <p> </p>
+        {/* <p>
+          {" "}
+          <b>rcpt count job max:</b>{" "}
+          {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.rcpt_count / email.rcpt_count_job_max}
+            intent={handleBarColor(
+              email.rcpt_count / email.rcpt_count_job_max
+            )}
+          />
+        </p> */}
+        <p>
+          {" "}
+          <b>File Count:</b>{" "}
+          {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            className="tooltip-hover"
+            content={<div>File Count Personal Max: {email.file_count_personal_max}</div>}
+          >
+            <ProgressBar
+              className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.file_count / email.file_count_personal_max}
+              intent={handleBarColor(
+                email.file_count / email.file_count_personal_max
+              )}
+            />
+          </Tooltip2>
+        </p>
+
+        <p> </p>
+        {/* <p>
+          {" "}
+          <b>file count job max:</b>{" "}
+          {JSON.stringify(email.file_count_job_max, null, 2).slice(1, -1)}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.file_count / email.file_count_job_max}
+            intent={handleBarColor(
+              email.file_count / email.file_count_job_max
+            )}
+          />
+            </p> */}
+        <p>
+          {" "}
+          <b>Size:</b>{" "}
+          {JSON.stringify(email.size, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            className="tooltip-hover"
+            // content={"Size Personal Max"}
+            content={<div>Size Personal Max: {email.size_personal_max}</div>}
+
+          >
+            <ProgressBar
+              className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.size / email.size_personal_max}
+              intent={handleBarColor(
+                email.size / email.size_personal_max
+              )}
+            />
+          </Tooltip2>
+        </p>
+        {/* <p>
+          {" "}
+          <b>size job max:</b>{" "}
+          {JSON.stringify(email.size_job_max, null, 2).slice(1, -1)}
+          <ProgressBar
+            className="email-bar"
+            animate={false}
+            stripes={false}
+            value={email.size / email.size_job_max}
+            intent={handleBarColor(
+              email.size / email.size_job_max
+            )}
+          />
+        </p> */}
+        <p> </p>
+        <p>
+          {" "}
+          <b>Subject Sensitive Count:</b>{" "}
+          {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            className="tooltip-hover"
+            content={<div>Subject Sensitive Personal Max: {email.sub_sensitive_count_personal_max}</div>}
+          >
+            <ProgressBar
+              className="email-bar"
+              animate={false}
+              stripes={false}
+              value={email.sub_sensitive_count / email.sub_sensitive_count_personal_max}
+              intent={handleBarColor(
+                email.sub_sensitive_count / email.sub_sensitive_count_personal_max
+              )}
+            />
+          </Tooltip2>
+        </p>
+        <p> </p>
+        
+      </div>
     </div>
   );
 }
@@ -503,20 +433,16 @@ function Label({
   setCurrentUser: (currentUser: string) => void;
 }) {
 
+  const [doneTen, setDoneTen] = useState(false);
+
   var info = {
     currentUser: currentUser
   }
 
   const [emailData, setEmailData] = useState<any[]>([]);
   const [emails, setEmails] = useState<any[]>([]);
-  const [notDone, setNotDone] = useState(true);
 
   async function handleResponse(response:any) {
-    // if (response.status === 200) {
-    //   setNotDone(false);
-    //   console.log("user had finished 10 rounds, show form");
-    //   return;
-    // }
 
     const resData = await response.json();
     const emails = [];
@@ -621,7 +547,13 @@ function Label({
       dataToSubmit.push(myData);
     }
 
-    
+    function handleSubmitResponse(response:any) {
+      console.log("inside handleSubmitResponse");
+      if (response.status === 200) {
+        setDoneTen(true);
+        console.log("this is set to ten");
+      }
+    }
     const result = await fetch('http://localhost:8000/submitLabel', {
     method: 'POST',
     mode: 'cors',
@@ -630,7 +562,7 @@ function Label({
     },
     body: JSON.stringify(dataToSubmit)
     })
-    .then((response) => console.log(response))
+    .then((response) => handleSubmitResponse(response))
     .catch(err => console.log("ERROR:", err));
   }
 
@@ -677,7 +609,9 @@ function Label({
         </pre>
 
         <form onSubmit={labelSubmitHandler}>
+          {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
           {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
+          {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
         </form>
   
         <Alert

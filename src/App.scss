@@ -622,7 +622,7 @@ input:focus {
     transform: translateY(5px);
   }
   .separator {
-    transform: translateY(45px) translateX(10px);
+    transform: translateY(-48px) translateX(10px);
     width: 1420px;
     z-index: -1;
   }
@@ -635,7 +635,11 @@ input:focus {
 
 .email-bar {
   width: 270px;
-  transform: translateY(8px) translateX(20px);
+  transform: translateY(2px) translateX(30px);
+}
+
+.tooltip-hover {
+  transform: translateY(-5px) translateX(10px);
 }
 
 .email-bar-individual {
@@ -644,12 +648,12 @@ input:focus {
 
 .email-content {
   font-size: 15px;
-  transform: translateX(22px) translateY(50px);
+  transform: translateX(22px) translateY(-30px);
 }
 
 .email-content-2 {
   font-size: 15px;
-  transform: translateX(720px) translateY(-650px);
+  transform: translateX(720px) translateY(-610px);
 }
 
 .email-info-1 {
@@ -682,6 +686,12 @@ input:focus {
   // transform: translateX(525px);
 }
 
+.round-label {
+  font-size: 18px;
+  font-family:Verdana;
+  font-weight: bold;
+  transform: translateX(70px) translateY(50px);
+}
 
 .submit-button {
   outline: none;
@@ -731,7 +741,7 @@ input:focus {
   border: 1px solid rgb(182, 59, 59);
   border-radius: 10px;
   
-  transform: translateX(34vw) translateY(-158vh); 
+  transform: translateX(28vw) translateY(-2vh); 
   height: 30px;
   width: 140px;
   background-color: white;
@@ -748,7 +758,7 @@ input:focus {
   border: 1px solid rgb(45, 125, 45);
   border-radius: 10px;
   
-  transform: translateX(35vw) translateY(-158vh); 
+  transform: translateX(30vw) translateY(-2vh); 
   height: 30px;
   width: 180px;
   background-color: white;
@@ -775,14 +785,14 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 9px;
-  transform: translateX(59vw) translateY(-157.5vh);
+  transform: translateX(56vw) translateY(0vh);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(59vw) translateY(-163.5vh); 
+  transform: translateX(56vw) translateY(-7vh); 
 }
 
 .textbox {
@@ -1035,4 +1045,46 @@ input:focus {
   // transition: background-position 1s;
 
   animation: button-animation 3s infinite alternate;
+}
+
+.agreement {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.agreement-statement {
+  font-size: 15px;
+  transform: translateX(34vw) translateY(48vh);
+}
+
+.approve-button {
+  outline: none;
+  margin: auto;
+  cursor: grab;
+  color: black;
+  font-family:Verdana;
+  font-weight: bold;
+  font-size: 15px;
+
+  padding: 0.5em 1.5em;
+  border: 0;
+  border-radius: 10px;
+  
+  
+  align-items: center;
+  transform: translateX(40vw) translateY(52vh); 
+  height: 60px;
+  width: 300px;
+  background-image: var(--gradient);
+  background-size: 400%;
+  background-position: left;
+  // transition: background-position 1s;
+
+  animation: button-animation 3s infinite alternate;
+}
+
+.thanks-page {
+  transform: translateX(40vw) translateY(40vh);
+  font-size:27px;
+  font-weight: bold;
 }
