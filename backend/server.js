@@ -112,6 +112,22 @@ app.post('/signup/',async (req,res,next) => {
     res.status(200).send('user successfully created');
 })
 
+app.post('/getRound',async (req,res) => {
+    console.log("Inside /getRound")
+    var sha512 = require('js-sha512').sha512;
+    var hUsername = sha512(req.body.currentUser);
+    var fileUsername = hUsername.slice(0,5);
+    let fileLocation = '../history/';
+    let fileSuffix = '.json';
+    var fileName = fileLocation.concat(fileUsername, fileSuffix); 
+    const userFile = fs.readFileSync(fileName, {encoding:'utf8', flag:'r'});
+
+    var userFileJson = JSON.parse(userFile);
+    var userFileLen = Object.keys(userFileJson).length;
+
+    return res.send(JSON.stringify(userFileLen));
+})
+
 //this backend function sends frontend the emails that the currentUser supposed to see
 //for day0 users, they will see the ten fixed emails in history_day0.json
 //for other users that had done day0, they will see the ten emails assigned to them
@@ -202,8 +218,15 @@ app.post('/submitLabel',async (req,res,next) => {
             
         }
     }
-    
+
     fs.writeFileSync(fileName, JSON.stringify(userFileJson, null, 2) + "\r\n");
+    console.log("inside /submitLabel, this is userFileJson length",Object.keys(userFileJson).length);
+    var fileObjectCount = Object.keys(userFileJson).length;
+    console.log("fileObjectCount",fileObjectCount);
+    if (fileObjectCount === 10) {
+        var response = "ok";
+        res.send(JSON.stringify(response));
+    }
 })
 
 

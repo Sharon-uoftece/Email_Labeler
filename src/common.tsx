@@ -13,7 +13,8 @@ export enum Page {
   Survey,
   LabelGeneral,
   CommentGeneral,
-  Submitted
+  Submitted,
+  Thankyou
 }
 
 export enum Interest {
