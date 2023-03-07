@@ -201,19 +201,32 @@ function EmailBox({
         <p> </p>
         <p>
           {" "}
-          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            content={<div>Recipient: {email.rcpt}</div>}
+          >
+            <div><b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1).substring(0, 20)} ...</div>
+          </Tooltip2>
         </p>
         <p> </p>
         <p>
           {" "}
-          <b>Email Subject:</b>{" "}
-          {JSON.stringify(email.subject, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            content={<div>Email Subject: {email.subject}</div>}
+          >
+            <div><b>Email Subject:</b> {JSON.stringify(email.subject, null, 2).slice(1,-1).substring(0, 20)} ...</div>
+          </Tooltip2>
         </p>
         <p> </p>
         <p>
           {" "}
-          <b>Files:</b>{" "}
-          {JSON.stringify(email.files, null, 2).slice(1, -1)}
+          <Tooltip2
+            placement="top"
+            content={<div>File: {email.files}</div>}
+          >
+            <div><b>File:</b> {JSON.stringify(email.files, null, 2).slice(1,-1).substring(0, 20)} ...</div>
+          </Tooltip2>       
         </p>
         <p> </p>
         <p>
