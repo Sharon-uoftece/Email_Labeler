@@ -96,8 +96,6 @@ app.post('/signup/',async (req,res,next) => {
     var dataToPush = {
         hashedUser: hashedUsername, 
         hashedPassword: hashedPwd,
-        user: userName,
-        password: password,
         timestamp: timestamp
     }
     registeredJson.push(dataToPush);
