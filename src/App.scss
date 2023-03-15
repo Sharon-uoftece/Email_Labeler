@@ -587,9 +587,8 @@ input:focus {
 }
 
 .email-grid {
+  display: flex;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
   .rec-dot:focus,
   .rec-dot:hover,
   .rec-dot_active,
@@ -605,25 +604,15 @@ input:focus {
 }
 
   .email-element {
+    font-family: Verdana;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     background-color: white;
-    padding: 1vh;
-    margin: 1vw;
-    height: 86vh;
-    width: 95%;
-    border: 1px solid rgb(65, 64, 64);
-    border-radius: 15px;
   }
 
-  .email-box-header {
-    font-size: 25px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    transform: translateY(5px);
-  }
   .separator {
-    transform: translateY(-48px) translateX(10px);
-    width: 1420px;
+    width: 100%;
     z-index: -1;
   }
   .separator-2 {
@@ -634,8 +623,8 @@ input:focus {
 }
 
 .email-bar {
-  width: 270px;
-  transform: translateY(2px) translateX(30px);
+
+  transform: translateY(7px) translateX(0px);
 }
 
 .tooltip-hover {
@@ -647,13 +636,15 @@ input:focus {
 }
 
 .email-content {
-  font-size: 15px;
-  transform: translateX(22px) translateY(-30px);
-}
-
-.email-content-2 {
-  font-size: 15px;
-  transform: translateX(720px) translateY(-610px);
+  font-family: Verdana;
+  font-size: 16px;
+  h2 {
+    font-size: 36px;
+  };
+  h3 {
+    font-size: 22px;
+  }
+  
 }
 
 .email-info-1 {
@@ -674,11 +665,6 @@ input:focus {
 
 .email-header {
   font-size: 30px;
-  transform: translateX(28px) translateY(25px);
-}
-
-.email-grid-big-block {
-  height: 200vh;
 }
 
 .email-box-labels {
@@ -730,38 +716,66 @@ input:focus {
   background-color: white;
 }
 
+.question{
+  font-family: Verdana;
+  font-weight: bold;
+  overflow-wrap: break-word;
+}
+
 .label-button {
-  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+  outline: 2px solid rgba(182, 59, 59, 0);
   margin: auto;
   cursor: grab;
   color: black;
   font-family:Verdana;
   font-weight: bold;
-  font-size: 17px;
-  border: 1px solid rgb(182, 59, 59);
+  font-size: 24px;
+  border: 4px solid rgb(182, 59, 59);
   border-radius: 10px;
-  
-  transform: translateX(28vw) translateY(-2vh); 
-  height: 30px;
-  width: 140px;
+  box-shadow: 0px 0px 10px rgba(182, 59, 59, 50);
+  padding: 5px;
+  width: 66%;
   background-color: white;
+  &:hover {
+    outline: 2px solid rgba(182, 59, 59, 100);
+    box-shadow: 0px 0px 15px rgba(182, 59, 59, 65);
+  };
+}
+
+.label-button-icon {
+  color: rgb(182, 59, 59);
 }
 
 .label-button-non {
-  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:center;
+  outline: 2px solid rgba(45, 125, 45, 0);
   margin: auto;
   cursor: grab;
   color: black;
   font-family:Verdana;
   font-weight: bold;
-  font-size: 17px;
-  border: 1px solid rgb(45, 125, 45);
+  font-size: 24px;
+  border: 4px solid rgb(45, 125, 45);
   border-radius: 10px;
-  
-  transform: translateX(30vw) translateY(-2vh); 
-  height: 30px;
-  width: 180px;
+  box-shadow: 0px 0px 10px rgba(45, 125, 45, 50);
+  padding: 5px;
+  width: 66%;
   background-color: white;
+  &:hover {
+    outline: 2px solid rgba(45, 125, 45, 100);
+    box-shadow: 0px 0px 15px rgba(45, 125, 45, 65);
+  };
+}
+
+.label-button-non-icon {
+  color: rgb(45, 125, 45);
 }
 
 .save-button {
@@ -785,14 +799,12 @@ input:focus {
   font-family:Verdana;
   font-weight: bold;
   font-size: 9px;
-  transform: translateX(56vw) translateY(0vh);
 }
 
 .confidence-slider {
   outline: none;
   margin: auto;
   color: black; 
-  transform: translateX(56vw) translateY(-7vh); 
 }
 
 .textbox {

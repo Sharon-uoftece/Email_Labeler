@@ -4,9 +4,22 @@ import {
   FormGroup,
   Alert,
   Slider,
-  ProgressBar
+  ProgressBar,
+  Checkbox
 } from "@blueprintjs/core";
+import { Box,
+         Grid,
+         Container,
+         Pagination,
+         PaginationItem
+} from '@mui/material/';
+// import { CheckBox,
+//          WarningAmber,
+//          Check
+// } from '@mui/icons-material/';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
+import { Icon, IconSize } from "@blueprintjs/core";
 import { Page, Tab, twoDecimal } from "../common";
 // import emailData from "../label_page/emailData";
 import Carousel from "react-elastic-carousel";
@@ -91,96 +104,151 @@ function EmailBox({
 
   return (
     
-    <div key={index} className="email-element">
-      <div className="email-box-header">
-        
+    <Box className="email-element" width="100%">
+
       <FormGroup
-        className="email-box-labels"
-        inline={true}
-        style={{ position: "relative", top: -0.5 }}
-      >   
-        <p className="email-header">{"Email " + (index + 1)}</p>
-         <button
-          className={"label-button"}
-          id={"label-button-" + (index + 1)}  
-          onClick={() => {
-            const newMap = { ...sensitivityMap };
-            newMap[index + 1]["sensitive"] = true;
-            newMap[index + 1]["marked"] = true;
-            newMap[index + 1]["emailId"] = email.query_mid;
-            setSensitivityMap(newMap);
-            document.getElementById(
-              "label-button-" + (index + 1)
-            )!.style.backgroundColor = "rgb(182, 59, 59)";
-            document.getElementById(
-              "label-button-" + (index + 1)
-            )!.style.color = "rgb(255,255,255)";
-            document.getElementById(
-              "label-button-non-" + (index + 1)
-            )!.style.backgroundColor = "rgb(255, 255, 255)";
-            document.getElementById(
-              "label-button-non-" + (index + 1)
-            )!.style.color = "rgb(0, 0, 0)";
-          }}
-        >
-          Sensitive
-        </button> 
+        inline={false}
+      >
+          <Grid item xs={12} display="flex" justifyContent="center" mb={4}>
+            <p>{index + 1} of 10</p>
+          </Grid>
+          <Grid container spacing={1} display="flex" flexDirection="row" alignItems="center"
+            width="100%" mb={4} wrap="wrap"
+          >
+            <Grid item xs={4}>
+              <p className="question">
+                1. Do you consider the email below as sensitive?
+              </p>
+            </Grid>
+            <Grid item xs={4}>
+              <button
+                className={"label-button"}
+                id={"label-button-" + (index + 1)}  
+                onClick={() => {
+                  const newMap = { ...sensitivityMap };
+                  newMap[index + 1]["sensitive"] = true;
+                  newMap[index + 1]["marked"] = true;
+                  newMap[index + 1]["emailId"] = email.query_mid;
+                  setSensitivityMap(newMap);
 
-        <button
-          className={"label-button-non"}
-          id={"label-button-non-" + (index + 1)}
-          onClick={() => {
-            const newMap = { ...sensitivityMap };
-            newMap[index + 1]["sensitive"] = false;
-            newMap[index + 1]["marked"] = true;
-            newMap[index + 1]["emailId"] = email.query_mid;
-            setSensitivityMap(newMap);
+                  document.getElementById(
+                    "label-button-" + (index + 1)
+                  )!.style.backgroundColor = "rgb(182, 59, 59)";
+                  document.getElementById(
+                    "label-button-" + (index + 1)
+                  )!.style.color = "rgb(255,255,255)";
+                  document.getElementById(
+                    "label-button-icon-" + (index + 1)
+                  )!.style.color = "rgb(255,255,255)";
+                  document.getElementById(
+                    "label-button-non-" + (index + 1)
+                  )!.style.backgroundColor = "rgb(255, 255, 255)";
+                  document.getElementById(
+                    "label-button-non-" + (index + 1)
+                  )!.style.color = "rgb(0, 0, 0)";
+                  document.getElementById(
+                    "label-button-non-icon-" + (index + 1)
+                  )!.style.color = "rgb(45, 125, 45)";
+                }}
+              >
+                <Icon id={"label-button-icon-" + (index + 1)}
+                  className="label-button-icon"
+                  icon="warning-sign" iconSize={24}
+                /> Sensitive
+              </button>
+            </Grid>
+          
+            <Grid item xs={4}>
+              <button
+                className={"label-button-non"}
+                id={"label-button-non-" + (index + 1)}
+                onClick={() => {
+                  const newMap = { ...sensitivityMap };
+                  newMap[index + 1]["sensitive"] = false;
+                  newMap[index + 1]["marked"] = true;
+                  newMap[index + 1]["emailId"] = email.query_mid;
+                  setSensitivityMap(newMap);
 
-            document.getElementById(
-              "label-button-non-" + (index + 1)
-            )!.style.backgroundColor = "rgb(45, 125, 45)";
-            document.getElementById(
-              "label-button-non-" + (index + 1)
-            )!.style.color = "rgb(255,255,255)";
-            document.getElementById(
-              "label-button-" + (index + 1)
-            )!.style.backgroundColor = "rgb(255, 255, 255)";
-            document.getElementById(
-              "label-button-" + (index + 1)
-            )!.style.color = "rgb(0, 0, 0)";
-          }}
-        >
-          Non-Sensitive
-        </button> 
-
-        <h1 className="slider-notes">
-          Confidence Slider: 1 being extremely inconfident, 10 being extremely
-          confident
-        </h1>
-        <Slider
-          className="confidence-slider"
-          min={1}
-          max={10}
-          stepSize={0.1}
-          labelPrecision={0.1}
-          value={confidence}
-          onChange={(val) => {
-            setConfidence(val);
-            const newMap = { ...sensitivityMap };
-            newMap[index + 1]["confidence"] = val;
-            setSensitivityMap(newMap);
-          }}
-          intent="none"
-        />
-        
-      </FormGroup>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-      </div>
+                  document.getElementById(
+                    "label-button-non-" + (index + 1)
+                  )!.style.backgroundColor = "rgb(45, 125, 45)";
+                  document.getElementById(
+                    "label-button-non-" + (index + 1)
+                  )!.style.color = "rgb(255,255,255)";
+                  document.getElementById(
+                    "label-button-non-icon-" + (index + 1)
+                  )!.style.color = "rgb(255,255,255)";
+                  document.getElementById(
+                    "label-button-" + (index + 1)
+                  )!.style.backgroundColor = "rgb(255, 255, 255)";
+                  document.getElementById(
+                    "label-button-" + (index + 1)
+                  )!.style.color = "rgb(0, 0, 0)";
+                  document.getElementById(
+                    "label-button-icon-" + (index + 1)
+                  )!.style.color = "rgb(182, 59, 59)";
+                }}
+              >
+                <Icon
+                  id={"label-button-non-icon-" + (index + 1)}
+                  className="label-button-non-icon"
+                  icon="tick"
+                  iconSize={24}
+                /> Normal
+              </button>
+            </Grid>
+          </Grid>
+          
+          <Grid container spacing={1} wrap="wrap">
+            <Grid item xs={4}>
+              <p className="question">
+                2. How confident are you about your answer?
+              </p>
+            </Grid>
+            <Grid item xs={8} px={5}>
+              <Slider
+                className="confidence-slider"
+                min={0}
+                max={100}
+                initialValue={50}
+                stepSize={1}
+                labelStepSize={10}
+                value={confidence}
+                onChange={(val) => {
+                  setConfidence(val);
+                  const newMap = { ...sensitivityMap };
+                  newMap[index + 1]["confidence"] = val;
+                  setSensitivityMap(newMap);
+                }}
+                intent="none"
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} wrap="wrap">
+            <Grid item xs={12}>
+              <p className="question">
+                3. Please tick the boxes (
+                  <Icon
+                  icon="tick"
+                  color='rgb(255, 255, 255)'
+                  iconSize={12}
+                  style={{ border: '1px solid rgb(0, 0, 0)',
+                    padding: '1px',
+                    borderRadius: '2px',
+                    backgroundColor:'rgb(45, 114, 210'
+                  }}
+                  />
+                ) of email attributes below that affect your labeling decision the most.
+              </p>
+            </Grid>
+          </Grid>
+      
 
       {/*this part is the email body display*/ }
       <hr className="separator" />
       <p> </p>
       <div className="email-content">
+      <h2>{"Email " + (index + 1)}</h2>
         {/* <p>
           {" "}
           <b>DateSent:</b> {JSON.stringify(email.year, null, 2).slice(1, -1)}/
@@ -194,33 +262,18 @@ function EmailBox({
           {/* <b>Query_mid:</b> {JSON.stringify(email.query_mid, null, 2).slice(1, -1)} 
         </p>
         <p> </p> */}
+        <Box sx={{ my: 10 }}>
+        <h3><Checkbox label="Email Info" /></h3>
         <p>
-          {" "}
           <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1, -1)}
         </p>
-        <p> </p>
         <p>
-          {" "}
-          <Tooltip2
-            placement="top"
-            content={<div>Recipient: {email.rcpt}</div>}
-          >
-            <div><b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1).substring(0, 20)} ...</div>
-          </Tooltip2>
+          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}
         </p>
-        <p> </p>
         <p>
-          {" "}
-          <Tooltip2
-            placement="top"
-            content={<div>Email Subject: {email.subject}</div>}
-          >
-            <div><b>Email Subject:</b> {JSON.stringify(email.subject, null, 2).slice(1,-1).substring(0, 20)} ...</div>
-          </Tooltip2>
+          <b>Email Subject:</b> {JSON.stringify(email.subject, null, 2).slice(1,-1)}
         </p>
-        <p> </p>
         <p>
-          {" "}
           <Tooltip2
             placement="top"
             content={<div>File: {email.files}</div>}
@@ -228,203 +281,202 @@ function EmailBox({
             <div><b>File:</b> {JSON.stringify(email.files, null, 2).slice(1,-1).substring(0, 20)} ...</div>
           </Tooltip2>       
         </p>
-        <p> </p>
         <p>
-          {" "}
-          <b>Manager Name:</b>{" "}
-          {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Job Family:</b>{" "}
-          {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Employment Type:</b>{" "}
-          {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Business Location:</b>{" "}
-          {JSON.stringify(email.business_location, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Hire Date:</b>{" "}
-          {JSON.stringify(email.hire_date, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Employee Status:</b>{" "}
-          {JSON.stringify(email.employee_status, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        </div>
-
-        <div className="email-content-2">
-        <p>
-          {" "}
-          <b>Government Cleared:</b>{" "}
-          {JSON.stringify(email.government_cleared, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
           <b>Day of Week:</b>{" "}
           {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
         </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Privileged User:</b>{" "}
-          {JSON.stringify(email.privileged_user, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Local Admin:</b>{" "}
-          {JSON.stringify(email.local_admin, null, 2).slice(1, -1)}
-        </p>
-        <p> </p>
-        <p>
-          {" "}
-          <b>Recipient Count:</b>{" "}
-          {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
-          <Tooltip2
-            placement="top"
-            className="tooltip-hover"
-            content={<div>Recipient Count Personal Max: {email.rcpt_count_personal_max}</div>}
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.rcpt_count / email.rcpt_count_personal_max}
-              intent={handleBarColor(
-                email.rcpt_count / email.rcpt_count_personal_max
-              )}
-            />
-          </Tooltip2>
-          
-        </p>
-        <p> </p>
-        {/* <p>
-          {" "}
-          <b>rcpt count job max:</b>{" "}
-          {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.rcpt_count / email.rcpt_count_job_max}
-            intent={handleBarColor(
-              email.rcpt_count / email.rcpt_count_job_max
-            )}
-          />
-        </p> */}
-        <p>
-          {" "}
-          <b>File Count:</b>{" "}
-          {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
-          <Tooltip2
-            placement="top"
-            className="tooltip-hover"
-            content={<div>File Count Personal Max: {email.file_count_personal_max}</div>}
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.file_count / email.file_count_personal_max}
-              intent={handleBarColor(
-                email.file_count / email.file_count_personal_max
-              )}
-            />
-          </Tooltip2>
-        </p>
-
-        <p> </p>
-        {/* <p>
-          {" "}
-          <b>file count job max:</b>{" "}
-          {JSON.stringify(email.file_count_job_max, null, 2).slice(1, -1)}
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.file_count / email.file_count_job_max}
-            intent={handleBarColor(
-              email.file_count / email.file_count_job_max
-            )}
-          />
-            </p> */}
-        <p>
-          {" "}
-          <b>Size:</b>{" "}
-          {JSON.stringify(email.size, null, 2).slice(1, -1)}
-          <Tooltip2
-            placement="top"
-            className="tooltip-hover"
-            // content={"Size Personal Max"}
-            content={<div>Size Personal Max: {email.size_personal_max}</div>}
-
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.size / email.size_personal_max}
-              intent={handleBarColor(
-                email.size / email.size_personal_max
-              )}
-            />
-          </Tooltip2>
-        </p>
-        {/* <p>
-          {" "}
-          <b>size job max:</b>{" "}
-          {JSON.stringify(email.size_job_max, null, 2).slice(1, -1)}
-          <ProgressBar
-            className="email-bar"
-            animate={false}
-            stripes={false}
-            value={email.size / email.size_job_max}
-            intent={handleBarColor(
-              email.size / email.size_job_max
-            )}
-          />
-        </p> */}
-        <p> </p>
-        <p>
-          {" "}
-          <b>Subject Sensitive Count:</b>{" "}
-          {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
-          <Tooltip2
-            placement="top"
-            className="tooltip-hover"
-            content={<div>Subject Sensitive Personal Max: {email.sub_sensitive_count_personal_max}</div>}
-          >
-            <ProgressBar
-              className="email-bar"
-              animate={false}
-              stripes={false}
-              value={email.sub_sensitive_count / email.sub_sensitive_count_personal_max}
-              intent={handleBarColor(
-                email.sub_sensitive_count / email.sub_sensitive_count_personal_max
-              )}
-            />
-          </Tooltip2>
-        </p>
-        <p> </p>
+        </Box>
         
-      </div>
-    </div>
+        <Box sx={{ my:10 }}>
+        <h3><Checkbox label="Sender Statistics" /></h3>
+          <Grid container spacing={4} mx={0} wrap="wrap">
+            <Grid item md={6} sm={12} display="flex" flexDirection="column">
+              <Grid container spacing={2} width='100%' my={1}>
+                <Grid item xs={5}>
+                  <b>Recipient Count: </b>
+                </Grid>
+                <Grid item xs={1} display="flex" justifyContent="flex-end">
+                  {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="center">
+                  <ProgressBar
+                    className="email-bar"
+                    animate={false}
+                    stripes={false}
+                    value={email.rcpt_count / email.rcpt_count_personal_max}
+                    intent={handleBarColor(
+                      email.rcpt_count / email.rcpt_count_personal_max
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={1} >
+                  {JSON.stringify(email.rcpt_count_personal_max, null, 2).slice(1, -1)}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} width='100%' my={1}>
+                <Grid item xs={5}>
+                  <b>Attachment File Count: </b>
+                </Grid>
+                <Grid item xs={1} display="flex" justifyContent="flex-end">
+                  {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="center">
+                  <ProgressBar
+                    className="email-bar"
+                    animate={false}
+                    stripes={false}
+                    value={email.file_count / email.file_count_personal_max}
+                    intent={handleBarColor(
+                      email.file_count / email.file_count_personal_max
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={1}>
+                {JSON.stringify(email.file_count_personal_max, null, 2).slice(1, -1)}
+                </Grid>
+              </Grid>
+            {/* <p>
+              {" "}
+              <b>rcpt count job max:</b>{" "}
+              {JSON.stringify(email.rcpt_count_job_max, null, 2).slice(1, -1)}
+              <ProgressBar
+                className="email-bar"
+                animate={false}
+                stripes={false}
+                value={email.rcpt_count / email.rcpt_count_job_max}
+                intent={handleBarColor(
+                  email.rcpt_count / email.rcpt_count_job_max
+                )}
+              />
+            </p> */}
+            </Grid>
+            <Grid item md={6} sm={12} display="flex" flexDirection="column">
+              <Grid container spacing={2} width='100%' my={1}>
+                <Grid item xs={5}>
+                  <b>Email Size: </b>
+                </Grid>
+                <Grid item xs={1} display="flex" justifyContent="flex-end">
+                  {JSON.stringify(email.size, null, 2).slice(1, -1)}
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="center">
+                  <ProgressBar
+                      className="email-bar"
+                      animate={false}
+                      stripes={false}
+                      value={email.size / email.size_personal_max}
+                      intent={handleBarColor(
+                        email.size / email.size_personal_max
+                      )}
+                    />
+                </Grid>
+                <Grid item xs={1} >
+                  {JSON.stringify(email.size_personal_max, null, 2).slice(1, -1)}
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} width='100%' my={1}>
+                <Grid item xs={5}>
+                  <b>Sensitive Words<br/>in Subject Line: </b>
+                </Grid>
+                <Grid item xs={1} display="flex" justifyContent="flex-end">
+                  {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
+                </Grid>
+                <Grid item xs={5} display="flex" justifyContent="center">
+                  <ProgressBar
+                      className="email-bar"
+                      animate={false}
+                      stripes={false}
+                      value={email.sub_sensitive_count / email.sub_sensitive_count_personal_max}
+                      intent={handleBarColor(
+                        email.sub_sensitive_count / email.sub_sensitive_count_personal_max
+                      )}
+                    />
+                </Grid>
+                <Grid item xs={1} >
+                  {JSON.stringify(email.sub_sensitive_count_personal_max, null, 2).slice(1, -1)}
+                </Grid>
+              </Grid>
+                {/* <p>
+                  {" "}
+                  <b>file count job max:</b>{" "}
+                  {JSON.stringify(email.file_count_job_max, null, 2).slice(1, -1)}
+                  <ProgressBar
+                    className="email-bar"
+                    animate={false}
+                    stripes={false}
+                    value={email.file_count / email.file_count_job_max}
+                    intent={handleBarColor(
+                      email.file_count / email.file_count_job_max
+                    )}
+                  />
+                    </p> */}
+                {/* <p>
+                  {" "}
+                  <b>size job max:</b>{" "}
+                  {JSON.stringify(email.size_job_max, null, 2).slice(1, -1)}
+                  <ProgressBar
+                    className="email-bar"
+                    animate={false}
+                    stripes={false}
+                    value={email.size / email.size_job_max}
+                    intent={handleBarColor(
+                      email.size / email.size_job_max
+                    )}
+                  />
+                </p> */}
+            </Grid>
+          </Grid>
+        </Box>
+        
+        <Box sx={{ my:10 }}>
+          <h3><Checkbox label="Sender Profile" /></h3>
+          <Grid container spacing={4} mx={0} wrap="wrap">
+            <Grid item md={6} sm={12}>
+              <p>
+                <b>Manager Name:</b>{" "}
+                {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Job Family:</b>{" "}
+                {JSON.stringify(email.job_family, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Employment Type:</b>{" "}
+                {JSON.stringify(email.employment_type, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Business Location:</b>{" "}
+                {JSON.stringify(email.business_location, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Hire Date:</b>{" "}
+                {JSON.stringify(email.hire_date, null, 2).slice(1, -1)}
+              </p>
+            </Grid>
+            <Grid item sm={6} xs={12}>
+              <p>
+                <b>Employee Status:</b>{" "}
+                {JSON.stringify(email.employee_status, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Government Cleared:</b>{" "}
+                {JSON.stringify(email.government_cleared, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Privileged User:</b>{" "}
+                {JSON.stringify(email.privileged_user, null, 2).slice(1, -1)}
+              </p>
+              <p>
+                <b>Local Admin:</b>{" "}
+                {JSON.stringify(email.local_admin, null, 2).slice(1, -1)}
+              </p>
+            </Grid>
+          </Grid>
+          
+        </Box>
+
+        </div>
+        </FormGroup>
+    </Box>
   );
 }
 
@@ -454,6 +506,7 @@ function Label({
 
   const [emailData, setEmailData] = useState<any[]>([]);
   const [emails, setEmails] = useState<any[]>([]);
+  const [emailPage, setEmailPage] = useState(1);
 
   async function handleResponse(response:any) {
 
@@ -493,6 +546,17 @@ function Label({
   const [submit, setSubmit] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
   const [markedAll, setMarkedAll] = useState(false);
+
+  const sunlifeTheme = createTheme({
+    palette: {
+      primary: {
+        main: 'rgb(253, 192, 60)',
+      },
+      secondary: {
+        main: 'rgb(14, 56, 70)'
+      }
+    }
+  });
   
   function handleSubmit() {
     setSubmit(true);
@@ -537,11 +601,15 @@ function Label({
     window.scrollTo(0, 0);
   }, []);
 
-  console.log(
+  console.log('THESE ARE THE EMAILS '+
     emails.map((email: any, index: number) =>
       mappingFunc(email, index, sensitivityMap, setSensitivityMap)
     )
   );
+
+  const handleEmailPageChange = (event:any, page:any) => {
+    setEmailPage(page);
+  }
 
   const labelSubmitHandler = async(e:React.SyntheticEvent) => {
     handleSubmit();
@@ -579,72 +647,87 @@ function Label({
     .catch(err => console.log("ERROR:", err));
   }
 
-  return ( 
-      <div className="email-grid-big-block">
-        
-        <div>
-        <Button
-          icon="arrow-left"
-          intent="warning"
-          text={"Back to User Info Page"}
-          onClick={() => {
-            setAlertExitPage(!alertExitPage);
-          }}
-        />
+  return (
+    <ThemeProvider theme={sunlifeTheme}>
+      <Container maxWidth="xl">
+          <div>
+          <Button
+            icon="arrow-left"
+            intent="warning"
+            text={"Back to User Info Page"}
+            onClick={() => {
+              setAlertExitPage(!alertExitPage);
+            }}
+          />
 
-        <Alert
-          className="alert-box"
-          isOpen={alertExitPage}
-          confirmButtonText="Exit"
-          cancelButtonText="Cancel"
-          icon="undo"
-          intent="danger"
-          onCancel={handleExitCancel}
-          onConfirm={handleExitConfirm}
-        >
-          <h2 className="alert-header">Are you sure you want to exit?</h2>
-          <p className="alert-sub">Your data will be lost.</p>
-        </Alert>
+          <Alert
+            className="alert-box"
+            isOpen={alertExitPage}
+            confirmButtonText="Exit"
+            cancelButtonText="Cancel"
+            icon="undo"
+            intent="danger"
+            onCancel={handleExitCancel}
+            onConfirm={handleExitConfirm}
+          >
+            <h2 className="alert-header">Are you sure you want to exit?</h2>
+            <p className="alert-sub">Your data will be lost.</p>
+          </Alert>
 
-        <pre>
-          <div className="email-grid">
-            {
-              // @ts-ignore
-              <Carousel>
-                {
-                  (emailData.length > 0 && emails.map((email: any, index: number) =>
-                  mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
-                  (emailData.length === 0 && <div></div>)
-                }
-              </Carousel>
-            }
+          <Pagination
+              count={10}
+              page={emailPage}
+              siblingCount={9}
+              hideNextButton={true}
+              hidePrevButton={true}
+              size="small"
+              color="primary"
+              onChange={handleEmailPageChange}
+              />
+
+          <pre>
+            <div className="email-grid">
+
+              {
+                // @ts-ignore
+                <Carousel
+                  enableSwipe={false}
+                  enableMouseSwipe={false}
+                >
+                  {
+                    (emailData.length > 0 && emails.map((email: any, index: number) =>
+                    mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
+                    (emailData.length === 0 && <div></div>)
+                  }
+                </Carousel>
+              }
+            </div>
+          </pre>
+
+          <form onSubmit={labelSubmitHandler}>
+            {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
+            {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
+            {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
+          </form>
+    
+          <Alert
+            className="submit-box"
+            isOpen={showSubmit}
+            icon="clean"
+            intent="success"
+            confirmButtonText="Submit"
+            cancelButtonText="Cancel"
+            onConfirm={handleSubmit}
+            onCancel={() => {
+              setShowSubmit(false);
+            }}
+          >
+            <h2 className="submit-header">Are you sure you want to submit?</h2>
+            <p className="submit-sub">You can't undo this submit.</p>
+          </Alert>
           </div>
-        </pre>
-
-        <form onSubmit={labelSubmitHandler}>
-          {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
-          {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
-          {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
-        </form>
-  
-        <Alert
-          className="submit-box"
-          isOpen={showSubmit}
-          icon="clean"
-          intent="success"
-          confirmButtonText="Submit"
-          cancelButtonText="Cancel"
-          onConfirm={handleSubmit}
-          onCancel={() => {
-            setShowSubmit(false);
-          }}
-        >
-          <h2 className="submit-header">Are you sure you want to submit?</h2>
-          <p className="submit-sub">You can't undo this submit.</p>
-        </Alert>
-        </div>
-
-    </div>
+      </Container>
+    </ThemeProvider>
   );
 }
 
