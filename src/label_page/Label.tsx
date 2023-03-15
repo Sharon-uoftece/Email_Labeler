@@ -1,22 +1,19 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
 import {
-  Button,
+  // Button,
   FormGroup,
   Alert,
-  Slider,
   ProgressBar,
   Checkbox
 } from "@blueprintjs/core";
 import { Box,
          Grid,
          Container,
+         Slider,
          Pagination,
-         PaginationItem
+         PaginationItem,
+         Button
 } from '@mui/material/';
-// import { CheckBox,
-//          WarningAmber,
-//          Check
-// } from '@mui/icons-material/';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Popover2, Tooltip2 } from "@blueprintjs/popover2";
 import { Icon, IconSize } from "@blueprintjs/core";
@@ -70,11 +67,53 @@ function EmailBox({
 }) {
   console.log("EMAIL DATA IN EMAIL BOX: ", emailData);
   //the initial value of the confidence slider is set to 5, to improve user interaction
-  const [confidence, setConfidence] = useState(5);
+  const [confidence, setConfidence] = useState(50);
   const [pop, setPop] = useState(false);
   const [popoverContent, setPopoverContent] = useState(Tab.SenderInfo);
   const visualItemMax = getMax(emailData);
 
+  var markStart = 0;
+  var markEnd = 10;
+  var marks = [];
+
+  for (var i = markStart; i < markEnd+1; i++) {
+      var v = i * 10
+      var m = `${v}%`;
+      marks.push(
+        {
+          value: v,
+          label: m
+        }
+      );
+  }
+
+  const emailFiles = JSON.stringify(email.files, null, 0).slice(1,-1).split(';').map(f=>
+    <div style={{
+      border: '1px solid black',
+      borderRadius:'2px',
+      margin: '5px',
+      padding: '5px',
+      
+    }}>
+      {f}
+    </div>
+  );
+    
+  function valuetext(value: number) {
+    return `${value}&`;
+  }
+
+  function handleSliderChange(event: Event, newValue: number | number[]) {
+    if(typeof newValue === 'number'){
+      setConfidence(newValue);
+    }
+    const newMap = { ...sensitivityMap };
+    newMap[index + 1]["confidence"] = newValue;
+    setSensitivityMap(newMap);
+  }
+
+
+  //I noticed typos for "handle" below, you might want to check if your functions are working -Lala
 
   function handelScatterPlot() {
     setPopoverContent(Tab.ScatterPlot);
@@ -109,18 +148,23 @@ function EmailBox({
       <FormGroup
         inline={false}
       >
-          <Grid item xs={12} display="flex" justifyContent="center" mb={4}>
+          {/* <Grid item xs={12} display="flex" justifyContent="center" mb={4}>
             <p>{index + 1} of 10</p>
-          </Grid>
-          <Grid container spacing={1} display="flex" flexDirection="row" alignItems="center"
-            width="100%" mb={4} wrap="wrap"
+          </Grid> */}
+          <Grid container spacing={3}
+            display="flex" flexDirection="row" alignItems="center" justifyContent="stretch" mb={4}
           >
-            <Grid item xs={4}>
+            <Grid item lg={3} xs={12}>
               <p className="question">
                 1. Do you consider the email below as sensitive?
               </p>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item lg={1} xs={0}>
+              &nbsp;
+            </Grid>
+            <Grid item lg={2.5} sm={4} xs={12} display="flex"
+              justifyContent={{ lg: "flex-start", xs:"center" }} ml={{ lg: 5, xs: 0}}
+            >
               <button
                 className={"label-button"}
                 id={"label-button-" + (index + 1)}  
@@ -154,11 +198,17 @@ function EmailBox({
                 <Icon id={"label-button-icon-" + (index + 1)}
                   className="label-button-icon"
                   icon="warning-sign" iconSize={24}
-                /> Sensitive
+                />&nbsp;&nbsp;Sensitive
               </button>
             </Grid>
+            
+            <Grid item lg={1} xs={0}>
+              &nbsp;
+            </Grid>
           
-            <Grid item xs={4}>
+            <Grid item lg={2.5} sm={4} xs={12} display="flex"
+              justifyContent={{ lg: "flex-end", xs:"center" }} mr={{ lg: 5, xs: 0}}
+            >
               <button
                 className={"label-button-non"}
                 id={"label-button-non-" + (index + 1)}
@@ -194,38 +244,41 @@ function EmailBox({
                   className="label-button-non-icon"
                   icon="tick"
                   iconSize={24}
-                /> Normal
+                />&nbsp;&nbsp;Normal
               </button>
             </Grid>
-          </Grid>
           
-          <Grid container spacing={1} wrap="wrap">
-            <Grid item xs={4}>
+            <Grid item lg={3} xs={12} my={3}>
               <p className="question">
                 2. How confident are you about your answer?
               </p>
             </Grid>
-            <Grid item xs={8} px={5}>
+            <Grid item xs={1} textAlign="left" my={3}>
+              <p className="caption">
+                Extremely Inconfident
+              </p>
+            </Grid>
+            <Grid item lg={6} xs={8} mx={5} my={3}>
               <Slider
-                className="confidence-slider"
+                aria-label="Confidence Slider"
+                color="secondary"
+                value={confidence}
+                getAriaValueText={valuetext}
+                step={1}
                 min={0}
                 max={100}
-                initialValue={50}
-                stepSize={1}
-                labelStepSize={10}
-                value={confidence}
-                onChange={(val) => {
-                  setConfidence(val);
-                  const newMap = { ...sensitivityMap };
-                  newMap[index + 1]["confidence"] = val;
-                  setSensitivityMap(newMap);
-                }}
-                intent="none"
+                valueLabelDisplay="auto"
+                marks={marks}
+                onChange={handleSliderChange}
               />
             </Grid>
-          </Grid>
-          <Grid container spacing={1} wrap="wrap">
-            <Grid item xs={12}>
+            <Grid item xs={1} textAlign="right" my={3}>
+              <p className="caption">
+                Extremely Confident
+              </p>
+            </Grid>
+
+            <Grid item xs={12} sx={{ overflowWrap: 'break-word' }}>
               <p className="question">
                 3. Please tick the boxes (
                   <Icon
@@ -264,41 +317,68 @@ function EmailBox({
         <p> </p> */}
         <Box sx={{ my: 10 }}>
         <h3><Checkbox label="Email Info" /></h3>
-        <p>
-          <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1, -1)}
-        </p>
-        <p>
-          <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}
-        </p>
-        <p>
-          <b>Email Subject:</b> {JSON.stringify(email.subject, null, 2).slice(1,-1)}
-        </p>
-        <p>
-          <Tooltip2
-            placement="top"
-            content={<div>File: {email.files}</div>}
-          >
-            <div><b>File:</b> {JSON.stringify(email.files, null, 2).slice(1,-1).substring(0, 20)} ...</div>
-          </Tooltip2>       
-        </p>
-        <p>
-          <b>Day of Week:</b>{" "}
-          {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
-        </p>
+        <Grid container spacing={0} mx={3}>
+          <Grid item xs={12}>
+            <p>
+              <b>Sender:</b> {JSON.stringify(email.sender, null, 2).slice(1, -1)}
+            </p>
+            <p>
+              <b>Recipient:</b> {JSON.stringify(email.rcpt, null, 2).slice(1,-1)}
+            </p>
+            <p>
+              <b>Email Subject:</b> {JSON.stringify(email.subject, null, 2).slice(1,-1)}
+            </p>
+          </Grid>
+          <Grid container spacing={0} display="flex" flexDirection="row" alignItems="flex-start">
+            <Grid item md={1.5} xs={12} mt={1.5}>
+              <p>
+                <b>Attached Files:</b>
+              </p>
+            </Grid>
+            <Grid item md={10.5} xs={12} display="flex" flexDirection="row" wrap="wrap">
+                {emailFiles}
+            </Grid>
+          </Grid>
+          <Grid item xs={12} mt={1}>
+            <p>
+              <b>Day of Week:</b>{" "}
+              {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
+            </p>
+          </Grid>
+        </Grid>
         </Box>
+        
         
         <Box sx={{ my:10 }}>
         <h3><Checkbox label="Sender Statistics" /></h3>
-          <Grid container spacing={4} mx={0} wrap="wrap">
-            <Grid item md={6} sm={12} display="flex" flexDirection="column">
-              <Grid container spacing={2} width='100%' my={1}>
-                <Grid item xs={5}>
+          <Grid container spacing={6} mx={-3} wrap="wrap">
+            <Grid item lg={6} xs={12} display="flex" flexDirection="column">
+              <Grid container spacing={3} width='100%' alignItems="flex-end" justifyContent="flex-start">
+                <Grid item lg={5} xs={0}>
+                  &nbsp;
+                </Grid>
+                <Grid item xs={3} display="flex" justifyContent="flex-start" textAlign="left">
+                  <p className="caption">
+                    This Email
+                  </p>
+                </Grid>
+                <Grid item lg={1} xs={5} display="flex" justifyContent="center">
+                  &nbsp;
+                </Grid>
+                <Grid item xs={3} display="flex" justifyContent="flex-end" textAlign="right">
+                  <p className="caption">
+                  Max (6 mth bfr this email)
+                  </p>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} width='100%' my={1} alignItems="center">
+                <Grid item lg={5} xs={12}>
                   <b>Recipient Count: </b>
                 </Grid>
                 <Grid item xs={1} display="flex" justifyContent="flex-end">
                   {JSON.stringify(email.rcpt_count, null, 2).slice(1, -1)}
                 </Grid>
-                <Grid item xs={5} display="flex" justifyContent="center">
+                <Grid item lg={5} xs={10} display="flex" justifyContent="center">
                   <ProgressBar
                     className="email-bar"
                     animate={false}
@@ -313,14 +393,14 @@ function EmailBox({
                   {JSON.stringify(email.rcpt_count_personal_max, null, 2).slice(1, -1)}
                 </Grid>
               </Grid>
-              <Grid container spacing={2} width='100%' my={1}>
-                <Grid item xs={5}>
-                  <b>Attachment File Count: </b>
+              <Grid container spacing={3} width='100%' my={1} alignItems="center">
+                <Grid item lg={5} xs={12} wrap="wrap">
+                  <b>Attached Files Count: </b>
                 </Grid>
                 <Grid item xs={1} display="flex" justifyContent="flex-end">
                   {JSON.stringify(email.file_count, null, 2).slice(1, -1)}
                 </Grid>
-                <Grid item xs={5} display="flex" justifyContent="center">
+                <Grid item lg={5} xs={10} display="flex" justifyContent="center">
                   <ProgressBar
                     className="email-bar"
                     animate={false}
@@ -350,15 +430,33 @@ function EmailBox({
               />
             </p> */}
             </Grid>
-            <Grid item md={6} sm={12} display="flex" flexDirection="column">
-              <Grid container spacing={2} width='100%' my={1}>
-                <Grid item xs={5}>
+            <Grid item lg={6} xs={12} display="flex" flexDirection="column">
+              <Grid container spacing={3} width='100%' alignItems="flex-end" justifyContent="flex-start">
+                <Grid item lg={5} xs={0}>
+                  &nbsp;
+                </Grid>
+                <Grid item xs={3} display="flex" justifyContent="flex-start" textAlign="left">
+                  <p className="caption">
+                    This Email
+                  </p>
+                </Grid>
+                <Grid item lg={1} xs={5} display="flex" justifyContent="center">
+                  &nbsp;
+                </Grid>
+                <Grid item xs={3} display="flex" justifyContent="flex-end" textAlign="right">
+                  <p className="caption">
+                  Max (6 mth bfr this email)
+                  </p>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} width='90%' my={1} alignItems="center">
+                <Grid item lg={5} xs={12}>
                   <b>Email Size: </b>
                 </Grid>
                 <Grid item xs={1} display="flex" justifyContent="flex-end">
                   {JSON.stringify(email.size, null, 2).slice(1, -1)}
                 </Grid>
-                <Grid item xs={5} display="flex" justifyContent="center">
+                <Grid item lg={5} xs={10} display="flex" justifyContent="center">
                   <ProgressBar
                       className="email-bar"
                       animate={false}
@@ -373,14 +471,14 @@ function EmailBox({
                   {JSON.stringify(email.size_personal_max, null, 2).slice(1, -1)}
                 </Grid>
               </Grid>
-              <Grid container spacing={2} width='100%' my={1}>
-                <Grid item xs={5}>
-                  <b>Sensitive Words<br/>in Subject Line: </b>
+              <Grid container spacing={3} width='90%' my={1} alignItems="center">
+                <Grid item lg={5} xs={12}>
+                  <b>Sensitive Words in Subject Line: </b>
                 </Grid>
                 <Grid item xs={1} display="flex" justifyContent="flex-end">
                   {JSON.stringify(email.sub_sensitive_count, null, 2).slice(1, -1)}
                 </Grid>
-                <Grid item xs={5} display="flex" justifyContent="center">
+                <Grid item lg={5} xs={10} display="flex" justifyContent="center">
                   <ProgressBar
                       className="email-bar"
                       animate={false}
@@ -429,8 +527,8 @@ function EmailBox({
         
         <Box sx={{ my:10 }}>
           <h3><Checkbox label="Sender Profile" /></h3>
-          <Grid container spacing={4} mx={0} wrap="wrap">
-            <Grid item md={6} sm={12}>
+          <Grid container spacing={6} mx={-3} wrap="wrap">
+            <Grid item lg={6} xs={12}>
               <p>
                 <b>Manager Name:</b>{" "}
                 {JSON.stringify(email.manager_name, null, 2).slice(1, -1)}
@@ -555,6 +653,11 @@ function Label({
       secondary: {
         main: 'rgb(14, 56, 70)'
       }
+    },
+    typography: {
+      button: {
+        textTransform: 'none'
+      }
     }
   });
   
@@ -589,6 +692,8 @@ function Label({
     );
   };
 
+  const emailBoxes = emails.map((email: any, index: number) => mappingFunc(email, index, sensitivityMap, setSensitivityMap));
+
   const handleExitCancel = () => {
     setAlertExitPage(!alertExitPage);
   };
@@ -600,12 +705,6 @@ function Label({
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  console.log('THESE ARE THE EMAILS '+
-    emails.map((email: any, index: number) =>
-      mappingFunc(email, index, sensitivityMap, setSensitivityMap)
-    )
-  );
 
   const handleEmailPageChange = (event:any, page:any) => {
     setEmailPage(page);
@@ -649,83 +748,92 @@ function Label({
 
   return (
     <ThemeProvider theme={sunlifeTheme}>
-      <Container maxWidth="xl">
-          <div>
-          <Button
-            icon="arrow-left"
-            intent="warning"
-            text={"Back to User Info Page"}
-            onClick={() => {
-              setAlertExitPage(!alertExitPage);
-            }}
-          />
+      <Container maxWidth="lg">
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<Icon icon="arrow-left"/>}
+          onClick={() => {
+            setAlertExitPage(!alertExitPage);
+          }}
+        >Back to User Info Page</Button>
 
-          <Alert
-            className="alert-box"
-            isOpen={alertExitPage}
-            confirmButtonText="Exit"
-            cancelButtonText="Cancel"
-            icon="undo"
-            intent="danger"
-            onCancel={handleExitCancel}
-            onConfirm={handleExitConfirm}
-          >
-            <h2 className="alert-header">Are you sure you want to exit?</h2>
-            <p className="alert-sub">Your data will be lost.</p>
-          </Alert>
-
-          <Pagination
+        <Alert
+          className="alert-box"
+          isOpen={alertExitPage}
+          confirmButtonText="Exit"
+          cancelButtonText="Cancel"
+          icon="undo"
+          intent="danger"
+          onCancel={handleExitCancel}
+          onConfirm={handleExitConfirm}
+        >
+          <h2 className="alert-header">Are you sure you want to exit?</h2>
+          <p className="alert-sub">Your data will be lost.</p>
+        </Alert>
+        
+        <Grid container display="flex" alignItems="center" mt={5} mb={10}>
+          <Grid item xs={2} display="flex" justifyContent="flex-start">
+            <Button
+              color="primary"
+              variant="contained"
+              disabled={emailPage<=1 ? true: false}
+              style={{ fontFamily: 'Verdana', fontWeight: 'bold', fontSize: '16px'}}
+              onClick={() => setEmailPage(emailPage-1)}
+            >
+              Back
+            </Button>
+          </Grid>
+          <Grid item xs={8} display="flex" justifyContent="center">
+            <Pagination
               count={10}
               page={emailPage}
               siblingCount={9}
-              hideNextButton={true}
-              hidePrevButton={true}
               size="small"
               color="primary"
+              hideNextButton={true}
+              hidePrevButton={true}
               onChange={handleEmailPageChange}
-              />
+            />
+          </Grid>
+          <Grid item xs={2} display="flex" justifyContent="flex-end">
+            <Button
+              color="primary"
+              variant="contained"
+              disabled={emailPage>=10 ? true: false}
+              style={{ fontFamily: 'Verdana', fontWeight: 'bold', fontSize: '16px'}}
+              onClick={() => setEmailPage(emailPage+1)}
+            >
+              Next
+            </Button>
+          </Grid>
+        </Grid>
+        
 
-          <pre>
-            <div className="email-grid">
+        {emailBoxes[emailPage-1]}
 
-              {
-                // @ts-ignore
-                <Carousel
-                  enableSwipe={false}
-                  enableMouseSwipe={false}
-                >
-                  {
-                    (emailData.length > 0 && emails.map((email: any, index: number) =>
-                    mappingFunc(email, index, sensitivityMap, setSensitivityMap))) || 
-                    (emailData.length === 0 && <div></div>)
-                  }
-                </Carousel>
-              }
-            </div>
-          </pre>
 
-          <form onSubmit={labelSubmitHandler}>
-            {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
-            {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
-            {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
-          </form>
-    
-          <Alert
-            className="submit-box"
-            isOpen={showSubmit}
-            icon="clean"
-            intent="success"
-            confirmButtonText="Submit"
-            cancelButtonText="Cancel"
-            onConfirm={handleSubmit}
-            onCancel={() => {
-              setShowSubmit(false);
-            }}
-          >
-            <h2 className="submit-header">Are you sure you want to submit?</h2>
-            <p className="submit-sub">You can't undo this submit.</p>
-          </Alert>
-          </div>
+        <form onSubmit={labelSubmitHandler}>
+          {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
+          {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
+          {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
+        </form>
+
+        <Alert
+          className="submit-box"
+          isOpen={showSubmit}
+          icon="clean"
+          intent="success"
+          confirmButtonText="Submit"
+          cancelButtonText="Cancel"
+          onConfirm={handleSubmit}
+          onCancel={() => {
+            setShowSubmit(false);
+          }}
+        >
+          <h2 className="submit-header">Are you sure you want to submit?</h2>
+          <p className="submit-sub">You can't undo this submit.</p>
+        </Alert>
       </Container>
     </ThemeProvider>
   );

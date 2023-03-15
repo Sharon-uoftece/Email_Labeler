@@ -605,6 +605,7 @@ input:focus {
 
   .email-element {
     font-family: Verdana;
+    font-size: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -624,7 +625,6 @@ input:focus {
 
 .email-bar {
 
-  transform: translateY(7px) translateX(0px);
 }
 
 .tooltip-hover {
@@ -638,14 +638,32 @@ input:focus {
 .email-content {
   font-family: Verdana;
   font-size: 16px;
+  p {
+    font-size: 16px;
+  }
   h2 {
     font-size: 36px;
   };
   h3 {
-    font-size: 22px;
+    font-size: 20px;
+  };
+  .caption {
+    font-size: 14px;
   }
-  
 }
+
+.caption {
+  font-size: 14px;
+}
+
+// .MuiPagination-ul {
+//   li:first-child {
+//     margin-right: 25vw;
+//   }
+//   li:last-child {
+//     margin-left: 25vw;
+//   }
+// }
 
 .email-info-1 {
   transform: translateY(30px);
@@ -719,7 +737,6 @@ input:focus {
 .question{
   font-family: Verdana;
   font-weight: bold;
-  overflow-wrap: break-word;
 }
 
 .label-button {
@@ -738,7 +755,7 @@ input:focus {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(182, 59, 59, 50);
   padding: 5px;
-  width: 66%;
+  width: 100%;
   background-color: white;
   &:hover {
     outline: 2px solid rgba(182, 59, 59, 100);
@@ -766,7 +783,7 @@ input:focus {
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(45, 125, 45, 50);
   padding: 5px;
-  width: 66%;
+  width: 100%;
   background-color: white;
   &:hover {
     outline: 2px solid rgba(45, 125, 45, 100);
