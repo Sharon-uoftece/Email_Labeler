@@ -166,7 +166,14 @@ function EmailBox({
               justifyContent={{ lg: "flex-start", xs:"center" }} ml={{ lg: 5, xs: 0}}
             >
               <button
-                className={"label-button"}
+                className={(sensitivityMap[index + 1]["sensitive"] === null)?
+                  "label-button sensitive-false"
+                  :
+                  (sensitivityMap[index + 1]["sensitive"] === false)?
+                    "label-button sensitive-false"
+                    :
+                    "label-button sensitive-true"
+                }
                 id={"label-button-" + (index + 1)}  
                 onClick={() => {
                   const newMap = { ...sensitivityMap };
@@ -174,29 +181,17 @@ function EmailBox({
                   newMap[index + 1]["marked"] = true;
                   newMap[index + 1]["emailId"] = email.query_mid;
                   setSensitivityMap(newMap);
-
-                  document.getElementById(
-                    "label-button-" + (index + 1)
-                  )!.style.backgroundColor = "rgb(182, 59, 59)";
-                  document.getElementById(
-                    "label-button-" + (index + 1)
-                  )!.style.color = "rgb(255,255,255)";
-                  document.getElementById(
-                    "label-button-icon-" + (index + 1)
-                  )!.style.color = "rgb(255,255,255)";
-                  document.getElementById(
-                    "label-button-non-" + (index + 1)
-                  )!.style.backgroundColor = "rgb(255, 255, 255)";
-                  document.getElementById(
-                    "label-button-non-" + (index + 1)
-                  )!.style.color = "rgb(0, 0, 0)";
-                  document.getElementById(
-                    "label-button-non-icon-" + (index + 1)
-                  )!.style.color = "rgb(45, 125, 45)";
                 }}
               >
                 <Icon id={"label-button-icon-" + (index + 1)}
-                  className="label-button-icon"
+                  className={(sensitivityMap[index + 1]["sensitive"] === null)?
+                  "sensitive-icon-false"
+                  :
+                  (sensitivityMap[index + 1]["sensitive"] === false)?
+                    "sensitive-icon-false"
+                    :
+                    "sensitive-icon-true"
+                  }
                   icon="warning-sign" iconSize={24}
                 />&nbsp;&nbsp;Sensitive
               </button>
@@ -209,8 +204,16 @@ function EmailBox({
             <Grid item lg={2.5} sm={4} xs={12} display="flex"
               justifyContent={{ lg: "flex-end", xs:"center" }} mr={{ lg: 5, xs: 0}}
             >
+              
               <button
-                className={"label-button-non"}
+                className={(sensitivityMap[index + 1]["sensitive"] === null)?
+                "label-button non-false"
+                :
+                (sensitivityMap[index + 1]["sensitive"] === false)?
+                  "label-button non-true"
+                  :
+                  "label-button non-false"
+                }
                 id={"label-button-non-" + (index + 1)}
                 onClick={() => {
                   const newMap = { ...sensitivityMap };
@@ -218,30 +221,18 @@ function EmailBox({
                   newMap[index + 1]["marked"] = true;
                   newMap[index + 1]["emailId"] = email.query_mid;
                   setSensitivityMap(newMap);
-
-                  document.getElementById(
-                    "label-button-non-" + (index + 1)
-                  )!.style.backgroundColor = "rgb(45, 125, 45)";
-                  document.getElementById(
-                    "label-button-non-" + (index + 1)
-                  )!.style.color = "rgb(255,255,255)";
-                  document.getElementById(
-                    "label-button-non-icon-" + (index + 1)
-                  )!.style.color = "rgb(255,255,255)";
-                  document.getElementById(
-                    "label-button-" + (index + 1)
-                  )!.style.backgroundColor = "rgb(255, 255, 255)";
-                  document.getElementById(
-                    "label-button-" + (index + 1)
-                  )!.style.color = "rgb(0, 0, 0)";
-                  document.getElementById(
-                    "label-button-icon-" + (index + 1)
-                  )!.style.color = "rgb(182, 59, 59)";
                 }}
               >
                 <Icon
                   id={"label-button-non-icon-" + (index + 1)}
-                  className="label-button-non-icon"
+                  className={(sensitivityMap[index + 1]["sensitive"] === null)?
+                  "non-icon-false"
+                  :
+                  (sensitivityMap[index + 1]["sensitive"] === false)?
+                    "non-icon-true"
+                    :
+                    "non-icon-false"
+                  }
                   icon="tick"
                   iconSize={24}
                 />&nbsp;&nbsp;Normal
@@ -262,7 +253,7 @@ function EmailBox({
               <Slider
                 aria-label="Confidence Slider"
                 color="secondary"
-                value={confidence}
+                value={(sensitivityMap[index + 1]["confidence"])}
                 getAriaValueText={valuetext}
                 step={1}
                 min={0}
@@ -640,7 +631,7 @@ function Label({
 
 
   const [alertExitPage, setAlertExitPage] = useState(false);
-  const [confidence, setConfidence] = useState(5);
+  const [confidence, setConfidence] = useState(50);
   const [submit, setSubmit] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
   const [markedAll, setMarkedAll] = useState(false);
@@ -660,6 +651,8 @@ function Label({
       }
     }
   });
+
+  const nums = Array.from({length: 10}, (_, i) => i + 1);
   
   function handleSubmit() {
     setSubmit(true);
@@ -786,38 +779,60 @@ function Label({
           </Grid>
           <Grid item xs={8} display="flex" justifyContent="center">
             <Pagination
-              count={10}
               page={emailPage}
-              siblingCount={9}
               size="small"
               color="primary"
               hideNextButton={true}
               hidePrevButton={true}
               onChange={handleEmailPageChange}
+              renderItem={(item) => (
+                <>
+                {
+                  nums.map(i=>
+                  <PaginationItem page={i}
+                    onClick={()=>setEmailPage(i)}
+                    selected={emailPage===i?true:false}
+                    color="primary"
+                    disabled={((i>1)&&(sensitivityMap[i-1]["marked"]===false))?true:false}
+                  />
+                )}
+                </>
+              )}
             />
           </Grid>
           <Grid item xs={2} display="flex" justifyContent="flex-end">
-            <Button
-              color="primary"
-              variant="contained"
-              disabled={emailPage>=10 ? true: false}
-              style={{ fontFamily: 'Verdana', fontWeight: 'bold', fontSize: '16px'}}
-              onClick={() => setEmailPage(emailPage+1)}
-            >
-              Next
-            </Button>
+            {
+              (emailPage<10 && markedAll===false)?
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={(emailPage>=10 || sensitivityMap[emailPage]["marked"]===false) ? true: false}
+                style={{ fontFamily: 'Verdana', fontWeight: 'bold', fontSize: '16px'}}
+                onClick={() => setEmailPage(emailPage+1)}
+              >
+                Next
+              </Button>
+              :
+              <form onSubmit={labelSubmitHandler}>
+                {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
+                {markedAll === true &&
+                  <Button
+                    id="submit"
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    style={{ fontFamily: 'Verdana', fontWeight: 'bold', fontSize: '16px'}}
+                  >
+                    SUBMIT
+                  </Button>
+                }
+                {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
+              </form>
+            }
           </Grid>
         </Grid>
         
-
         {emailBoxes[emailPage-1]}
-
-
-        <form onSubmit={labelSubmitHandler}>
-          {/* {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>} */}
-          {markedAll === true && <button className="submit-button" type="submit">SUBMIT</button>}
-          {/* {doneTen === true && <h5>do you allow us to use your data?</h5>} */}
-        </form>
 
         <Alert
           className="submit-box"
