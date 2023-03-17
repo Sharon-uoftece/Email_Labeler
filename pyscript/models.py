@@ -9,6 +9,8 @@ from modAL.models import ActiveLearner
 from modAL.uncertainty import classifier_uncertainty
 from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.ensemble import RandomForestClassifier
+#from scipy.spatial.distance import cosine
+from sklearn.cluster import KMeans
 import pickle
 import json
 #import glob
@@ -23,24 +25,51 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
     distance_scores = pairwise_distances(X_pool, X_training, metric='cosine').min(axis=1)
     similarity_scores = 1 / (1 + distance_scores)
     
-    cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),np.repeat(conf_training.reshape(len(conf_training), 1), len(X_pool), axis=1).T)
+    # cwds_ndarray = np.divide(pairwise_distances(X_pool, X_training, metric='cosine'),
+    #                          np.repeat(conf_training.reshape(len(conf_training), 1), 
+    #                                    len(X_pool), axis=1).T)
+    
+    beta = 0.5
+
+    cwds_ndarray = np.multiply(pairwise_distances(X_pool, X_training, metric='cosine'),
+                             np.repeat((beta/(beta+conf_training)).reshape(len(conf_training), 1), 
+                                       len(X_pool), axis=1).T)
+    
     conf_weighted_distance_scores = cwds_ndarray[:,0:].min(axis=1)
     conf_weighted_similarity_scores = 1 / (1 + conf_weighted_distance_scores)
 
     alpha = len(X_pool)/671
-    beta = 0.9
     
-    scores = alpha * uncertainty \
-             + alpha * beta * conf_weighted_similarity_scores \
-             + (1 - alpha) * (1 - similarity_scores) * (1 - beta)
+    kmeans = KMeans(n_clusters=5, n_init=10)
+    kmeans.fit(X_pool)
+    labels = kmeans.labels_
     
+    
+    # scores = alpha * uncertainty \
+    #          + alpha * beta * conf_weighted_similarity_scores \
+    #          + (1 - alpha) * (1 - similarity_scores) * (1 - beta)
+    
+    scores =  (1 - alpha) * uncertainty \
+               + conf_weighted_similarity_scores \
+               + (alpha) * (1 - similarity_scores)
+               
+    # # select the indices of the instances to be queried
+    # query_idx = np.argpartition(scores, -5)[-5:]
 
-    # select the indices of the instances to be queried
-    query_idx = np.argpartition(scores, -5)[-5:]
-
+    # # return the indices and the instances
+    # return query_idx, X_pool[query_idx]
+    
+    max_indices = np.zeros(labels.max() + 1, dtype=int)
+    
+    # Loop over each label and find the index of the highest score in that label
+    for i in range(labels.max() + 1):
+        label_indices = np.where(labels == i)[0]
+        label_scores = scores[label_indices]
+        max_index = label_indices[np.argmax(label_scores)]
+        max_indices[i] = max_index    
+    
     # return the indices and the instances
-    return query_idx, X_pool[query_idx]
-
+    return max_indices, X_pool[max_indices]
 
 def read_json(data, day, model_type, var_name):
     return_arr = np.empty_like((5,), dtype=int) # get mid to be used for AL model teaching
