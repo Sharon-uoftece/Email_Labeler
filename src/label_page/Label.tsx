@@ -130,7 +130,6 @@ function EmailBox({
     setSensitivityMap(newMap);
   }
 
-
   //I noticed typos for "handle" below, you might want to check if your functions are working -Lala
 
   function handelScatterPlot() {
@@ -325,7 +324,17 @@ function EmailBox({
         </p>
         <p> </p> */}
         <Box sx={{ my: 10 }}>
-        <h3><Checkbox label="Email Info" /></h3>
+        <h3>
+          <Checkbox 
+            label="Email Info" 
+            checked={sensitivityMap[index + 1]["attributes"]["info"]}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{
+              const newMap = { ...sensitivityMap };
+              newMap[index + 1]["attributes"]["info"] = event.target.checked;
+              setSensitivityMap(newMap)
+            }}
+            />
+        </h3>
         <Grid container spacing={0} mx={3}>
           <Grid item xs={12}>
             <p>
@@ -359,7 +368,17 @@ function EmailBox({
         
         
         <Box sx={{ my:10 }}>
-        <h3><Checkbox label="Sender Statistics" /></h3>
+        <h3>
+          <Checkbox 
+            label="Sender Statistics" 
+            checked={sensitivityMap[index + 1]["attributes"]["stats"]}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{
+              const newMap = { ...sensitivityMap };
+              newMap[index + 1]["attributes"]["stats"] = event.target.checked;
+              setSensitivityMap(newMap)
+            }}
+            />
+        </h3>
           <Grid container spacing={6} mx={-3} wrap="wrap">
             <Grid item lg={6} xs={12} display="flex" flexDirection="column">
               <Grid container spacing={3} width='100%' alignItems="flex-end" justifyContent="flex-start">
@@ -535,7 +554,17 @@ function EmailBox({
         </Box>
         
         <Box sx={{ my:10 }}>
-          <h3><Checkbox label="Sender Profile" /></h3>
+          <h3>
+            <Checkbox
+              label="Sender Profile"
+              checked={sensitivityMap[index + 1]["attributes"]["profile"]}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{
+                const newMap = { ...sensitivityMap };
+                newMap[index + 1]["attributes"]["profile"] = event.target.checked;
+                setSensitivityMap(newMap)
+              }}
+               />
+          </h3>
           <Grid container spacing={6} mx={-3} wrap="wrap">
             <Grid item lg={6} xs={12}>
               <p>
@@ -649,7 +678,7 @@ function Label({
 
 
   const [alertExitPage, setAlertExitPage] = useState(false);
-  const [confidence, setConfidence] = useState(50);
+
   const [submit, setSubmit] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
   const [markedAll, setMarkedAll] = useState(false);
@@ -732,7 +761,12 @@ function Label({
         user: currentUser,
         emailId: sensitivityMap[element]["emailId"],
         label: sensitivityMap[element]["sensitive"],
-        confidence: twoDecimal(sensitivityMap[element]["confidence"])
+        confidence: twoDecimal(sensitivityMap[element]["confidence"]),
+        attributes: {
+          info: sensitivityMap[element]["attributes"]["info"],
+          stats: sensitivityMap[element]["attributes"]["stats"],
+          profile: sensitivityMap[element]["attributes"]["profile"]
+        },
       }
 
       dataToSubmit.push(myData);

@@ -34,6 +34,11 @@ function MainFlow() {
       model_type: null,
       sensitive: null, 
       confidence: 50,
+      attributes: {
+        info: false,
+        stats: false,
+        profile: false
+      },
       marked: false
     };
   }
