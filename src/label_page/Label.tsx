@@ -98,6 +98,24 @@ function EmailBox({
       {f}
     </div>
   );
+
+  const daysOfWeek: { [key: number]: string } = {
+    0: 'Monday',
+    1: 'Tuesday',
+    2: 'Wednesday',
+    3: 'Thursday',
+    4: 'Friday',
+    5: 'Saturday',
+    6: 'Sunday'
+  };
+
+  const getDayOfWeek = (day:number) => {
+    if(day>=0 && day<=6){
+      return(daysOfWeek[day]);
+    }else{
+      return("no_data");
+    }
+  }
     
   function valuetext(value: number) {
     return `${value}&`;
@@ -332,8 +350,8 @@ function EmailBox({
           </Grid>
           <Grid item xs={12} mt={1}>
             <p>
-              <b>Day of Week:</b>{" "}
-              {JSON.stringify(email.day_of_week, null, 2).slice(1, -1)}
+              <b>Day of Week:</b>&nbsp;
+              {getDayOfWeek(email.day_of_week)}
             </p>
           </Grid>
         </Grid>
