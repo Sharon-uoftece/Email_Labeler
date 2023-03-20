@@ -11,6 +11,7 @@ from sklearn.metrics.pairwise import pairwise_distances
 from sklearn.ensemble import RandomForestClassifier
 #from scipy.spatial.distance import cosine
 from sklearn.cluster import KMeans
+from sklearn.cluster import AgglomerativeClustering
 import pickle
 import json
 #import glob
@@ -40,9 +41,9 @@ def expert_derived_ig_query_strategy(classifier, X_pool, X_training, conf_traini
 
     alpha = len(X_pool)/671
     
-    kmeans = KMeans(n_clusters=5, n_init=10)
-    kmeans.fit(X_pool)
-    labels = kmeans.labels_
+    cls = AgglomerativeClustering(n_clusters=5)
+    cls.fit(X_pool)
+    labels = cls.labels_
     
     
     # scores = alpha * uncertainty \

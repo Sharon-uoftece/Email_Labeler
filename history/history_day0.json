@@ -1,44 +1,44 @@
 {
     "0": [
         {
-            "query_mid": 463,
-            "model_type": "RB"
-        },
-        {
-            "query_mid": 109,
+            "query_mid": 183,
             "model_type": "EDIG"
         },
         {
-            "query_mid": 369,
+            "query_mid": 24,
             "model_type": "EDIG"
         },
         {
-            "query_mid": 524,
+            "query_mid": 282,
             "model_type": "RB"
         },
         {
-            "query_mid": 109,
-            "model_type": "RB"
-        },
-        {
-            "query_mid": 587,
-            "model_type": "RB"
-        },
-        {
-            "query_mid": 193,
+            "query_mid": 269,
             "model_type": "EDIG"
         },
         {
-            "query_mid": 255,
+            "query_mid": 469,
+            "model_type": "EDIG"
+        },
+        {
+            "query_mid": 564,
             "model_type": "RB"
         },
         {
-            "query_mid": 429,
+            "query_mid": 339,
+            "model_type": "RB"
+        },
+        {
+            "query_mid": 649,
             "model_type": "EDIG"
         },
         {
-            "query_mid": 608,
-            "model_type": "EDIG"
+            "query_mid": 664,
+            "model_type": "RB"
+        },
+        {
+            "query_mid": 444,
+            "model_type": "RB"
         }
     ]
 }
