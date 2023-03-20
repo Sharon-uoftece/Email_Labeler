@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Page } from "./common";
-import {Button} from "@blueprintjs/core";
+import {Button, Spinner} from "@blueprintjs/core";
 
 const LoadingComponent = () => 
     <div className="score-page">
+        <Spinner
+            className="submission-spinner"
+            size={70}
+        />
         <p className="show-score">Uploading data and retraining model, please wait...</p>
     </div>;
 
@@ -19,7 +23,7 @@ export default function Submission({page,setPage,sensitivityMap, numEmails,curre
     const onLoadEffect = () => {
         setTimeout(() => {
             setLoading(false);
-        }, 6000);
+        }, 16000);
 
         setTimeout(() => {
             setIsError(true);
@@ -66,14 +70,20 @@ export default function Submission({page,setPage,sensitivityMap, numEmails,curre
         <div className="score-page">
             {doneTen === true && 
                 <div className="agreement">
-                    <p className="show-score">Thank you for completing all 10 rounds of survey! </p> 
-                    <h1 className="agreement-statement">If you agree to let us use your inputs, please click the button below.</h1>
+                    <p className="show-score">You have completed all 10 rounds! </p> 
+                    <h1 className="agreement-statement">Please let us know if you approve to release your data for research.</h1>
                     <button
                         className="approve-button"
                         onClick={() => {
                             setPage(Page.Thankyou);
                         }}
                     >Approve</button>
+                    <button
+                        className="approve-button"
+                        onClick={() => {
+                            setPage(Page.Thankyou);
+                        }}
+                    >Disapprove</button>
                 </div>}
             
             {doneTen === false && 

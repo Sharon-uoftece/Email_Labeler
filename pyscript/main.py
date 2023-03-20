@@ -46,7 +46,6 @@ def get_current_round(user_filename):
 
     return (round, label_latest_round)
   
-
 if __name__ == "__main__":
     while(True):
         print('=========================================')
@@ -65,8 +64,7 @@ if __name__ == "__main__":
                     print("---waiting for labels from user {u}---".format(u=user))
                 else:
                     models.save_json(user, df_query_RB, df_query_EDIG)
-        
-        time.sleep(5)
+        time.sleep(2)
 
 
 # user = "c613d" # use this for testing

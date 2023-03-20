@@ -23,14 +23,21 @@ function MainFlow() {
   const [markedAll, setMarkedAll] = useState(false);
 
   //initialize an empty initialMap
+
+  // I changed initial value of 'sensitive' as null so that no label is selected in an unmarked form
+  // Also changed 'confidence' to 50 -- Lala
+  
   const initialMap: Record<string, Record<string, any>> = {};
   for (let i = 0; i < numEmails; i++) {
     initialMap[i + 1] = {
       emailId: 0,
       model_type: null,
-      sensitive: false, 
-      confidence: 5,
-      marked: false
+      sensitive: null, 
+      confidence: 50,
+      marked: false,
+      emailInfo: false,
+      senderStatistics: false,
+      senderProfile: false
     };
   }
 

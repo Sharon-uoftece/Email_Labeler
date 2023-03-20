@@ -211,9 +211,11 @@ app.post('/submitLabel',async (req,res,next) => {
             for (const reqElement of Object.keys(req.body)) {
                 userFileJson[element][i].label = req.body[reqElement].label;
                 userFileJson[element][i].confidence = req.body[reqElement].confidence;
+                userFileJson[element][i].emailInfo = req.body[reqElement].emailInfo;
+                userFileJson[element][i].senderStatistics = req.body[reqElement].senderStatistics;
+                userFileJson[element][i].senderProfile = req.body[reqElement].senderProfile;
                 i++;
             }
-            
         }
     }
 
@@ -226,7 +228,6 @@ app.post('/submitLabel',async (req,res,next) => {
         res.send(JSON.stringify(response));
     }
 })
-
 
 app.listen(8000, '0.0.0.0');
 
