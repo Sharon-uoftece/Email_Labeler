@@ -70,8 +70,8 @@ export default function Submission({page,setPage,sensitivityMap, numEmails,curre
         <div className="score-page">
             {doneTen === true && 
                 <div className="agreement">
-                    <p className="show-score">Thank you for completing all 10 rounds of survey! </p> 
-                    <h1 className="agreement-statement">Please let us know if you agree to let us use your inputs</h1>
+                    <p className="show-score">You have completed all 10 rounds! </p> 
+                    <h1 className="agreement-statement">Please let us know if you approve to release your data for research.</h1>
                     <button
                         className="approve-button"
                         onClick={() => {

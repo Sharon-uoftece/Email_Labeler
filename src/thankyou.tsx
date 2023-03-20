@@ -5,7 +5,7 @@ export default function thankyou() {
     return(
         <div>
             <Header />
-            <div className="thanks-page">thank you, see you again.</div>
+            <div className="thanks-page">Thank you!</div>
         </div>
         
     );
