@@ -34,7 +34,10 @@ function MainFlow() {
       model_type: null,
       sensitive: null, 
       confidence: 50,
-      marked: false
+      marked: false,
+      emailInfo: false,
+      senderStatistics: false,
+      senderProfile: false
     };
   }
 

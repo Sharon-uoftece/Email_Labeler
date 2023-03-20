@@ -923,7 +923,7 @@ input:focus {
 .show-score {
   font-family: Verdana;
   text-align: center;
-  font-size: 38px;
+  font-size: 28px;
   color: black;
   font-weight: bold;
   transform: translateY(43vh);
@@ -1119,4 +1119,8 @@ input:focus {
   transform: translateX(40vw) translateY(40vh);
   font-size:27px;
   font-weight: bold;
+}
+
+.submission-spinner{
+  transform: translateY(350px);
 }

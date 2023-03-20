@@ -325,7 +325,18 @@ function EmailBox({
         </p>
         <p> </p> */}
         <Box sx={{ my: 10 }}>
-        <h3><Checkbox label="Email Info" /></h3>
+        <h3>
+        <Checkbox 
+          label="Email Info" 
+          checked={(sensitivityMap[index + 1]["emailInfo"] === true)?true:false}
+          onChange={() => {
+            const newMap = { ...sensitivityMap };
+            newMap[index + 1]["emailInfo"] = true;
+            newMap[index + 1]["emailId"] = email.query_mid;
+            setSensitivityMap(newMap);
+          }}
+        />
+        </h3>
         <Grid container spacing={0} mx={3}>
           <Grid item xs={12}>
             <p>
@@ -359,7 +370,18 @@ function EmailBox({
         
         
         <Box sx={{ my:10 }}>
-        <h3><Checkbox label="Sender Statistics" /></h3>
+        <h3>
+          <Checkbox 
+            label="Sender Statistics" 
+            checked={(sensitivityMap[index + 1]["senderStatistics"] === true)?true:false}
+            onChange={() => {
+              const newMap = { ...sensitivityMap };
+              newMap[index + 1]["senderStatistics"] = true;
+              newMap[index + 1]["emailId"] = email.query_mid;
+              setSensitivityMap(newMap);
+            }}
+          />
+        </h3>
           <Grid container spacing={6} mx={-3} wrap="wrap">
             <Grid item lg={6} xs={12} display="flex" flexDirection="column">
               <Grid container spacing={3} width='100%' alignItems="flex-end" justifyContent="flex-start">
@@ -535,7 +557,18 @@ function EmailBox({
         </Box>
         
         <Box sx={{ my:10 }}>
-          <h3><Checkbox label="Sender Profile" /></h3>
+          <h3>
+          <Checkbox 
+            label="Sender Profile" 
+            checked={(sensitivityMap[index + 1]["senderProfile"] === true)?true:false}
+            onChange={() => {
+              const newMap = { ...sensitivityMap };
+              newMap[index + 1]["senderProfile"] = true;
+              newMap[index + 1]["emailId"] = email.query_mid;
+              setSensitivityMap(newMap);
+            }}
+          />
+          </h3>
           <Grid container spacing={6} mx={-3} wrap="wrap">
             <Grid item lg={6} xs={12}>
               <p>
@@ -732,7 +765,10 @@ function Label({
         user: currentUser,
         emailId: sensitivityMap[element]["emailId"],
         label: sensitivityMap[element]["sensitive"],
-        confidence: twoDecimal(sensitivityMap[element]["confidence"])
+        confidence: twoDecimal(sensitivityMap[element]["confidence"]),
+        emailInfo: sensitivityMap[element]["emailInfo"],
+        senderStatistics: sensitivityMap[element]["senderStatistics"],
+        senderProfile: sensitivityMap[element]["senderProfile"]
       }
 
       dataToSubmit.push(myData);
